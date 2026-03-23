@@ -1,0 +1,5462 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lär dig tyska</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    :root {
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: rgba(203, 213, 225, 0.8);
+      --surface: rgba(255, 255, 255, 0.82);
+      --surface-strong: rgba(255, 255, 255, 0.94);
+      --surface-soft: rgba(255, 255, 255, 0.66);
+
+      --shadow-lg: 0 20px 50px rgba(15, 23, 42, 0.10);
+      --shadow-md: 0 12px 28px rgba(15, 23, 42, 0.08);
+      --shadow-sm: 0 8px 18px rgba(15, 23, 42, 0.06);
+
+      --blue: #3b82f6;
+      --blue-soft: rgba(59, 130, 246, 0.12);
+      --green: #16a34a;
+      --green-soft: rgba(34, 197, 94, 0.12);
+      --orange: #f59e0b;
+      --orange-soft: rgba(245, 158, 11, 0.14);
+      --red: #ef4444;
+      --red-soft: rgba(239, 68, 68, 0.12);
+      --purple: #8b5cf6;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 15%, rgba(251, 146, 60, 0.14), transparent 18%),
+        radial-gradient(circle at 90% 10%, rgba(139, 92, 246, 0.12), transparent 18%),
+        radial-gradient(circle at 12% 88%, rgba(34, 197, 94, 0.10), transparent 18%),
+        radial-gradient(circle at 85% 84%, rgba(59, 130, 246, 0.10), transparent 18%),
+        linear-gradient(180deg, #fffdf9 0%, #fffaf3 45%, #fff8ef 100%);
+    }
+
+    body {
+      padding: 22px;
+      position: relative;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(15,23,42,0.035) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hidden { display: none !important; }
+
+    .screen {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      text-align: center;
+      margin: 6px 0 28px;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(2.3rem, 5vw, 4.1rem);
+      font-weight: 900;
+      line-height: 1.03;
+      letter-spacing: -0.03em;
+      background: linear-gradient(90deg, #ef4444 0%, #f59e0b 40%, #8b5cf6 74%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 0 rgba(255,255,255,0.35);
+    }
+
+    .hero-subtitle {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.98rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .top-home-bar {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 18px 0 12px;
+    }
+.continue-section {
+  margin: 18px 0 8px;
+}
+
+.continue-header {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #334155;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.continue-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+.theme-complete-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.38);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9999;
+}
+
+.theme-complete-panel {
+  width: min(520px, 100%);
+  padding: 22px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.90));
+  border: 1px solid rgba(255,255,255,0.96);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22);
+  text-align: center;
+}
+.theme-complete-title {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.theme-complete-text {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 14px;
+}
+
+.theme-complete-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.continue-card {
+  background: rgba(255,255,255,0.82);
+  border: 1px solid rgba(255,255,255,0.86);
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(12px);
+}
+
+.continue-label {
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.continue-title {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.continue-meta {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 12px;
+  line-height: 1.45;
+}
+.home-tools {
+  max-width: 1120px;
+  margin: 18px auto 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.home-search {
+  width: 100%;
+  padding: 16px 18px;
+  font-size: 1rem;
+  border-radius: 18px;
+  border: 1.5px solid rgba(203, 213, 225, 0.95);
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+  outline: none;
+}
+
+.home-search:focus {
+  border-color: #60a5fa;
+  box-shadow:
+    0 0 0 5px rgba(96, 165, 250, 0.15),
+    0 14px 30px rgba(96, 165, 250, 0.10);
+}
+
+.home-filter-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.home-filter-btn {
+  border-radius: 999px;
+}
+
+.active-home-filter {
+  background: #eaf2ff !important;
+  color: #1d4ed8 !important;
+  border: 1px solid rgba(96,165,250,0.55) !important;
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.12);
+}
+
+    .pill {
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(255,255,255,0.75);
+      border-radius: 999px;
+      padding: 10px 14px;
+      box-shadow: var(--shadow-sm);
+      font-weight: 800;
+      color: #334155;
+      backdrop-filter: blur(10px);
+    }
+
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+      margin-top: 28px;
+    }
+
+    .theme-card {
+      position: relative;
+      border-radius: 28px;
+      padding: 20px;
+      color: white;
+      overflow: hidden;
+      box-shadow: 0 22px 48px rgba(15, 23, 42, 0.16);
+      transform: perspective(900px) rotateX(4deg) rotateY(-3deg);
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .theme-card:hover {
+      transform: perspective(900px) rotateX(1deg) rotateY(0deg) translateY(-8px) scale(1.02);
+      box-shadow: 0 28px 58px rgba(15, 23, 42, 0.18);
+    }
+
+    .theme-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.10) 36%, rgba(255,255,255,0) 62%);
+      pointer-events: none;
+    }
+
+    .theme-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .theme-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.17);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: inset 0 2px 8px rgba(255,255,255,0.22);
+      margin-bottom: 14px;
+      backdrop-filter: blur(8px);
+    }
+
+    .theme-title {
+      margin: 0 0 6px;
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+
+    .theme-goal {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.95);
+      margin-bottom: 10px;
+      line-height: 1.45;
+    }
+
+    .theme-meta {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 8px;
+    }
+
+    .theme-actions,
+    .footer-actions,
+    .toolbar-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .theme-actions { margin-top: 16px; }
+    .footer-actions { margin-top: 18px; justify-content: center; }
+    .toolbar-row { margin-bottom: 10px; }
+
+    .copy-status {
+      min-height: 18px;
+      margin-top: 10px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.96);
+    }
+
+    @keyframes inputCorrectFlash {
+      0% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+        border-color: rgba(203, 213, 225, 0.9);
+      }
+      50% {
+        box-shadow:
+          0 0 0 8px rgba(34, 197, 94, 0.12),
+          0 10px 28px rgba(34, 197, 94, 0.18);
+        border-color: #22c55e;
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+        border-color: rgba(203, 213, 225, 0.9);
+      }
+    }
+
+    @keyframes inputWrongShake {
+      0% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px) scale(0.82);
+      }
+      30% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-10px) scale(1.12);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-38px) scale(1);
+      }
+    }
+
+    @keyframes comboPop {
+      0% { transform: scale(0.85); }
+      50% { transform: scale(1.16); }
+      100% { transform: scale(1); }
+    }
+
+    .lesson-shell {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .card {
+      position: relative;
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.72);
+      border-radius: 34px;
+      padding: 22px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0.08) 38%, rgba(255,255,255,0) 68%);
+      pointer-events: none;
+    }
+
+    .lesson-header {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    .lesson-heading-block {
+      min-width: 0;
+    }
+
+    .lesson-title {
+      margin: 0;
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+
+    .small-text {
+      color: var(--muted);
+      font-size: 0.94rem;
+      font-weight: 700;
+    }
+
+    .theme-goal-lesson {
+      margin-top: 6px;
+      color: #475569;
+      font-size: 0.96rem;
+      font-weight: 800;
+      line-height: 1.45;
+      max-width: 600px;
+    }
+
+    .lesson-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mini-progress-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .mini-pill {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(226, 232, 240, 0.85);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #334155;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
+    }
+
+    .panel-toggle-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .collapse-panel {
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,0.60);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 22px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(10px);
+    }
+.grammar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.grammar-intro {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #334155;
+  font-weight: 700;
+}
+
+.grammar-video {
+  overflow: hidden;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(226,232,240,0.9);
+  box-shadow: var(--shadow-md);
+}
+
+.grammar-rich {
+  line-height: 1.8;
+  color: #334155;
+  font-weight: 700;
+}
+
+.grammar-rich p {
+  margin: 0 0 12px;
+}
+
+.grammar-rich strong {
+  color: #0f172a;
+  font-weight: 900;
+  background: linear-gradient(180deg, transparent 62%, rgba(250, 204, 21, 0.28) 62%);
+  padding: 0 2px;
+  border-radius: 4px;
+}
+
+.grammar-rich em {
+  color: #7c3aed;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.grammar-rich ul {
+  margin: 10px 0 0 18px;
+  padding: 0;
+}
+
+.grammar-rich li {
+  margin-bottom: 8px;
+}
+
+.grammar-table-wrap {
+  margin-top: 14px;
+  overflow-x: auto;
+  border-radius: 18px;
+  border: 1px solid rgba(203, 213, 225, 0.9);
+  background: rgba(255,255,255,0.92);
+  box-shadow: var(--shadow-sm);
+}
+
+.grammar-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 420px;
+}
+
+.grammar-table th,
+.grammar-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(226,232,240,0.9);
+  vertical-align: top;
+}
+
+.grammar-table th {
+  background: rgba(239, 246, 255, 0.95);
+  color: #1d4ed8;
+  font-size: 0.92rem;
+  font-weight: 900;
+}
+
+.grammar-table td {
+  color: #334155;
+  font-weight: 700;
+}
+
+.grammar-table tr:last-child td {
+  border-bottom: none;
+}
+
+.grammar-section-grid {
+  display: grid;
+  gap: 14px;
+}
+
+@media (min-width: 900px) {
+  .grammar-section-grid.two-cols {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.grammar-video iframe,
+.grammar-video video {
+  width: 100%;
+  display: block;
+  border: none;
+  aspect-ratio: 16 / 9;
+}
+
+.grammar-section,
+.grammar-example-card {
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(226,232,240,0.9);
+  border-radius: 24px;
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.grammar-section h3,
+.grammar-example-card h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.grammar-section p,
+.grammar-example-card p {
+  margin: 0;
+  line-height: 1.7;
+  color: #334155;
+  font-weight: 700;
+}
+
+.grammar-examples-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.grammar-example-es {
+  font-weight: 900;
+  color: #7c3aed;
+  margin-top: 8px;
+}
+
+.grammar-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+    .practice-stage {
+      position: relative;
+      z-index: 1;
+      max-width: 740px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .question-box {
+      background: rgba(255,255,255,0.52);
+      border: 1px solid rgba(255,255,255,0.45);
+      border-radius: 26px;
+      padding: 18px 16px 10px;
+      min-height: 92px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: none;
+      text-align: center;
+    }
+
+    #question {
+      margin: 0;
+      font-size: clamp(1.7rem, 4vw, 2.35rem);
+      font-weight: 900;
+      text-align: center;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      text-shadow: none;
+      line-height: 1.15;
+    }
+
+    #playSound {
+      margin-top: 12px;
+    }
+
+    #answerArea {
+      text-align: center;
+      position: relative;
+      margin-top: 4px;
+    }
+
+    .answer-row {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .answer-row input {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .answer-submit-btn {
+      min-width: 108px;
+      height: 60px;
+      padding: 0 24px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 18px;
+      padding: 12px 16px;
+      font-size: 0.97rem;
+      font-weight: 800;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(1px) scale(0.98); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #60a5fa, #2563eb);
+      color: white;
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.24);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.86);
+      color: #334155;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #4ade80, #16a34a);
+      color: white;
+      box-shadow: 0 12px 24px rgba(22, 163, 74, 0.2);
+    }
+
+    .btn-warn {
+      background: linear-gradient(135deg, #fb923c, #ea580c);
+      color: white;
+      box-shadow: 0 12px 24px rgba(234, 88, 12, 0.2);
+    }
+
+    .btn-pink {
+      background: linear-gradient(135deg, #f472b6, #db2777);
+      color: white;
+      box-shadow: 0 12px 24px rgba(219, 39, 119, 0.2);
+    }
+
+    .btn-dark {
+      background: linear-gradient(135deg, #475569, #1e293b);
+      color: white;
+      box-shadow: 0 12px 24px rgba(30, 41, 59, 0.2);
+    }
+
+    .toggle-active {
+      background: #eaf2ff !important;
+      color: #1d4ed8 !important;
+      border: 1px solid rgba(96,165,250,0.55) !important;
+      box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.12);
+      transform: translateY(-1px);
+    }
+
+    input {
+      width: min(100%, 620px);
+      padding: 18px 20px;
+      font-size: 1.13rem;
+      border: 1.5px solid rgba(203, 213, 225, 0.95);
+      border-radius: 22px;
+      outline: none;
+      background: rgba(255,255,255,0.97);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    input::placeholder {
+      color: #94a3b8;
+      font-weight: 700;
+    }
+
+    input:focus {
+      border-color: #60a5fa;
+      box-shadow:
+        0 0 0 5px rgba(96, 165, 250, 0.15),
+        0 14px 30px rgba(96, 165, 250, 0.10);
+    }
+
+    input.input-correct {
+      border-color: #22c55e;
+      animation: inputCorrectFlash 0.55s ease;
+    }
+
+    input.input-wrong {
+      border-color: #ef4444;
+      animation: inputWrongShake 0.4s ease;
+      box-shadow: 0 0 0 5px rgba(239, 68, 68, 0.11);
+    }
+
+    #feedback {
+      min-height: 30px;
+      margin: 10px 0 0;
+      font-size: 1.02rem;
+      font-weight: 900;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .points-bubble {
+      position: absolute;
+      left: 50%;
+      top: 4px;
+      transform: translateX(-50%) translateY(0);
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #16a34a;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 5;
+      text-shadow: 0 2px 10px rgba(34, 197, 94, 0.18);
+    }
+
+    .points-bubble.show {
+      animation: floatUp 0.8s ease forwards;
+    }
+
+    .combo-text {
+      text-align: center;
+      font-weight: 900;
+      font-size: 1.02rem;
+      margin-top: 0;
+      min-height: 24px;
+      color: #f59e0b;
+      transition: transform 0.2s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .combo-text.pop {
+      animation: comboPop 0.4s ease;
+    }
+
+    .info-banner {
+      background: rgba(239, 246, 255, 0.86);
+      color: #1d4ed8;
+      border: 1px solid rgba(191, 219, 254, 0.95);
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-weight: 800;
+      margin: 0 auto 4px;
+      font-size: 0.93rem;
+      max-width: 740px;
+      position: relative;
+      z-index: 1;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.76);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 20px;
+      padding: 15px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-label {
+      font-size: 0.83rem;
+      font-weight: 800;
+      color: var(--muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    #score,
+    #progressText,
+    #sessionStats,
+    #dueStats {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.45;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 16px;
+      background: #eef2ff;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      margin-top: 10px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #8b5cf6, #22c55e, #f59e0b);
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    .progress-percent {
+      margin-top: 8px;
+      text-align: right;
+      font-size: 0.9rem;
+      font-weight: 900;
+      color: #475569;
+    }
+
+    .match-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .column {
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 22px;
+      padding: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .column h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      font-weight: 900;
+      color: #334155;
+    }
+
+    .match-btn {
+      width: 100%;
+      margin: 6px 0;
+      text-align: left;
+      background: rgba(248, 250, 252, 0.95);
+      color: #1f2937;
+      border: 1px solid rgba(226,232,240,0.95);
+      box-shadow: none;
+    }
+
+    .match-btn:hover {
+      background: #eff6ff;
+    }
+
+    .selected {
+      background: #dbeafe !important;
+      border-color: #60a5fa !important;
+    }
+
+    .matched {
+      background: #dcfce7 !important;
+      border-color: #4ade80 !important;
+      opacity: 0.92;
+      cursor: default;
+    }
+
+    .flashcard-box {
+      perspective: 1200px;
+      max-width: 620px;
+      margin: 0 auto;
+      cursor: pointer;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      min-height: 250px;
+      transition: transform 0.6s ease;
+      transform-style: preserve-3d;
+    }
+
+    .flashcard-inner.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 28px;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      font-size: clamp(1.6rem, 4vw, 2.3rem);
+      font-weight: 900;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .flashcard-front {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      color: #1e3a8a;
+    }
+
+    .flashcard-back {
+      background: linear-gradient(180deg, #fff9f2 0%, #ffffff 100%);
+      color: #9a3412;
+      transform: rotateY(180deg);
+    }
+
+    .medal-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 10px 0;
+    }
+
+    .medal {
+      font-size: 1.6rem;
+      opacity: 0.25;
+      transform: scale(0.9);
+      transition: all 0.3s ease;
+    }
+
+    .medal.unlocked {
+      opacity: 1;
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.7));
+    }
+
+    .medal-pop {
+      animation: medalPop 0.7s ease;
+    }
+
+    @keyframes medalPop {
+      0% {
+        transform: scale(0.6) rotate(-10deg);
+        opacity: 0.2;
+      }
+      40% {
+        transform: scale(1.45) rotate(8deg);
+        opacity: 1;
+      }
+      70% {
+        transform: scale(1.15) rotate(-4deg);
+      }
+      100% {
+        transform: scale(1.2) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    .levelup-toast {
+      position: fixed;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: linear-gradient(135deg, #111827, #334155);
+      color: white;
+      padding: 14px 22px;
+      border-radius: 16px;
+      font-weight: 900;
+      font-size: 1rem;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.22);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .levelup-toast.show {
+      animation: levelUpToastAnim 1.8s ease forwards;
+    }
+
+    @keyframes levelUpToastAnim {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px) scale(0.9);
+      }
+      15% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1.04);
+      }
+      30% {
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
+      80% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px) scale(0.98);
+      }
+    }
+
+    .lesson-shell-modern {
+      max-width: 860px;
+    }
+
+    .lesson-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .lesson-topbar-modern {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .lesson-topbar-center {
+      min-width: 0;
+    }
+
+    .lesson-kicker {
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+
+    .lesson-title-modern {
+      margin: 0;
+      font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: #0f172a;
+    }
+
+    .lesson-progress-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #64748b;
+    }
+
+    .lesson-top-progress {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(226,232,240,0.95);
+      box-shadow: inset 0 1px 2px rgba(15,23,42,0.04);
+    }
+
+    .lesson-top-progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #fb7185 0%, #f59e0b 35%, #8b5cf6 70%, #3b82f6 100%);
+      transition: width 0.35s ease;
+    }
+
+    .icon-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      font-weight: 900;
+    }
+
+    .glass-btn {
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(255,255,255,0.88);
+      box-shadow: 0 10px 24px rgba(15,23,42,0.08);
+      backdrop-filter: blur(14px);
+      color: #334155;
+    }
+
+    .top-score-badge {
+      min-width: 88px;
+      height: 52px;
+      padding: 0 16px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,255,255,0.68));
+      border: 1px solid rgba(255,255,255,0.92);
+      box-shadow: 0 10px 24px rgba(15,23,42,0.08);
+      backdrop-filter: blur(12px);
+      font-weight: 900;
+      color: #0f172a;
+    }
+
+    .lesson-stage-card {
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,0.76), rgba(255,255,255,0.60));
+      border: 1px solid rgba(255,255,255,0.86);
+      border-radius: 36px;
+      padding: 20px;
+      box-shadow:
+        0 30px 80px rgba(15, 23, 42, 0.12),
+        inset 0 1px 0 rgba(255,255,255,0.88);
+      backdrop-filter: blur(20px);
+      overflow: hidden;
+    }
+
+    .lesson-stage-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.32), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+      pointer-events: none;
+    }
+
+    .lesson-stage-header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .mode-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      color: #1d4ed8;
+      border: 1px solid rgba(96,165,250,0.42);
+      font-size: 0.9rem;
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(59,130,246,0.12);
+    }
+
+    .stage-meta-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .soft-pill {
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.92);
+      box-shadow: none;
+    }
+
+    .modern-practice-stage {
+      max-width: 700px;
+      gap: 14px;
+    }
+
+    .question-box-modern {
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.82));
+      border: 1px solid rgba(255,255,255,0.96);
+      border-radius: 32px;
+      padding: 26px 22px 20px;
+      min-height: 180px;
+      box-shadow:
+        0 22px 50px rgba(15, 23, 42, 0.10),
+        inset 0 1px 0 rgba(255,255,255,0.98);
+    }
+
+    .question-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(241,245,249,0.9);
+      color: #475569;
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .play-sound-btn {
+      margin-top: 16px;
+      min-height: 48px;
+      border-radius: 16px;
+    }
+
+    .answer-row-modern {
+      gap: 10px;
+      max-width: 680px;
+      margin-top: 4px;
+      padding: 6px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.68);
+      border: 1px solid rgba(255,255,255,0.86);
+      box-shadow: 0 20px 46px rgba(15,23,42,0.08);
+      backdrop-filter: blur(14px);
+    }
+
+    .answer-row-modern input {
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      padding: 18px 18px;
+      font-size: 1.08rem;
+      border-radius: 22px;
+    }
+
+    .answer-row-modern input:focus {
+      border-color: transparent;
+      box-shadow: none;
+    }
+
+    .answer-row-modern input.input-correct,
+    .answer-row-modern input.input-wrong {
+      border: none;
+    }
+
+    .feedback-modern {
+      min-height: 52px;
+      margin: 2px 0 0;
+      padding: 12px 14px;
+      border-radius: 18px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .mode-helper-text {
+      text-align: center;
+      margin-top: 0;
+      color: #64748b;
+    }
+
+    .lesson-bottom-panel {
+      background: rgba(255,255,255,0.46);
+      border: 1px solid rgba(255,255,255,0.74);
+      border-radius: 28px;
+      padding: 14px;
+      box-shadow: 0 18px 40px rgba(15,23,42,0.06);
+      backdrop-filter: blur(16px);
+    }
+
+    .panel-toggle-row-modern {
+      justify-content: center;
+      margin-bottom: 0;
+    }
+
+    .chip-btn {
+      border-radius: 999px;
+      min-height: 44px;
+      padding: 10px 16px;
+    }
+
+    .settings-block-title {
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 10px;
+      margin-top: 4px;
+    }
+
+    .mode-chip {
+      border-radius: 999px;
+    }
+
+    .mode-chip-active {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe) !important;
+      color: #1d4ed8 !important;
+      border: 1px solid rgba(96,165,250,0.55) !important;
+      box-shadow: 0 8px 18px rgba(59,130,246,0.14);
+    }
+
+    #statsPanel {
+      background: rgba(255,255,255,0.50);
+    }
+
+    @media (max-width: 720px) {
+      body { padding: 14px; }
+
+      .card {
+        padding: 16px;
+        border-radius: 26px;
+      }
+
+      .lesson-header {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        justify-items: center;
+        text-align: center;
+      }
+
+      .theme-goal-lesson {
+        max-width: none;
+      }
+
+      .lesson-meta-row,
+      .panel-toggle-row,
+      .footer-actions,
+      .compact-center {
+        justify-content: center;
+      }
+
+      .match-container { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .flashcard-inner { min-height: 220px; }
+
+      #question {
+        font-size: clamp(1.8rem, 8vw, 2.35rem);
+      }
+
+      .answer-row {
+        flex-direction: column;
+        max-width: 100%;
+      }
+
+      .answer-row input {
+        width: 100%;
+      }
+
+      .answer-submit-btn {
+        width: 100%;
+        max-width: 220px;
+        height: 54px;
+        margin: 0 auto;
+      }
+
+      .lesson-topbar-modern {
+        grid-template-columns: auto 1fr;
+      }
+
+      .top-score-badge {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: fit-content;
+      }
+
+      .lesson-stage-card {
+        padding: 16px;
+        border-radius: 28px;
+      }
+
+      .question-box-modern {
+        min-height: 160px;
+        padding: 22px 16px 18px;
+      }
+
+      .answer-row-modern {
+        flex-direction: column;
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="loginScreen" class="screen">
+  <div class="lesson-shell lesson-shell-modern" style="max-width: 520px; margin-top: 40px;">
+    <div class="card" style="text-align:center;">
+      <h1 class="hero-title" style="font-size:2.2rem;">🇪🇸 Tyska teman</h1>
+      <p class="small-text" style="margin-bottom: 20px;">
+        Logga in för att hämta dina sparade poäng och resultat.
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:12px; max-width:360px; margin:0 auto;">
+        <input id="loginUsername" placeholder="Användarnamn">
+        <input id="loginPin" type="password" placeholder="PIN-kod" onkeydown="handleLoginKey(event)">
+        <button class="btn-primary" onclick="login()">Logga in</button>
+      </div>
+
+      <p id="loginMessage" class="small-text" style="margin-top:16px; min-height:24px;"></p>
+    </div>
+  </div>
+</div>
+  <div id="homeScreen" class="screen hidden">
+    <div class="hero">
+      <h1 class="hero-title">🇪🇸 Tyska teman ✨</h1>
+      <div class="hero-subtitle">Välj ett tema och börja spela</div>
+    </div>
+
+    <div class="top-home-bar">
+      <div class="pill" id="dailyStreakPill">🔥 Daglig streak: 0</div>
+      <div class="pill" id="totalPointsPill">⭐ Totala poäng: 0</div>
+      <div class="pill" id="wrongBankPill">🧠 Svåra ord: 0</div>
+    </div>
+<div id="continueSection" class="continue-section hidden">
+  <div class="continue-header">Fortsätt här</div>
+  <div id="continueGrid" class="continue-grid"></div>
+</div>
+<div class="home-tools">
+  <input
+    id="themeSearch"
+    class="home-search"
+    type="text"
+    placeholder="Sök tema..."
+    oninput="handleThemeSearch()"
+  >
+
+  <div class="home-filter-row">
+<button class="btn-secondary home-filter-btn active-home-filter" onclick="setHomeCategory('Alla', event)">Alla</button>
+<button class="btn-secondary home-filter-btn" onclick="setHomeCategory('6', event)">Åk 6</button>
+<button class="btn-secondary home-filter-btn" onclick="setHomeCategory('7', event)">Åk 7</button>
+<button class="btn-secondary home-filter-btn" onclick="setHomeCategory('8', event)">Åk 8</button>
+<button class="btn-secondary home-filter-btn" onclick="setHomeCategory('9', event)">Åk 9</button>
+<button class="btn-secondary home-filter-btn" onclick="clearThemeSearch()">Rensa sökning</button>
+  </div>
+</div>
+    <div id="themeGrid" class="theme-grid"></div>
+
+    <div class="footer-actions">
+<button class="btn-secondary" onclick="logout()">🚪 Logga ut</button>
+      <button class="btn-dark" onclick="openWrongWordsTheme()">🧠 Träna svåra ord</button>
+      <button class="btn-secondary" onclick="resetAllProgress()">🗑 Nollställ all progress</button>
+    </div>
+  </div>
+
+  <div id="lessonScreen" class="screen hidden">
+    <div class="lesson-shell lesson-shell-modern">
+      <div class="lesson-layout">
+        <div class="lesson-topbar-modern">
+          <button class="icon-btn glass-btn" onclick="goHome()">←</button>
+
+          <div class="lesson-topbar-center">
+            <div class="lesson-kicker" id="lessonKicker">Tema</div>
+            <h2 id="currentThemeName" class="lesson-title-modern">🇪🇸 Hälsningar</h2>
+
+            <div class="lesson-progress-meta">
+              <span id="topProgressLabel">Framsteg</span>
+              <span id="topProgressNumbers">0%</span>
+            </div>
+
+            <div class="lesson-top-progress">
+              <div id="lessonTopProgressFill" class="lesson-top-progress-fill"></div>
+            </div>
+          </div>
+
+          <div class="top-score-badge" id="miniScorePill">⭐ 0</div>
+        </div>
+
+        <div class="lesson-stage-card">
+          <div class="lesson-stage-header">
+            <div class="mode-badge" id="modeBadge">✍️ Skriv</div>
+            <div class="stage-meta-inline">
+              <div class="mini-pill soft-pill" id="miniDuePill">⏰ 0 redo</div>
+              <div class="mini-pill soft-pill" id="miniAccuracyPill">🎯 0%</div>
+            </div>
+          </div>
+
+          <div id="infoBanner" class="info-banner hidden"></div>
+
+          <div class="practice-stage modern-practice-stage">
+            <div class="question-box question-box-modern">
+              <div class="question-label" id="questionLabel">Översätt till tyska</div>
+              <h2 id="question">...</h2>
+              <button id="playSound" class="btn-warn play-sound-btn hidden" onclick="playAudio()">🔊 Spela igen</button>
+            </div>
+
+            <div id="answerArea">
+              <div class="answer-row answer-row-modern">
+                <input id="answer" placeholder="Skriv ditt svar här" onkeydown="handleKey(event)">
+                <button class="btn-primary answer-submit-btn" onclick="checkAnswer()">OK</button>
+              </div>
+            </div>
+
+            <div id="matchArea" class="hidden">
+              <p class="small-text mode-helper-text">Klicka först på ett svenskt ord och sedan på rätt tyskt ord.</p>
+              <div class="match-container">
+                <div class="column">
+                  <h3>Svenska</h3>
+                  <div id="swedishColumn"></div>
+                </div>
+                <div class="column">
+                  <h3>Tyska</h3>
+                  <div id="spanishColumn"></div>
+                </div>
+              </div>
+            </div>
+
+            <div id="flashcardArea" class="hidden">
+              <p class="small-text mode-helper-text">
+                Bläddra lugnt mellan orden, vänd kortet och lyssna på uttalet.
+              </p>
+
+              <div id="flashcardBox" class="flashcard-box" onclick="flipFlashcard()">
+                <div id="flashcardInner" class="flashcard-inner">
+                  <div id="flashcardFront" class="flashcard-face flashcard-front">
+                    Svenska
+                  </div>
+                  <div id="flashcardBack" class="flashcard-face flashcard-back">
+                    Tyska
+                  </div>
+                </div>
+              </div>
+
+              <div class="footer-actions compact-center flashcard-actions">
+                <button class="btn-secondary" onclick="prevFlashcard()">⬅️ Föregående</button>
+                <button class="btn-warn" onclick="playFlashcardAudio()">🔊 Lyssna</button>
+                <button class="btn-primary" onclick="flipFlashcard()">🔄 Vänd</button>
+                <button class="btn-secondary" onclick="nextFlashcard()">Nästa ➡️</button>
+                <button class="btn-secondary" onclick="shuffleFlashcards()">🔀 Blanda</button>
+              </div>
+
+              <div id="flashcardCounter" class="small-text" style="text-align:center; margin-top: 10px;"></div>
+            </div>
+
+            <p id="feedback" class="feedback-modern"></p>
+            <div id="pointsBubble" class="points-bubble">+1</div>
+            <div id="comboText" class="combo-text"></div>
+<div id="themeCompleteOverlay" class="theme-complete-overlay hidden">
+  <div id="themeCompletePanel" class="theme-complete-panel">
+    <div id="themeCompleteTitle" class="theme-complete-title">🥉 Brons upplåst!</div>
+<div id="themeCompleteText" class="theme-complete-text">Snyggt jobbat! Vad vill du göra nu?</div>
+
+    <div class="theme-complete-actions">
+      <button id="nextThemeBtn" class="btn-primary" onclick="openNextThemeFromPanel()">
+        Spela nästa kort
+      </button>
+      <button class="btn-secondary" onclick="closeThemeCompletePanel()">
+        Fortsätt träna här
+      </button>
+      <button class="btn-dark" onclick="openWrongWordsFromPanel()">
+        Svåra ord
+      </button>
+    </div>
+  </div>
+</div>
+          </div>
+        </div>
+
+        <div class="lesson-bottom-panel">
+          <div class="panel-toggle-row panel-toggle-row-modern">
+            <button class="btn-secondary chip-btn" onclick="togglePanel('settingsPanel')">⚙️ Lägen & filter</button>
+            <button class="btn-secondary chip-btn" onclick="togglePanel('statsPanel')">📊 Statistik</button>
+            <button class="btn-pink chip-btn" onclick="resetCurrentTheme()">♻️ Nollställ tema</button>
+          </div>
+
+          <div id="settingsPanel" class="collapse-panel hidden">
+            <div class="small-text" style="margin-bottom: 10px;">
+              <strong id="themeGoal"></strong><br>
+              <span id="themeWordCount"></span>
+            </div>
+
+            <div class="settings-block-title">Filter</div>
+            <div class="toolbar-row">
+              <button id="filterAllBtn" class="btn-secondary toggle-active" onclick="setPracticeFilter('all')">Alla ord</button>
+              <button id="filterDueBtn" class="btn-secondary" onclick="setPracticeFilter('due')">Bara redo nu</button>
+              <button id="filterWrongBtn" class="btn-secondary" onclick="setPracticeFilter('wrong')">Bara svåra ord</button>
+            </div>
+
+            <div class="settings-block-title">Övningsläge</div>
+            <div class="toolbar-row">
+              <button id="modeWriteBtn" class="btn-secondary mode-chip" onclick="setMode('write')">✍️ Skriv</button>
+              <button id="modeDictationBtn" class="btn-secondary mode-chip" onclick="setMode('dictation')">🔊 Hör</button>
+              <button id="modeMatchBtn" class="btn-secondary mode-chip" onclick="setMode('match')">🧩 Matcha</button>
+              <button id="modeFlashBtn" class="btn-secondary mode-chip" onclick="setMode('flashcards')">🃏 Flashcards</button>
+              <button id="modeMixBtn" class="btn-secondary mode-chip" onclick="setMode('mix')">🎲 Mix</button>
+            </div>
+          </div>
+
+          <div id="statsPanel" class="collapse-panel hidden">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-label">Poäng</div>
+                <p id="score"></p>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-label">Framsteg</div>
+                <p id="progressText"></p>
+                <div class="progress-bar">
+                  <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div id="progressPercent" class="progress-percent">0%</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-label">Session</div>
+                <p id="sessionStats"></p>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-label">Repetition</div>
+                <p id="dueStats"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div id="grammarScreen" class="screen hidden">
+  <div class="lesson-shell lesson-shell-modern">
+    <div class="lesson-layout">
+      <div class="lesson-topbar-modern">
+        <button class="icon-btn glass-btn" onclick="closeGrammarLesson()">←</button>
+
+        <div class="lesson-topbar-center">
+          <div class="lesson-kicker">Grammatik</div>
+          <h2 id="grammarTitle" class="lesson-title-modern">Grammatiklektion</h2>
+        </div>
+
+        <div></div>
+      </div>
+
+      <div class="lesson-stage-card" id="grammarContent">
+        <!-- Fylls med JavaScript -->
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div id="levelUpToast" class="levelup-toast"></div>
+
+  <script>
+    /**********************
+     * 1. INSTÄLLNINGAR
+     **********************/
+    const STORAGE_KEY = "sprakspelThemesDataSpanishV5";
+    const META_KEY = "sprakspelMetaSpanishV5";
+const API_URL = "https://script.google.com/macros/s/AKfycbz05Py-vIYVeE0vs-4U8t_ZEPNLc_AX3II70KlGuuMD9qfakq-2ybOzWD1-3TVqoD0SEQ/exec";
+const THEMES_URL = "https://script.google.com/macros/s/AKfycby4xCzZGwZO0Iaz6vJHtA7pjBpjqVrUJy6PzZhUMk9gymNIQmMyaVLOvH81L5OMRd_z/exec";
+
+let currentUser = null;
+let currentPin = null;
+let isSaving = false;
+let autoSaveInterval = null;
+let saveTimeout = null;
+let hasUnsavedChanges = false;
+let pendingSaveAfterCurrent = false;
+
+const SRS_STEPS = [
+  1 * 60 * 1000,              // 1 min
+  10 * 60 * 1000,             // 10 min
+  24 * 60 * 60 * 1000,        // 1 dag
+  3 * 24 * 60 * 60 * 1000,    // 3 dagar
+  7 * 24 * 60 * 60 * 1000,    // 7 dagar
+  14 * 24 * 60 * 60 * 1000,   // 14 dagar
+  30 * 24 * 60 * 60 * 1000    // 30 dagar
+];
+
+const MODE_STRENGTH = {
+  flashcards: 0,
+  match: 0.45,
+  dictation: 0.85,
+  write: 1.0
+};
+
+const MEDAL_LEVELS = {
+  bronze: {
+    successfulRecallDays: 1,
+    strongestIntervalMs: 1 * 60 * 1000,   // 1 min
+    accuracy: 0
+  },
+  silver: {
+    successfulRecallDays: 2,
+    strongestIntervalMs: 24 * 60 * 60 * 1000, // 1 dag
+    accuracy: 65
+  },
+  gold: {
+    successfulRecallDays: 3,
+    strongestIntervalMs: 7 * 24 * 60 * 60 * 1000, // 7 dagar
+    accuracy: 75
+  }
+};
+
+    /**********************
+     * 2. HJÄLPFUNKTIONER
+     **********************/
+function makeWord(esList, sv, extra = {}) {
+  const accepted = Array.isArray(esList) ? esList : [esList];
+
+  return {
+    es: accepted[0],
+    accepted,
+    sv,
+
+    // Ny SRS-modell
+    stepIndex: 0,
+    next: 0,
+    strongestIntervalMs: 0,
+    successfulRecallDays: 0,
+    lastSuccessDate: null,
+
+    // Statistik
+    wrongCount: 0,
+    lapseCount: 0,
+    correctTotal: 0,
+    incorrectTotal: 0,
+    repetitions: 0,
+    mastered: 0,
+
+    // Behåll gärna dessa för UI / historik
+    streak: 0,
+    dayStreak: 0,
+    lastReviewedAt: 0,
+    lastReviewedDate: null,
+
+    ...extra
+  };
+}
+function clearThemeSearch() {
+  homeSearchText = "";
+  const input = document.getElementById("themeSearch");
+  if (input) input.value = "";
+  renderHome();
+}
+
+function showThemeCompletePanel(medalType = "bronze") {
+  const overlay = document.getElementById("themeCompleteOverlay");
+  if (!overlay) return;
+
+  const titleEl = document.getElementById("themeCompleteTitle");
+  const textEl = document.getElementById("themeCompleteText");
+  const nextBtn = document.getElementById("nextThemeBtn");
+
+  if (titleEl && textEl) {
+    if (medalType === "bronze") {
+      titleEl.innerText = "🥉 Brons upplåst!";
+      textEl.innerText = "Snyggt jobbat! Vill du fortsätta här eller testa nästa kort?";
+    } else if (medalType === "silver") {
+      titleEl.innerText = "🥈 Silver upplåst!";
+      textEl.innerText = "Starkt jobbat! Nu är du riktigt på väg. Vad vill du göra nu?";
+    } else if (medalType === "gold") {
+      titleEl.innerText = "🥇 Guld upplåst!";
+      textEl.innerText = "Wow! Du har klarat hela temat på guldnivå. Vill du gå vidare?";
+    }
+  }
+
+  overlay.classList.remove("hidden");
+
+  const nextTheme = getNextThemeFromLastOpened ? getNextThemeFromLastOpened() : null;
+
+  if (nextBtn) {
+    if (nextTheme) {
+      nextBtn.disabled = false;
+      nextBtn.style.opacity = "1";
+      nextBtn.innerText = "Spela nästa kort";
+    } else {
+      nextBtn.disabled = true;
+      nextBtn.style.opacity = "0.6";
+      nextBtn.innerText = "Inget nästa kort ännu";
+    }
+  }
+}
+function closeThemeCompletePanel() {
+  const overlay = document.getElementById("themeCompleteOverlay");
+  if (!overlay) return;
+  overlay.classList.add("hidden");
+}
+
+function openNextThemeFromPanel() {
+  const nextTheme = getNextThemeFromLastOpened ? getNextThemeFromLastOpened() : null;
+  if (!nextTheme) return;
+
+  closeThemeCompletePanel();
+  openTheme(nextTheme.id);
+}
+
+function openWrongWordsFromPanel() {
+  closeThemeCompletePanel();
+  openWrongWordsTheme();
+}
+
+async function logout() {
+  clearNextWordTimeout();
+
+  await saveProgressNow(true);
+  stopAutoSave();
+
+  currentUser = null;
+  currentPin = null;
+  currentThemeId = null;
+  current = null;
+
+  themes = deepCopy(defaultThemes);
+  meta = getEmptyMeta();
+
+  document.getElementById("loginUsername").value = "";
+  document.getElementById("loginPin").value = "";
+  showLoginMessage("");
+
+  document.getElementById("lessonScreen").classList.add("hidden");
+  document.getElementById("homeScreen").classList.add("hidden");
+  document.getElementById("loginScreen").classList.remove("hidden");
+}
+    function deepCopy(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+function startAutoSave() {
+  if (autoSaveInterval) return;
+
+  autoSaveInterval = setInterval(() => {
+    console.log("Autosave...");
+    saveProgressNow();
+  }, 45000);
+}
+
+function stopAutoSave() {
+  if (autoSaveInterval) {
+    clearInterval(autoSaveInterval);
+    autoSaveInterval = null;
+  }
+
+  if (saveTimeout) {
+    clearTimeout(saveTimeout);
+    saveTimeout = null;
+  }
+}
+
+async function api(action, payload = {}) {
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify({
+      action,
+      ...payload
+    })
+  });
+
+  const text = await res.text();
+  return JSON.parse(text);
+}
+
+function normalizeGrammarLesson(grammarItem) {
+  if (!grammarItem) return null;
+
+  const sections = Array.isArray(grammarItem.sections)
+    ? grammarItem.sections
+    : [
+        {
+          heading: grammarItem.section1Heading || "",
+          text: grammarItem.section1Text || ""
+        },
+        {
+          heading: grammarItem.section2Heading || "",
+          text: grammarItem.section2Text || ""
+        }
+      ].filter(section => section.heading || section.text);
+
+  const examples = Array.isArray(grammarItem.examples)
+    ? grammarItem.examples
+    : [
+        {
+          label: grammarItem.example1Label || "",
+          sv: grammarItem.example1Sv || "",
+          es: grammarItem.example1Es || ""
+        },
+        {
+          label: grammarItem.example2Label || "",
+          sv: grammarItem.example2Sv || "",
+          es: grammarItem.example2Es || ""
+        }
+      ].filter(example => example.label || example.sv || example.es);
+
+  return {
+    title: grammarItem.title || "Grammatik",
+    intro: grammarItem.intro || grammarItem.explanation || "",
+    videoUrl: grammarItem.videoUrl || "",
+    sections,
+    examples
+  };
+}
+
+function normalizeThemeFromApi(rawTheme, index = 0) {
+  const grammarItem = Array.isArray(rawTheme.grammar) && rawTheme.grammar.length > 0
+    ? rawTheme.grammar[0]
+    : null;
+
+  return {
+    id: String(rawTheme.id || "").trim(),
+    name: rawTheme.name || rawTheme.title || "Namnlöst tema",
+    category: rawTheme.category || "",
+    level: rawTheme.level || "",
+    goal: rawTheme.goal || rawTheme.description || "",
+    icon: rawTheme.icon || "📘",
+    gradient: rawTheme.gradient || "linear-gradient(145deg, #60a5fa, #3b82f6, #2563eb)",
+    sortOrder: Number(rawTheme.sortOrder) || (index + 1),
+    yearGroup: String(rawTheme.yearGroup || ""),
+    unitName: rawTheme.unitName || "",
+    points: Number(rawTheme.points) || 0,
+
+grammarLesson: normalizeGrammarLesson(grammarItem),
+
+    words: Array.isArray(rawTheme.words)
+      ? rawTheme.words.map(word => makeWord(
+          Array.isArray(word.accepted) && word.accepted.length > 0
+            ? word.accepted
+            : (word.es || ""),
+          word.sv || "",
+          {
+            wordId: word.wordId || "",
+            themeId: word.themeId || rawTheme.id || ""
+          }
+        ))
+      : []
+  };
+}
+
+async function loadThemesFromSheet() {
+  try {
+    const res = await fetch(THEMES_URL, { method: "GET" });
+    const result = await res.json();
+
+    const rawThemes = result?.ok && Array.isArray(result.data)
+      ? result.data
+      : [];
+
+    if (rawThemes.length > 0) {
+      return rawThemes.map((theme, index) => normalizeThemeFromApi(theme, index));
+    }
+
+    return deepCopy(defaultThemes);
+  } catch (error) {
+    console.error("Kunde inte hämta teman från Google Sheet:", error);
+    return deepCopy(defaultThemes);
+  }
+}
+
+function showLoginMessage(text, isError = false) {
+  const el = document.getElementById("loginMessage");
+  if (!el) return;
+
+  el.innerText = text;
+  el.style.color = isError ? "#b91c1c" : "#334155";
+}
+
+function handleLoginKey(event) {
+  if (event.key === "Enter") {
+    login();
+  }
+}
+
+function getEmptyMeta() {
+  return {
+    totalPoints: 0,
+    dailyStreak: 0,
+    lastStudyDate: null,
+    sessionCorrect: 0,
+    sessionWrong: 0,
+    lastOpenedThemeId: null
+  };
+}
+
+function toEmbedUrl(url) {
+  if (!url) return "";
+
+  const trimmed = url.trim();
+
+  if (trimmed.includes("youtube.com/watch?v=")) {
+    const videoId = trimmed.split("watch?v=")[1].split("&")[0];
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+
+  if (trimmed.includes("youtu.be/")) {
+    const videoId = trimmed.split("youtu.be/")[1].split("?")[0];
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+
+  return trimmed;
+}
+
+async function login() {
+  const username = document.getElementById("loginUsername").value.trim();
+  const pin = document.getElementById("loginPin").value.trim();
+
+  if (!username || !pin) {
+    showLoginMessage("Fyll i användarnamn och PIN-kod.", true);
+    return;
+  }
+
+  showLoginMessage("Loggar in...");
+
+  try {
+    const result = await api("login", { username, pin });
+
+    if (!result.ok) {
+      showLoginMessage(result.error || "Kunde inte logga in.", true);
+      return;
+    }
+
+    currentUser = username;
+    currentPin = pin;
+startAutoSave();
+
+    const serverData = result.data || null;
+
+const sheetThemes = await loadThemesFromSheet();
+
+if (serverData && Array.isArray(serverData.themes)) {
+  themes = mergeThemeData(sheetThemes, serverData.themes);
+} else {
+  themes = deepCopy(sheetThemes);
+}
+
+    meta = {
+      ...getEmptyMeta(),
+      ...(serverData?.meta || {})
+    };
+
+    meta.sessionCorrect = 0;
+    meta.sessionWrong = 0;
+
+    document.getElementById("loginScreen").classList.add("hidden");
+    document.getElementById("homeScreen").classList.remove("hidden");
+
+    renderHome();
+    openThemeFromUrl();
+    showLoginMessage("");
+  } catch (error) {
+    console.error("Loginfel:", error);
+    showLoginMessage("Något gick fel vid inloggning.", true);
+  }
+}
+
+    function renderMedals(theme) {
+      const words = theme.words;
+      const total = words.length;
+
+      const bronzeCount = words.filter(w => getWordMedalLevel(w) >= 1).length;
+      const silverCount = words.filter(w => getWordMedalLevel(w) >= 2).length;
+      const goldCount = words.filter(w => getWordMedalLevel(w) >= 3).length;
+
+      const bronzeUnlocked = total > 0 && bronzeCount === total;
+      const silverUnlocked = total > 0 && silverCount === total;
+      const goldUnlocked = total > 0 && goldCount === total;
+
+      const bronzeKey = `${theme.id}-bronze`;
+      const silverKey = `${theme.id}-silver`;
+      const goldKey = `${theme.id}-gold`;
+
+      const bronzeAnimate = bronzeUnlocked && !shownMedalUnlocks[bronzeKey];
+      const silverAnimate = silverUnlocked && !shownMedalUnlocks[silverKey];
+      const goldAnimate = goldUnlocked && !shownMedalUnlocks[goldKey];
+
+if (bronzeAnimate) {
+  shownMedalUnlocks[bronzeKey] = true;
+  setTimeout(() => {
+    showLevelUpToast("🥉 Brons upplåst!");
+    playLevelUpSound();
+    showThemeCompletePanel("bronze");
+  }, 80);
+}
+
+ if (silverAnimate) {
+  shownMedalUnlocks[silverKey] = true;
+  setTimeout(() => {
+    showLevelUpToast("🥈 Silver upplåst!");
+    playLevelUpSound();
+    showThemeCompletePanel("silver");
+  }, 80);
+}
+
+if (goldAnimate) {
+  shownMedalUnlocks[goldKey] = true;
+  setTimeout(() => {
+    showLevelUpToast("🥇 Guld upplåst!");
+    playLevelUpSound();
+    showThemeCompletePanel("gold");
+  }, 80);
+}
+      return `
+        <span class="medal ${bronzeUnlocked ? "unlocked" : ""} ${bronzeAnimate ? "medal-pop" : ""}">🥉</span>
+        <span class="medal ${silverUnlocked ? "unlocked" : ""} ${silverAnimate ? "medal-pop" : ""}">🥈</span>
+        <span class="medal ${goldUnlocked ? "unlocked" : ""} ${goldAnimate ? "medal-pop" : ""}">🥇</span>
+      `;
+    }
+
+    function todayString() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function yesterdayString() {
+      const d = new Date();
+      d.setDate(d.getDate() - 1);
+      return d.toISOString().slice(0, 10);
+    }
+
+    function normalize(text) {
+      return String(text || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[¿¡.,!?;:()]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function getAccuracy(word) {
+      const total = (word.correctTotal || 0) + (word.incorrectTotal || 0);
+      if (total === 0) return 0;
+      return Math.round(((word.correctTotal || 0) / total) * 100);
+    }
+function getCurrentInterval(word) {
+  return SRS_STEPS[word.stepIndex || 0] || SRS_STEPS[0];
+}
+
+function isRecallMode(activeMode) {
+  return activeMode === "write" || activeMode === "dictation";
+}
+
+function isNewSuccessDay(word) {
+  return word.lastSuccessDate !== todayString();
+}
+
+function updateSuccessfulRecall(word, activeMode) {
+  if (!isRecallMode(activeMode)) return;
+
+  if (isNewSuccessDay(word)) {
+    word.successfulRecallDays = (word.successfulRecallDays || 0) + 1;
+    word.lastSuccessDate = todayString();
+  }
+}
+
+function updateMasteryState(word) {
+  const accuracy = getAccuracy(word);
+
+  const qualifies =
+    (word.successfulRecallDays || 0) >= 5 &&
+    (word.strongestIntervalMs || 0) >= 14 * 24 * 60 * 60 * 1000 &&
+    accuracy >= 85;
+
+  word.mastered = qualifies ? 1 : 0;
+}
+
+function getSrsLabel(word) {
+  const step = word.stepIndex || 0;
+
+  if ((word.mastered || 0) === 1) return "Bemästrat";
+  if ((word.correctTotal || 0) === 0) return "Nytt";
+  if (step <= 1) return "Kort repetition";
+  if (step <= 3) return "På väg";
+  return "Långtidsminne byggs";
+}
+
+function getWordMedalLevel(word) {
+  const accuracy = getAccuracy(word);
+  const successfulRecallDays = word.successfulRecallDays || 0;
+  const strongestIntervalMs = word.strongestIntervalMs || 0;
+
+  const reachesGold =
+    successfulRecallDays >= MEDAL_LEVELS.gold.successfulRecallDays &&
+    strongestIntervalMs >= MEDAL_LEVELS.gold.strongestIntervalMs &&
+    accuracy >= MEDAL_LEVELS.gold.accuracy;
+
+  if (reachesGold) return 3;
+
+  const reachesSilver =
+    successfulRecallDays >= MEDAL_LEVELS.silver.successfulRecallDays &&
+    strongestIntervalMs >= MEDAL_LEVELS.silver.strongestIntervalMs &&
+    accuracy >= MEDAL_LEVELS.silver.accuracy;
+
+  if (reachesSilver) return 2;
+
+  const reachesBronze =
+    successfulRecallDays >= MEDAL_LEVELS.bronze.successfulRecallDays &&
+    strongestIntervalMs >= MEDAL_LEVELS.bronze.strongestIntervalMs;
+
+  if (reachesBronze) return 1;
+
+  return 0;
+}
+function getThemeMedalProgress(words) {
+  const total = words.length;
+
+  if (total === 0) {
+    return {
+      stage: "bronze",
+      stageLabel: "Framsteg",
+      percent: 0,
+      bronzeCount: 0,
+      silverCount: 0,
+      goldCount: 0
+    };
+  }
+
+  const bronzeCount = words.filter(word => getWordMedalLevel(word) >= 1).length;
+  const silverCount = words.filter(word => getWordMedalLevel(word) >= 2).length;
+  const goldCount = words.filter(word => getWordMedalLevel(word) >= 3).length;
+
+  const totalPoints = words.reduce((sum, word) => sum + getWordMedalLevel(word), 0);
+  const maxPoints = total * 3;
+  const percent = Math.round((totalPoints / maxPoints) * 100);
+
+  return {
+    stage: "overall",
+    stageLabel: "Framsteg",
+    percent,
+    bronzeCount,
+    silverCount,
+    goldCount
+  };
+}
+function getNextStageLabel(words) {
+  const total = words.length;
+  if (total === 0) return "På väg";
+
+  const bronzeCount = words.filter(word => getWordMedalLevel(word) >= 1).length;
+  const silverCount = words.filter(word => getWordMedalLevel(word) >= 2).length;
+  const goldCount = words.filter(word => getWordMedalLevel(word) >= 3).length;
+
+  if (goldCount === total) return "Alla ord har guld";
+  if (silverCount === total) return "På väg mot allt guld";
+  if (bronzeCount === total) return "Alla ord har minst brons";
+  return "Varje medalj räknas";
+}
+    function formatInterval(ms) {
+      if (!ms || ms <= 0) return "nytt ord";
+
+      const minutes = Math.round(ms / 60000);
+      if (minutes < 60) return `${minutes} min`;
+
+      const hours = Math.round(ms / (60 * 60 * 1000));
+      if (hours < 24) return `${hours} h`;
+
+      const days = Math.round(ms / (24 * 60 * 60 * 1000));
+      return `${days} d`;
+    }
+function getDisplayInterval(word) {
+  if (!word) return 0;
+  return SRS_STEPS[word.stepIndex || 0] || 0;
+}
+
+    /**********************
+     * 3. TEMAN
+     **********************/
+  const defaultThemes = [
+  {
+    id: "greetings",
+    name: "Hälsningar",
+    category: "Vardag",
+    level: "Åk 6 · Steg 1",
+    goal: "Jag kan hälsa, säga hejdå och använda enkla artighetsfraser.",
+    icon: "👋",
+    gradient: "linear-gradient(145deg, #fb7185, #f97316, #f59e0b)",
+    points: 0,
+    grammarLesson: {
+      title: "Hälsningsfraser",
+      intro: "I spanska använder man olika hälsningar beroende på tid på dagen och situation.",
+      sections: [
+        {
+          heading: "Hej och hejdå",
+          text: "Hola betyder hej. Adiós betyder hejdå. Chao används ofta mer vardagligt."
+        },
+        {
+          heading: "Tid på dagen",
+          text: "Buenos días används på morgonen, buenas tardes på eftermiddagen och buenas noches på kvällen eller natten."
+        }
+      ],
+      examples: [
+        {
+          label: "Exempel 1",
+          sv: "Hej!",
+          es: "¡Hola!"
+        },
+        {
+          label: "Exempel 2",
+          sv: "God morgon!",
+          es: "¡Buenos días!"
+        }
+      ]
+    },
+    words: [
+      makeWord("hola", "hej"),
+      makeWord("buenos días", "god morgon"),
+      makeWord("buenas tardes", "god eftermiddag / god kväll"),
+      makeWord("buenas noches", "god kväll / god natt"),
+      makeWord("adiós", "hejdå"),
+      makeWord(["chao", "chau"], "hejdå (vardagligt)"),
+      makeWord("hasta luego", "vi ses senare"),
+      makeWord("hasta mañana", "vi ses imorgon"),
+      makeWord("nos vemos", "vi ses"),
+      makeWord("por favor", "snälla / tack"),
+      makeWord("gracias", "tack"),
+      makeWord("de nada", "det var så lite"),
+      makeWord("perdón", "ursäkta / förlåt"),
+      makeWord("vale", "okej")
+    ]
+  },
+
+  {
+    id: "name_age",
+    name: "Namn och ålder",
+    category: "Grundord",
+    level: "Åk 6 · Steg 2",
+    goal: "Jag kan fråga och säga vad jag heter och hur gammal jag är.",
+    icon: "🧒",
+    gradient: "linear-gradient(145deg, #60a5fa, #3b82f6, #2563eb)",
+    points: 0,
+    grammarLesson: {
+      title: "Jag heter och jag är ... år",
+      intro: "Två väldigt vanliga mönster i spanska är me llamo för namn och tengo ... años för ålder.",
+      sections: [
+        {
+          heading: "Namn",
+          text: "¿Cómo te llamas? betyder Vad heter du? Svara: Me llamo ..."
+        },
+        {
+          heading: "Ålder",
+          text: "¿Cuántos años tienes? betyder Hur gammal är du? Svara: Tengo once años."
+        }
+      ],
+      examples: [
+        {
+          label: "Exempel 1",
+          sv: "Vad heter du?",
+          es: "¿Cómo te llamas?"
+        },
+        {
+          label: "Exempel 2",
+          sv: "Jag heter Sara och jag är elva år.",
+          es: "Me llamo Sara y tengo once años."
+        }
+      ]
+    },
+    words: [
+      makeWord("¿cómo te llamas?", "vad heter du?"),
+      makeWord("me llamo", "jag heter"),
+      makeWord("¿cuántos años tienes?", "hur gammal är du?"),
+      makeWord("tengo", "jag har"),
+      makeWord("años", "år"),
+      makeWord("soy", "jag är"),
+      makeWord("niño", "pojke"),
+      makeWord("niña", "flicka"),
+      makeWord("amigo", "vän (kille)"),
+      makeWord("amiga", "vän (tjej)")
+    ]
+  },
+
+  {
+    id: "numbers_1_12",
+    name: "Siffror 1–12",
+    category: "Grundord",
+    level: "Åk 6 · Steg 3",
+    goal: "Jag kan räkna från 1 till 12.",
+    icon: "🔢",
+    gradient: "linear-gradient(145deg, #38bdf8, #2563eb, #1d4ed8)",
+    points: 0,
+    words: [
+      makeWord("uno", "ett"),
+      makeWord("dos", "två"),
+      makeWord("tres", "tre"),
+      makeWord("cuatro", "fyra"),
+      makeWord("cinco", "fem"),
+      makeWord("seis", "sex"),
+      makeWord("siete", "sju"),
+      makeWord("ocho", "åtta"),
+      makeWord("nueve", "nio"),
+      makeWord("diez", "tio"),
+      makeWord("once", "elva"),
+      makeWord("doce", "tolv")
+    ]
+  },
+
+  {
+    id: "where_live",
+    name: "Var bor du?",
+    category: "Vardag",
+    level: "Åk 6 · Steg 4",
+    goal: "Jag kan fråga och berätta var jag bor.",
+    icon: "🏠",
+    gradient: "linear-gradient(145deg, #22c55e, #14b8a6, #06b6d4)",
+    points: 0,
+    grammarLesson: {
+      title: "Att säga var man bor",
+      intro: "Verbet vivir betyder att bo. I åk 6 räcker det långt att kunna formen vivo.",
+      sections: [
+        {
+          heading: "Fråga",
+          text: "¿Dónde vives? betyder Var bor du?"
+        },
+        {
+          heading: "Svara",
+          text: "Vivo en ... betyder Jag bor i/på ..."
+        }
+      ],
+      examples: [
+        {
+          label: "Exempel 1",
+          sv: "Var bor du?",
+          es: "¿Dónde vives?"
+        },
+        {
+          label: "Exempel 2",
+          sv: "Jag bor i Stockholm.",
+          es: "Vivo en Estocolmo."
+        }
+      ]
+    },
+    words: [
+      makeWord("¿dónde vives?", "var bor du?"),
+      makeWord("vivo en", "jag bor i"),
+      makeWord("ciudad", "stad"),
+      makeWord("pueblo", "by / mindre ort"),
+      makeWord("casa", "hus"),
+      makeWord("apartamento", "lägenhet"),
+      makeWord("calle", "gata"),
+      makeWord("aquí", "här"),
+      makeWord("allí", "där")
+    ]
+  },
+
+  {
+    id: "likes_gustar",
+    name: "Vad tycker du om? (gustar)",
+    category: "Vardag",
+    level: "Åk 6 · Steg 5",
+    goal: "Jag kan fråga och berätta vad jag tycker om.",
+    icon: "💜",
+    gradient: "linear-gradient(145deg, #a78bfa, #8b5cf6, #6366f1)",
+    points: 0,
+    grammarLesson: {
+      title: "Gustar",
+      intro: "Gustar används när man säger vad man gillar. I början kan eleverna lära sig hela fraser.",
+      sections: [
+        {
+          heading: "Fråga",
+          text: "¿Te gusta...? betyder Tycker du om...?"
+        },
+        {
+          heading: "Svara",
+          text: "Me gusta ... betyder Jag tycker om ... och no me gusta betyder Jag tycker inte om ..."
+        }
+      ],
+      examples: [
+        {
+          label: "Exempel 1",
+          sv: "Jag tycker om glass.",
+          es: "Me gusta el helado."
+        },
+        {
+          label: "Exempel 2",
+          sv: "Tycker du om fotboll?",
+          es: "¿Te gusta el fútbol?"
+        }
+      ]
+    },
+    words: [
+      makeWord("¿te gusta?", "tycker du om?"),
+      makeWord("me gusta", "jag tycker om"),
+      makeWord("no me gusta", "jag tycker inte om"),
+      makeWord("mucho", "mycket"),
+      makeWord("un poco", "lite"),
+      makeWord("sí, me gusta", "ja, jag tycker om det"),
+      makeWord("no, no me gusta", "nej, jag tycker inte om det"),
+      makeWord("música", "musik"),
+      makeWord("fútbol", "fotboll"),
+      makeWord("helado", "glass"),
+      makeWord("chocolate", "choklad")
+    ]
+  },
+
+  {
+    id: "colors",
+    name: "Färger",
+    category: "Grundord",
+    level: "Åk 6 · Steg 6",
+    goal: "Jag kan säga några vanliga färger.",
+    icon: "🎨",
+    gradient: "linear-gradient(145deg, #f59e0b, #ef4444, #ec4899)",
+    points: 0,
+    words: [
+      makeWord("rojo", "röd"),
+      makeWord("azul", "blå"),
+      makeWord("verde", "grön"),
+      makeWord("amarillo", "gul"),
+      makeWord("negro", "svart"),
+      makeWord("blanco", "vit"),
+      makeWord("gris", "grå"),
+      makeWord("morado", "lila"),
+      makeWord("rosa", "rosa"),
+      makeWord("naranja", "orange"),
+      makeWord("marrón", "brun")
+    ]
+  },
+
+  {
+    id: "family_siblings",
+    name: "Jag och mina syskon",
+    category: "Personer",
+    level: "Åk 6 · Steg 7",
+    goal: "Jag kan prata om mig själv, min familj och mina syskon.",
+    icon: "👨‍👩‍👧‍👦",
+    gradient: "linear-gradient(145deg, #22c55e, #10b981, #14b8a6)",
+    points: 0,
+    grammarLesson: {
+      title: "Min familj",
+      intro: "Eleverna behöver tidigt kunna säga enkla meningar om familjen med tengo och es/son.",
+      sections: [
+        {
+          heading: "Jag har",
+          text: "Tengo un hermano betyder Jag har en bror. Tengo dos hermanas betyder Jag har två systrar."
+        },
+        {
+          heading: "Det här är ...",
+          text: "Mi madre es ... betyder Min mamma är ..."
+        }
+      ],
+      examples: [
+        {
+          label: "Exempel 1",
+          sv: "Jag har en syster.",
+          es: "Tengo una hermana."
+        },
+        {
+          label: "Exempel 2",
+          sv: "Det här är min familj.",
+          es: "Esta es mi familia."
+        }
+      ]
+    },
+    words: [
+      makeWord("familia", "familj"),
+      makeWord("madre", "mamma"),
+      makeWord("padre", "pappa"),
+      makeWord("hermano", "bror"),
+      makeWord("hermana", "syster"),
+      makeWord("amigo", "vän (kille)"),
+      makeWord("amiga", "vän (tjej)"),
+      makeWord("tengo un hermano", "jag har en bror"),
+      makeWord("tengo una hermana", "jag har en syster"),
+      makeWord("soy hijo único", "jag är ensambarn"),
+      makeWord("mi familia", "min familj"),
+      makeWord("mi amigo", "min vän (kille)"),
+      makeWord("mi amiga", "min vän (tjej)")
+    ]
+  },
+
+  {
+    id: "numbers_13_20",
+    name: "Siffror 13–20",
+    category: "Grundord",
+    level: "Åk 6 · Steg 8",
+    goal: "Jag kan räkna från 13 till 20.",
+    icon: "🔢",
+    gradient: "linear-gradient(145deg, #0ea5e9, #3b82f6, #6366f1)",
+    points: 0,
+    words: [
+      makeWord("trece", "tretton"),
+      makeWord("catorce", "fjorton"),
+      makeWord("quince", "femton"),
+      makeWord("dieciséis", "sexton"),
+      makeWord("diecisiete", "sjutton"),
+      makeWord("dieciocho", "arton"),
+      makeWord("diecinueve", "nitton"),
+      makeWord("veinte", "tjugo")
+    ]
+  },
+
+  {
+    id: "animals",
+    name: "Djur",
+    category: "Grundord",
+    level: "Åk 6 · Steg 9",
+    goal: "Jag kan säga några vanliga djur.",
+    icon: "🐾",
+    gradient: "linear-gradient(145deg, #f97316, #f59e0b, #84cc16)",
+    points: 0,
+    words: [
+      makeWord("perro", "hund"),
+      makeWord("gato", "katt"),
+      makeWord("conejo", "kanin"),
+      makeWord("caballo", "häst"),
+      makeWord("pájaro", "fågel"),
+      makeWord("pez", "fisk"),
+      makeWord("tortuga", "sköldpadda"),
+      makeWord("hamster", "hamster"),
+      makeWord("vaca", "ko"),
+      makeWord("cerdo", "gris")
+    ]
+  },
+
+  {
+    id: "birthday",
+    name: "Födelsedag",
+    category: "Vardag",
+    level: "Åk 6 · Steg 10",
+    goal: "Jag kan fråga om födelsedag och känna igen födelsedagssången.",
+    icon: "🎂",
+    gradient: "linear-gradient(145deg, #f472b6, #ec4899, #8b5cf6)",
+    points: 0,
+    grammarLesson: {
+      title: "Födelsedag",
+      intro: "Det här temat tränar datum, frågan om födelsedag och några ord ur födelsedagssången.",
+      sections: [
+        {
+          heading: "Fråga om födelsedag",
+          text: "¿Cuándo cumples años? betyder När fyller du år?"
+        },
+        {
+          heading: "Svar",
+          text: "Cumplo años en mayo eller Mi cumpleaños es el tres de junio."
+        }
+      ],
+      examples: [
+        {
+          label: "Exempel 1",
+          sv: "När fyller du år?",
+          es: "¿Cuándo cumples años?"
+        },
+        {
+          label: "Exempel 2",
+          sv: "Jag fyller år i april.",
+          es: "Cumplo años en abril."
+        }
+      ]
+    },
+    words: [
+      makeWord("cumpleaños", "födelsedag"),
+      makeWord("¿cuándo cumples años?", "när fyller du år?"),
+      makeWord("cumplo años", "jag fyller år"),
+      makeWord("enero", "januari"),
+      makeWord("febrero", "februari"),
+      makeWord("marzo", "mars"),
+      makeWord("abril", "april"),
+      makeWord("mayo", "maj"),
+      makeWord("junio", "juni"),
+      makeWord("julio", "juli"),
+      makeWord("agosto", "augusti"),
+      makeWord("septiembre", "september"),
+      makeWord("octubre", "oktober"),
+      makeWord("noviembre", "november"),
+      makeWord("diciembre", "december"),
+      makeWord("cumpleaños feliz", "ja må han/hon leva / happy birthday")
+    ]
+  },
+
+  {
+    id: "days_weather",
+    name: "Veckodagar och väder",
+    category: "Vardag",
+    level: "Åk 6 · Steg 11",
+    goal: "Jag kan säga veckans dagar och prata enkelt om vädret.",
+    icon: "🌦️",
+    gradient: "linear-gradient(145deg, #38bdf8, #22c55e, #f59e0b)",
+    points: 0,
+    grammarLesson: {
+      title: "Vädret med hacer och estar",
+      intro: "När man pratar om vädret använder spanskan ofta uttryck som hace sol och está nublado.",
+      sections: [
+        {
+          heading: "Fråga",
+          text: "¿Qué tiempo hace? betyder Hur är vädret?"
+        },
+        {
+          heading: "Svar",
+          text: "Hace sol = det är soligt, hace frío = det är kallt, está nublado = det är molnigt."
+        }
+      ],
+      examples: [
+        {
+          label: "Exempel 1",
+          sv: "Hur är vädret idag?",
+          es: "¿Qué tiempo hace hoy?"
+        },
+        {
+          label: "Exempel 2",
+          sv: "Det är soligt.",
+          es: "Hace sol."
+        }
+      ]
+    },
+    words: [
+      makeWord("lunes", "måndag"),
+      makeWord("martes", "tisdag"),
+      makeWord("miércoles", "onsdag"),
+      makeWord("jueves", "torsdag"),
+      makeWord("viernes", "fredag"),
+      makeWord("sábado", "lördag"),
+      makeWord("domingo", "söndag"),
+      makeWord("¿qué tiempo hace?", "hur är vädret?"),
+      makeWord("hace sol", "det är soligt"),
+      makeWord("hace calor", "det är varmt"),
+      makeWord("hace frío", "det är kallt"),
+      makeWord("llueve", "det regnar"),
+      makeWord("nieva", "det snöar"),
+      makeWord("está nublado", "det är molnigt"),
+      makeWord("hoy", "idag")
+    ]
+  },
+
+  {
+    id: "feelings",
+    name: "Hur mår du?",
+    category: "Vardag",
+    level: "Åk 6 · Steg 12",
+    goal: "Jag kan fråga hur någon mår och svara enkelt.",
+    icon: "😊",
+    gradient: "linear-gradient(145deg, #34d399, #22c55e, #0ea5a4)",
+    points: 0,
+    grammarLesson: {
+      title: "Hur man mår",
+      intro: "Frågan ¿Cómo estás? och svar med estoy ... är mycket användbara i vardagliga samtal.",
+      sections: [
+        {
+          heading: "Fråga",
+          text: "¿Cómo estás? används till en person du säger du till. ¿Cómo está usted? är artigare."
+        },
+        {
+          heading: "Svar",
+          text: "Estoy bien, estoy mal, estoy cansado/cansada fungerar som enkla svar."
+        }
+      ],
+      examples: [
+        {
+          label: "Exempel 1",
+          sv: "Hur mår du?",
+          es: "¿Cómo estás?"
+        },
+        {
+          label: "Exempel 2",
+          sv: "Jag mår bra, och du?",
+          es: "Estoy bien, ¿y tú?"
+        }
+      ]
+    },
+    words: [
+      makeWord("¿cómo estás?", "hur mår du?"),
+      makeWord("¿cómo está usted?", "hur mår ni? (artig)"),
+      makeWord("¿qué tal?", "hur är det?"),
+      makeWord("estoy bien", "jag mår bra"),
+      makeWord("estoy muy bien", "jag mår mycket bra"),
+      makeWord("estoy mal", "jag mår dåligt"),
+      makeWord("estoy cansado", "jag är trött (kille)"),
+      makeWord("estoy cansada", "jag är trött (tjej)"),
+      makeWord("bien", "bra"),
+      makeWord("mal", "dåligt"),
+      makeWord("así así", "så där"),
+      makeWord("¿y tú?", "och du?")
+    ]
+  },
+
+  {
+    id: "numbers_21_100",
+    name: "Siffror 21–100",
+    category: "Grundord",
+    level: "Åk 6 · Steg 13",
+    goal: "Jag känner igen och kan säga vanliga tal upp till 100.",
+    icon: "💯",
+    gradient: "linear-gradient(145deg, #6366f1, #8b5cf6, #ec4899)",
+    points: 0,
+    grammarLesson: {
+      title: "Tal upp till 100",
+      intro: "Det räcker långt att kunna tiotalen och se mönstret med y mellan tiotal och ental.",
+      sections: [
+        {
+          heading: "Tiotal",
+          text: "treinta = 30, cuarenta = 40, cincuenta = 50 och så vidare."
+        },
+        {
+          heading: "Mönster",
+          text: "31 = treinta y uno, 42 = cuarenta y dos, 58 = cincuenta y ocho."
+        }
+      ],
+      examples: [
+        {
+          label: "Exempel 1",
+          sv: "trettioett",
+          es: "treinta y uno"
+        },
+        {
+          label: "Exempel 2",
+          sv: "sjuttiotvå",
+          es: "setenta y dos"
+        }
+      ]
+    },
+    words: [
+      makeWord("veintiuno", "tjugoett"),
+      makeWord("veintidós", "tjugotvå"),
+      makeWord("veintitrés", "tjugotre"),
+      makeWord("treinta", "trettio"),
+      makeWord("cuarenta", "fyrtio"),
+      makeWord("cincuenta", "femtio"),
+      makeWord("sesenta", "sextio"),
+      makeWord("setenta", "sjuttio"),
+      makeWord("ochenta", "åttio"),
+      makeWord("noventa", "nittio"),
+      makeWord("cien", "hundra"),
+      makeWord("treinta y uno", "trettioett"),
+      makeWord("cuarenta y dos", "fyrtiotvå"),
+      makeWord("cincuenta y cinco", "femtiofem")
+    ]
+  },
+
+  {
+    id: "shopping_fruit_icecream",
+    name: "Handla frukt och glass",
+    category: "Vardag",
+    level: "Åk 6 · Steg 14",
+    goal: "Jag kan köpa frukt och glass med enkla fraser.",
+    icon: "🍓",
+    gradient: "linear-gradient(145deg, #f59e0b, #ef4444, #db2777)",
+    points: 0,
+    grammarLesson: {
+      title: "Att handla",
+      intro: "I början är det bäst att lära in hela användbara fraser: jag vill ha, hur mycket kostar det, här är.",
+      sections: [
+        {
+          heading: "Beställa",
+          text: "Quiero ... betyder Jag vill ha ... och Quisiera ... är artigare men lite svårare."
+        },
+        {
+          heading: "Betala",
+          text: "¿Cuánto cuesta? betyder Hur mycket kostar det? Aquí tiene betyder varsågod när man lämnar över något."
+        }
+      ],
+      examples: [
+        {
+          label: "Exempel 1",
+          sv: "Jag vill ha en glass.",
+          es: "Quiero un helado."
+        },
+        {
+          label: "Exempel 2",
+          sv: "Hur mycket kostar det?",
+          es: "¿Cuánto cuesta?"
+        }
+      ]
+    },
+    words: [
+      makeWord("quiero", "jag vill ha"),
+      makeWord("una manzana", "ett äpple"),
+      makeWord("un plátano", "en banan"),
+      makeWord("una naranja", "en apelsin"),
+      makeWord("una fresa", "ett jordgubb"),
+      makeWord("un helado", "en glass"),
+      makeWord("de vainilla", "med vaniljsmak"),
+      makeWord("de chocolate", "med chokladsmak"),
+      makeWord("¿cuánto cuesta?", "hur mycket kostar det?"),
+      makeWord("cuesta", "det kostar"),
+      makeWord("aquí tiene", "varsågod"),
+      makeWord("gracias", "tack")
+    ]
+  },
+
+  {
+    id: "family_friends",
+    name: "Familj och vänner",
+    category: "Personer",
+    level: "Åk 6 · Steg 15",
+    goal: "Jag kan prata enkelt om familj och vänner.",
+    icon: "🧑‍🤝‍🧑",
+    gradient: "linear-gradient(145deg, #14b8a6, #06b6d4, #3b82f6)",
+    points: 0,
+    words: [
+      makeWord("mi madre", "min mamma"),
+      makeWord("mi padre", "min pappa"),
+      makeWord("mi hermano", "min bror"),
+      makeWord("mi hermana", "min syster"),
+      makeWord("mi amigo", "min vän (kille)"),
+      makeWord("mi amiga", "min vän (tjej)"),
+      makeWord("es simpático", "han är snäll / trevlig"),
+      makeWord("es simpática", "hon är snäll / trevlig"),
+      makeWord("es divertido", "han är rolig"),
+      makeWord("es divertida", "hon är rolig"),
+      makeWord("tiene", "han/hon har"),
+      makeWord("vive en", "han/hon bor i")
+    ]
+  },
+
+  {
+    id: "directions",
+    name: "Riktningar",
+    category: "Vardag",
+    level: "Åk 6 · Steg 16",
+    goal: "Jag kan förstå och säga enkla riktningar.",
+    icon: "🧭",
+    gradient: "linear-gradient(145deg, #84cc16, #22c55e, #10b981)",
+    points: 0,
+    grammarLesson: {
+      title: "Riktningar",
+      intro: "Det här temat fungerar bäst med mycket bilder och muntlig träning, men eleverna kan också skriva fraserna.",
+      sections: [
+        {
+          heading: "Grundord",
+          text: "A la derecha = till höger, a la izquierda = till vänster, en el centro = i mitten."
+        },
+        {
+          heading: "Fråga",
+          text: "¿Dónde está...? betyder Var är ...?"
+        }
+      ],
+      examples: [
+        {
+          label: "Exempel 1",
+          sv: "till höger",
+          es: "a la derecha"
+        },
+        {
+          label: "Exempel 2",
+          sv: "Var är skolan?",
+          es: "¿Dónde está la escuela?"
+        }
+      ]
+    },
+    words: [
+      makeWord("a la derecha", "till höger"),
+      makeWord("a la izquierda", "till vänster"),
+      makeWord("en el centro", "i mitten"),
+      makeWord("delante de", "framför"),
+      makeWord("detrás de", "bakom"),
+      makeWord("aquí", "här"),
+      makeWord("allí", "där"),
+      makeWord("¿dónde está?", "var är det?"),
+      makeWord("la escuela", "skolan"),
+      makeWord("la casa", "huset")
+    ]
+  },
+
+  {
+    id: "activities",
+    name: "Aktiviteter",
+    category: "Vardag",
+    level: "Åk 6 · Steg 17",
+    goal: "Jag kan fråga och prata om aktiviteter.",
+    icon: "⚽",
+    gradient: "linear-gradient(145deg, #f97316, #fb7185, #8b5cf6)",
+    points: 0,
+    grammarLesson: {
+      title: "Vad gör du?",
+      intro: "Här börjar eleverna använda vanliga verb i presens i hela meningar.",
+      sections: [
+        {
+          heading: "Fråga",
+          text: "¿Qué haces? betyder Vad gör du?"
+        },
+        {
+          heading: "Svara",
+          text: "Juego, canto, bailo, dibujo och estudio är bra första verbformer."
+        }
+      ],
+      examples: [
+        {
+          label: "Exempel 1",
+          sv: "Jag spelar fotboll.",
+          es: "Juego al fútbol."
+        },
+        {
+          label: "Exempel 2",
+          sv: "Vad gör du idag?",
+          es: "¿Qué haces hoy?"
+        }
+      ]
+    },
+    words: [
+      makeWord("¿qué haces?", "vad gör du?"),
+      makeWord("juego", "jag spelar"),
+      makeWord("canto", "jag sjunger"),
+      makeWord("bailo", "jag dansar"),
+      makeWord("dibujo", "jag ritar"),
+      makeWord("estudio", "jag studerar"),
+      makeWord("nado", "jag simmar"),
+      makeWord("hablo", "jag pratar"),
+      makeWord("escucho música", "jag lyssnar på musik"),
+      makeWord("juego al fútbol", "jag spelar fotboll")
+    ]
+  },
+
+  {
+    id: "ar_verbs",
+    name: "Grammatik: ar-verb i presens",
+    category: "Grammatik",
+    level: "Åk 6 · Steg 18",
+    goal: "Jag känner igen och använder vanliga ar-verb i presens.",
+    icon: "📘",
+    gradient: "linear-gradient(145deg, #6366f1, #8b5cf6, #a855f7)",
+    points: 0,
+    grammarLesson: {
+      title: "ar-verb i presens",
+      intro: "Många vanliga verb i spanska slutar på -ar. I åk 6 räcker det långt att känna igen några former och börja använda jag-formen.",
+      sections: [
+        {
+          heading: "Grundmönster",
+          text: "Hablar → hablo, hablas, habla. Cantar → canto, cantas, canta. Bailar → bailo, bailas, baila."
+        },
+        {
+          heading: "Fokus i åk 6",
+          text: "Börja med yo-formen: hablo, canto, bailo, dibujo, estudio. Sen kan du lägga till tú-formen: hablas, cantas, bailas."
+        }
+      ],
+      examples: [
+        {
+          label: "Exempel 1",
+          sv: "Jag pratar spanska.",
+          es: "Hablo español."
+        },
+        {
+          label: "Exempel 2",
+          sv: "Du sjunger mycket bra.",
+          es: "Cantas muy bien."
+        }
+      ]
+    },
+    words: [
+      makeWord("hablar", "att prata"),
+      makeWord("hablo", "jag pratar"),
+      makeWord("hablas", "du pratar"),
+      makeWord("cantar", "att sjunga"),
+      makeWord("canto", "jag sjunger"),
+      makeWord("cantas", "du sjunger"),
+      makeWord("bailar", "att dansa"),
+      makeWord("bailo", "jag dansar"),
+      makeWord("bailas", "du dansar"),
+      makeWord("dibujar", "att rita"),
+      makeWord("dibujo", "jag ritar"),
+      makeWord("dibujas", "du ritar"),
+      makeWord("estudiar", "att studera"),
+      makeWord("estudio", "jag studerar"),
+      makeWord("estudias", "du studerar")
+    ]
+  },
+{
+  id: "meet_and_greet_7",
+  name: "Träffas och lära känna varandra",
+  category: "Åk 7 · Kommunikation",
+  level: "Steg 2",
+  goal: "Jag kan presentera mig, fråga andra och hålla en enkel dialog.",
+  icon: "🗣️",
+  gradient: "linear-gradient(145deg, #60a5fa, #34d399)",
+
+  grammarLesson: {
+    title: "Presentera dig och fråga andra",
+    intro: "I spanska räcker det inte att bara svara – du ska också kunna ställa frågor och hålla igång ett samtal.",
+    sections: [
+      {
+        heading: "Fråga och svara",
+        text: "¿Cómo te llamas? – Me llamo… | ¿Cuántos años tienes? – Tengo… años"
+      },
+      {
+        heading: "Samtalsstrategi",
+        text: "Ställ alltid en fråga tillbaka: ¿Y tú?"
+      }
+    ],
+    examples: [
+      {
+        label: "Dialog",
+        sv: "Hej! Vad heter du? – Jag heter Ana. Och du?",
+        es: "¡Hola! ¿Cómo te llamas? – Me llamo Ana. ¿Y tú?"
+      }
+    ]
+  },
+
+  words: [
+    makeWord("hola", "hej"),
+    makeWord("¿cómo te llamas?", "vad heter du?"),
+    makeWord("me llamo", "jag heter"),
+    makeWord("¿cuántos años tienes?", "hur gammal är du?"),
+    makeWord("tengo", "jag är / jag har"),
+    makeWord("¿y tú?", "och du?"),
+    makeWord("mucho gusto", "trevligt att träffas"),
+    makeWord("soy de", "jag är från")
+  ]
+},
+{
+  id: "buying_food_7",
+  name: "Köpa något",
+  category: "Åk 7 · Kommunikation",
+  level: "Steg 2",
+  goal: "Jag kan beställa något, fråga om pris och svara i en enkel dialog.",
+  icon: "🍦",
+  gradient: "linear-gradient(145deg, #f59e0b, #f97316)",
+
+  grammarLesson: {
+    title: "Beställa och svara",
+    intro: "När du beställer behöver du både säga vad du vill ha och reagera på frågor.",
+    sections: [
+      {
+        heading: "Beställa",
+        text: "Quiero… / Quisiera… används för att beställa."
+      },
+      {
+        heading: "Frågor och svar",
+        text: "¿Algo más? – Nada más / Sí, también quiero…"
+      }
+    ],
+    examples: [
+      {
+        label: "Dialog",
+        sv: "Jag vill ha en glass. – Något mer? – Nej tack.",
+        es: "Quiero un helado. – ¿Algo más? – Nada más."
+      }
+    ]
+  },
+
+  words: [
+    makeWord("quiero", "jag vill ha"),
+    makeWord("un helado", "en glass"),
+    makeWord("una bebida", "en dryck"),
+    makeWord("¿cuánto cuesta?", "vad kostar det?"),
+    makeWord("algo más", "något mer"),
+    makeWord("nada más", "inget mer"),
+    makeWord("por favor", "snälla"),
+    makeWord("gracias", "tack")
+  ]
+},
+{
+  id: "free_time_7",
+  name: "Min fritid",
+  category: "Åk 7 · Kommunikation",
+  level: "Steg 2",
+  goal: "Jag kan berätta vad jag gör på fritiden och hur ofta.",
+  icon: "⚽",
+  gradient: "linear-gradient(145deg, #34d399, #10b981)",
+
+  grammarLesson: {
+    title: "Verb i presens + frekvens",
+    intro: "För att prata om fritid behöver du både verb och ord som visar hur ofta du gör något.",
+    sections: [
+      {
+        heading: "Verb",
+        text: "Hablo, juego, como, miro – används för att berätta vad du gör."
+      },
+      {
+        heading: "Frekvensord",
+        text: "Siempre (alltid), a veces (ibland), nunca (aldrig)"
+      }
+    ],
+    examples: [
+      {
+        label: "Exempel",
+        sv: "Jag spelar ofta fotboll.",
+        es: "Juego al fútbol a menudo."
+      }
+    ]
+  },
+
+  words: [
+    makeWord("juego", "jag spelar"),
+    makeWord("escucho música", "jag lyssnar på musik"),
+    makeWord("miro", "jag tittar"),
+    makeWord("como", "jag äter"),
+    makeWord("siempre", "alltid"),
+    makeWord("a veces", "ibland"),
+    makeWord("nunca", "aldrig"),
+    makeWord("a menudo", "ofta")
+  ]
+},
+{
+  id: "family_7",
+  name: "Min familj",
+  category: "Åk 7 · Kommunikation",
+  level: "Steg 2",
+  goal: "Jag kan berätta om min familj och beskriva personer.",
+  icon: "👨‍👩‍👧",
+  gradient: "linear-gradient(145deg, #a78bfa, #60a5fa)",
+
+  grammarLesson: {
+    title: "Tener + ser",
+    intro: "För att prata om familj behöver du både säga vad du har och hur personer är.",
+    sections: [
+      {
+        heading: "Tener",
+        text: "Tengo, tienes, tiene används för att säga vad du har."
+      },
+      {
+        heading: "Ser",
+        text: "Soy, eres, es används för att beskriva personer."
+      }
+    ],
+    examples: [
+      {
+        label: "Exempel",
+        sv: "Jag har en syster. Hon är snäll.",
+        es: "Tengo una hermana. Es simpática."
+      }
+    ]
+  },
+
+  words: [
+    makeWord("madre", "mamma"),
+    makeWord("padre", "pappa"),
+    makeWord("hermano", "bror"),
+    makeWord("hermana", "syster"),
+    makeWord("tengo", "jag har"),
+    makeWord("es", "han/hon är"),
+    makeWord("simpático/a", "snäll"),
+    makeWord("alto/a", "lång")
+  ]
+},
+{
+  id: "pets_7",
+  name: "Husdjur och saker jag har",
+  category: "Åk 7 · Kommunikation",
+  level: "Steg 2",
+  goal: "Jag kan berätta vad jag har och beskriva det.",
+  icon: "🐶",
+  gradient: "linear-gradient(145deg, #f472b6, #fb7185)",
+
+  grammarLesson: {
+    title: "Tener + adjektiv",
+    intro: "Du kan utveckla dina meningar genom att lägga till beskrivningar.",
+    sections: [
+      {
+        heading: "Vad du har",
+        text: "Tengo un perro / una gata"
+      },
+      {
+        heading: "Beskriva",
+        text: "Es pequeño, grande, bonito"
+      }
+    ],
+    examples: [
+      {
+        label: "Exempel",
+        sv: "Jag har en liten brun hund.",
+        es: "Tengo un perro pequeño y marrón."
+      }
+    ]
+  },
+
+  words: [
+    makeWord("perro", "hund"),
+    makeWord("gato", "katt"),
+    makeWord("conejo", "kanin"),
+    makeWord("pequeño/a", "liten"),
+    makeWord("grande", "stor"),
+    makeWord("bonito/a", "fin"),
+    makeWord("tengo", "jag har"),
+    makeWord("es", "är")
+  ]
+},
+{
+  id: "clothes_7",
+  name: "Kläder och utseende",
+  category: "Åk 7 · Kommunikation",
+  level: "Steg 2",
+  goal: "Jag kan beskriva personer och vad de har på sig.",
+  icon: "👕",
+  gradient: "linear-gradient(145deg, #38bdf8, #818cf8)",
+
+  grammarLesson: {
+    title: "Adjektiv i singular och plural",
+    intro: "Adjektiv ändras efter ordet de beskriver.",
+    sections: [
+      {
+        heading: "Singular",
+        text: "rojo / roja"
+      },
+      {
+        heading: "Plural",
+        text: "rojos / rojas"
+      }
+    ],
+    examples: [
+      {
+        label: "Exempel",
+        sv: "De har röda tröjor.",
+        es: "Llevan camisetas rojas."
+      }
+    ]
+  },
+
+  words: [
+    makeWord("camiseta", "t-shirt"),
+    makeWord("pantalones", "byxor"),
+    makeWord("zapatos", "skor"),
+    makeWord("rojo/a", "röd"),
+    makeWord("azul", "blå"),
+    makeWord("verde", "grön"),
+    makeWord("guapo/a", "snygg"),
+    makeWord("lleva", "har på sig")
+  ]
+},
+{
+  id: "directions_7",
+  name: "Hitta i en stad",
+  category: "Åk 7 · Kommunikation",
+  level: "Steg 2",
+  goal: "Jag kan fråga om vägen och förstå enkla instruktioner.",
+  icon: "🧭",
+  gradient: "linear-gradient(145deg, #4ade80, #22c55e)",
+
+  grammarLesson: {
+    title: "Ge instruktioner",
+    intro: "När du ger vägbeskrivningar använder du enkla uttryck och riktningar.",
+    sections: [
+      {
+        heading: "Riktningar",
+        text: "a la izquierda, a la derecha, en el centro"
+      },
+      {
+        heading: "Instruktioner",
+        text: "Sigue recto, gira..."
+      }
+    ],
+    examples: [
+      {
+        label: "Exempel",
+        sv: "Gå till vänster och sedan rakt fram.",
+        es: "Gira a la izquierda y sigue recto."
+      }
+    ]
+  },
+
+  words: [
+    makeWord("izquierda", "vänster"),
+    makeWord("derecha", "höger"),
+    makeWord("centro", "mitten"),
+    makeWord("sigue recto", "gå rakt fram"),
+    makeWord("gira", "sväng"),
+    makeWord("¿dónde está?", "var är"),
+    makeWord("aquí", "här"),
+    makeWord("allí", "där")
+  ]
+},
+{
+  id: "weather_future_7",
+  name: "Väder och planer",
+  category: "Åk 7 · Kommunikation",
+  level: "Steg 2",
+  goal: "Jag kan prata om vädret och berätta vad jag ska göra.",
+  icon: "☀️",
+  gradient: "linear-gradient(145deg, #facc15, #fb923c)",
+
+  grammarLesson: {
+    title: "Framtid med ir",
+    intro: "För att prata om framtiden använder man ir + a + verb.",
+    sections: [
+      {
+        heading: "Former",
+        text: "voy, vas, va"
+      },
+      {
+        heading: "Framtid",
+        text: "voy a jugar, voy a comer"
+      }
+    ],
+    examples: [
+      {
+        label: "Exempel",
+        sv: "I helgen ska jag spela fotboll.",
+        es: "Este fin de semana voy a jugar al fútbol."
+      }
+    ]
+  },
+
+  words: [
+    makeWord("hace sol", "det är soligt"),
+    makeWord("llueve", "det regnar"),
+    makeWord("hace frío", "det är kallt"),
+    makeWord("verano", "sommar"),
+    makeWord("invierno", "vinter"),
+    makeWord("mes", "månad"),
+    makeWord("voy a", "jag ska"),
+    makeWord("fin de semana", "helg")
+  ]
+}
+
+];
+
+    const specialWrongWordsTheme = {
+      id: "wrong-words",
+      name: "Svåra ord",
+      goal: "Jag tränar extra på ord som jag tidigare haft svårt för.",
+      icon: "🧠",
+      gradient: "linear-gradient(145deg, #475569, #334155, #0f172a)",
+      points: 0,
+      words: []
+    };
+
+    /**********************
+     * 4. APP-STATE
+     **********************/
+    let themes = [];
+    let currentThemeId = null;
+    let current = null;
+    let mode = "write";
+    let practiceFilter = "all";
+
+let homeSearchText = "";
+let homeCategory = "Alla";
+
+    let selectedSwedish = null;
+    let selectedSpanish = null;
+    let currentMatchSet = [];
+    let matchedPairs = 0;
+
+    let correctionMode = false;
+    let correctionAnswer = "";
+
+    let audioContext = null;
+    let nextWordTimeout = null;
+
+    let flashcardIndex = 0;
+    let flashcardFlipped = false;
+    let flashcardWords = [];
+
+    let shownMedalUnlocks = {};
+    let comboStreak = 0;
+let lastShownWordId = null;
+
+let meta = getEmptyMeta();
+
+    /**********************
+     * 5. META / STREAK
+     **********************/
+    function updateDailyStreak() {
+      const today = todayString();
+      if (meta.lastStudyDate === today) return;
+
+      if (!meta.lastStudyDate) {
+        meta.dailyStreak = 1;
+      } else if (meta.lastStudyDate === yesterdayString()) {
+        meta.dailyStreak += 1;
+      } else {
+        meta.dailyStreak = 1;
+      }
+
+      meta.lastStudyDate = today;
+    }
+
+    function clearNextWordTimeout() {
+      if (nextWordTimeout) {
+        clearTimeout(nextWordTimeout);
+        nextWordTimeout = null;
+      }
+    }
+
+    /**********************
+     * 6. LJUD
+     **********************/
+    function getAudioContext() {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!audioContext) audioContext = new AudioCtx();
+      if (audioContext.state === "suspended") audioContext.resume();
+      return audioContext;
+    }
+
+    function playAudio() {
+      if (!current) return;
+      const utterance = new SpeechSynthesisUtterance(getPrimaryAnswer(current));
+      utterance.lang = "de-DE";
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utterance);
+    }
+
+    function playFlashcardAudio() {
+      if (!flashcardWords.length) return;
+
+      const word = flashcardWords[flashcardIndex];
+      const utterance = new SpeechSynthesisUtterance(getPrimaryAnswer(word));
+      utterance.lang = "de-DE";
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utterance);
+    }
+
+    function playSuccessSound() {
+      const ctx = getAudioContext();
+      const now = ctx.currentTime;
+
+      function playTone(startTime, freqStart, freqEnd, duration, gainLevel) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freqStart, startTime);
+        osc.frequency.exponentialRampToValueAtTime(freqEnd, startTime + duration);
+
+        gain.gain.setValueAtTime(0.0001, startTime);
+        gain.gain.exponentialRampToValueAtTime(gainLevel, startTime + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      }
+
+      playTone(now, 900, 1200, 0.12, 0.25);
+      playTone(now + 0.11, 1400, 1900, 0.16, 0.22);
+    }
+
+    function playLevelUpSound() {
+      const ctx = getAudioContext();
+      const now = ctx.currentTime;
+
+      function tone(start, freq, duration, gainValue) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(freq, start);
+
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(gainValue, start + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(start);
+        osc.stop(start + duration);
+      }
+
+      tone(now, 523.25, 0.16, 0.18);
+      tone(now + 0.12, 659.25, 0.16, 0.18);
+      tone(now + 0.24, 783.99, 0.22, 0.2);
+    }
+
+    function showLevelUpToast(text) {
+      const toast = document.getElementById("levelUpToast");
+      if (!toast) return;
+
+      toast.textContent = text;
+      toast.classList.remove("show");
+      void toast.offsetWidth;
+      toast.classList.add("show");
+    }
+
+    function playSuccessSequence(word) {
+      playSuccessSound();
+      setTimeout(() => {
+        const utterance = new SpeechSynthesisUtterance(getPrimaryAnswer(word));
+        utterance.lang = "de-DE";
+        speechSynthesis.cancel();
+        speechSynthesis.speak(utterance);
+      }, 260);
+    }
+
+    /**********************
+     * 7. TEMAN / ORD
+     **********************/
+    function getCurrentTheme() {
+      if (currentThemeId === "wrong-words") {
+        return buildWrongWordsTheme();
+      }
+      return themes.find(t => t.id === currentThemeId);
+    }
+
+    function getWordId(word) {
+      return `${word.es}__${word.sv}`;
+    }
+function pickRandomWordAvoidingRepeat(words) {
+  if (!words.length) return null;
+
+  const withoutLast = words.filter(w => getWordId(w) !== lastShownWordId);
+
+  const pool = withoutLast.length > 0 ? withoutLast : words;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+    function buildWrongWordsTheme() {
+      const map = new Map();
+
+      themes.forEach(theme => {
+        theme.words.forEach(word => {
+          if ((word.wrongCount || 0) > 0) {
+            map.set(getWordId(word), word);
+          }
+        });
+      });
+
+      return {
+        ...specialWrongWordsTheme,
+        words: [...map.values()],
+        points: 0
+      };
+    }
+
+    function getAllWordsFromRealThemes() {
+      return themes.flatMap(t => t.words);
+    }
+
+    function getCurrentWords() {
+      const theme = getCurrentTheme();
+      if (!theme) return [];
+
+      let words = [...theme.words];
+      const now = Date.now();
+
+      if (practiceFilter === "due") {
+        words = words.filter(w => w.next <= now);
+      }
+
+      if (practiceFilter === "wrong") {
+        words = words.filter(w => (w.wrongCount || 0) > 0);
+      }
+
+      return words;
+    }
+
+    function getAcceptedAnswers(word) {
+      return Array.isArray(word.accepted) && word.accepted.length ? word.accepted : [word.es];
+    }
+
+    function isCorrectAnswer(userText, word) {
+      const user = normalize(userText);
+      return getAcceptedAnswers(word).some(answer => normalize(answer) === user);
+    }
+
+    function getPrimaryAnswer(word) {
+      return getAcceptedAnswers(word)[0];
+    }
+
+    function formatAcceptedAnswers(word) {
+      return getAcceptedAnswers(word).join(" / ");
+    }
+
+    /**********************
+     * 8. SPARANDE / LADDA
+     **********************/
+function saveMeta() {
+  // Används inte längre lokalt
+}
+
+function serializeProgress(themes) {
+  return themes.map(theme => ({
+    id: theme.id,
+    points: Number(theme.points) || 0,
+    words: theme.words.map(word => ({
+      es: word.es,
+      sv: word.sv,
+
+      stepIndex: word.stepIndex || 0,
+      next: word.next || 0,
+      strongestIntervalMs: word.strongestIntervalMs || 0,
+      successfulRecallDays: word.successfulRecallDays || 0,
+      lastSuccessDate: word.lastSuccessDate || null,
+
+      wrongCount: word.wrongCount || 0,
+      lapseCount: word.lapseCount || 0,
+      correctTotal: word.correctTotal || 0,
+      incorrectTotal: word.incorrectTotal || 0,
+      repetitions: word.repetitions || 0,
+      mastered: word.mastered || 0,
+
+      streak: word.streak || 0,
+      dayStreak: word.dayStreak || 0,
+      lastReviewedAt: word.lastReviewedAt || 0,
+      lastReviewedDate: word.lastReviewedDate || null
+    }))
+  }));
+}
+function getWordStorageKey(word) {
+  if (word.wordId) return `id:${word.wordId}`;
+  return `pair:${word.es}|||${word.sv}`;
+}
+
+function buildThemeProgressPayload(theme) {
+  const words = {};
+
+  theme.words.forEach(word => {
+    const hasProgress =
+      (word.stepIndex || 0) > 0 ||
+      (word.next || 0) > 0 ||
+      (word.strongestIntervalMs || 0) > 0 ||
+      (word.successfulRecallDays || 0) > 0 ||
+      (word.wrongCount || 0) > 0 ||
+      (word.lapseCount || 0) > 0 ||
+      (word.correctTotal || 0) > 0 ||
+      (word.incorrectTotal || 0) > 0 ||
+      (word.repetitions || 0) > 0 ||
+      (word.mastered || 0) > 0 ||
+      (word.streak || 0) > 0 ||
+      (word.dayStreak || 0) > 0 ||
+      (word.lastReviewedAt || 0) > 0 ||
+      word.lastSuccessDate ||
+      word.lastReviewedDate;
+
+    if (!hasProgress) return;
+
+    words[getWordStorageKey(word)] = {
+      stepIndex: word.stepIndex || 0,
+      next: word.next || 0,
+      strongestIntervalMs: word.strongestIntervalMs || 0,
+      successfulRecallDays: word.successfulRecallDays || 0,
+      lastSuccessDate: word.lastSuccessDate || null,
+      wrongCount: word.wrongCount || 0,
+      lapseCount: word.lapseCount || 0,
+      correctTotal: word.correctTotal || 0,
+      incorrectTotal: word.incorrectTotal || 0,
+      repetitions: word.repetitions || 0,
+      mastered: word.mastered || 0,
+      streak: word.streak || 0,
+      dayStreak: word.dayStreak || 0,
+      lastReviewedAt: word.lastReviewedAt || 0,
+      lastReviewedDate: word.lastReviewedDate || null
+    };
+  });
+
+  return {
+    points: Number(theme.points) || 0,
+    words
+  };
+}
+
+function markProgressDirty() {
+  hasUnsavedChanges = true;
+}
+
+function scheduleSave(delay = 8000) {
+  if (!currentUser || !currentPin) return;
+
+  hasUnsavedChanges = true;
+
+  if (saveTimeout) {
+    clearTimeout(saveTimeout);
+  }
+
+  saveTimeout = setTimeout(() => {
+    saveProgressNow();
+  }, delay);
+}
+
+async function saveProgressNow(force = false) {
+  if (!currentUser || !currentPin) return;
+
+  if (isSaving) {
+    if (force) pendingSaveAfterCurrent = true;
+    return;
+  }
+
+  if (!force && !hasUnsavedChanges) return;
+
+  isSaving = true;
+
+  if (saveTimeout) {
+    clearTimeout(saveTimeout);
+    saveTimeout = null;
+  }
+
+  try {
+    const realThemes = themes.filter(t => t.id !== "wrong-words");
+
+    for (const theme of realThemes) {
+      const progressPayload = buildThemeProgressPayload(theme);
+
+      const result = await api("save", {
+        username: currentUser,
+        pin: currentPin,
+        themeId: theme.id,
+        progress: progressPayload,
+        meta: {
+          ...meta
+        }
+      });
+
+      if (!result.ok) {
+        throw new Error(result.error || `Kunde inte spara tema ${theme.id}`);
+      }
+    }
+
+    hasUnsavedChanges = false;
+  } catch (error) {
+    console.error("Kunde inte spara framsteg:", error);
+    hasUnsavedChanges = true;
+  } finally {
+    isSaving = false;
+
+    if (pendingSaveAfterCurrent) {
+      pendingSaveAfterCurrent = false;
+      saveProgressNow(true);
+    }
+  }
+}
+function mergeThemeData(defaultThemes, savedThemes) {
+  return defaultThemes.map(defaultTheme => {
+    const savedTheme = savedThemes.find(t => t.id === defaultTheme.id);
+
+    if (!savedTheme || !savedTheme.progress) {
+      return deepCopy(defaultTheme);
+    }
+
+    const savedProgress = savedTheme.progress || {};
+    const savedWordsMap = savedProgress.words || {};
+
+    const mergedWords = defaultTheme.words.map(defaultWord => {
+      const key = getWordStorageKey(defaultWord);
+      const savedWord = savedWordsMap[key];
+
+      return savedWord
+        ? {
+            ...defaultWord,
+            ...savedWord,
+            accepted: defaultWord.accepted || [defaultWord.es]
+          }
+        : { ...defaultWord };
+    });
+
+    return {
+      ...deepCopy(defaultTheme),
+      points: Number(savedProgress.points) || 0,
+      words: mergedWords
+    };
+  });
+}
+
+function loadMeta() {
+  meta = getEmptyMeta();
+}
+
+function loadProgress() {
+  loadMeta();
+  themes = deepCopy(defaultThemes);
+}
+
+    /**********************
+     * 9. LÄNKAR / URL
+     **********************/
+    function getThemeUrl(themeId) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("theme", themeId);
+      return url.toString();
+    }
+
+    async function copyThemeLink(themeId) {
+      const link = getThemeUrl(themeId);
+      const statusEl = document.getElementById(`copyStatus-${themeId}`);
+      try {
+        await navigator.clipboard.writeText(link);
+        if (statusEl) {
+          statusEl.innerText = "✅ Länken kopierad";
+          setTimeout(() => statusEl.innerText = "", 1800);
+        }
+      } catch {
+        if (statusEl) statusEl.innerText = "❌ Kunde inte kopiera länken";
+      }
+    }
+
+    /**********************
+     * 10. HEMSKÄRM
+     **********************/
+    function countWrongWords() {
+      return getAllWordsFromRealThemes().filter(w => (w.wrongCount || 0) > 0).length;
+    }
+
+    function updateHomeStats() {
+      document.getElementById("dailyStreakPill").innerText = `🔥 Daglig streak: ${meta.dailyStreak}`;
+      document.getElementById("totalPointsPill").innerText = `⭐ Totala poäng: ${meta.totalPoints}`;
+      document.getElementById("wrongBankPill").innerText = `🧠 Svåra ord: ${countWrongWords()}`;
+    }
+function getLastOpenedTheme() {
+  if (!meta.lastOpenedThemeId || meta.lastOpenedThemeId === "wrong-words") return null;
+  return themes.find(theme => theme.id === meta.lastOpenedThemeId) || null;
+}
+
+function getThemeDueCount(theme) {
+  if (!theme || !theme.words) return 0;
+  const now = Date.now();
+  return theme.words.filter(word => (word.next || 0) <= now).length;
+}
+function getThemeWrongCount(theme) {
+  if (!theme || !theme.words) return 0;
+  return theme.words.filter(word => (word.wrongCount || 0) > 0).length;
+}
+
+function getThemeAverageAccuracy(theme) {
+  if (!theme || !theme.words || theme.words.length === 0) return 0;
+
+  const totalAccuracy = theme.words.reduce((sum, word) => {
+    return sum + getAccuracy(word);
+  }, 0);
+
+  return Math.round(totalAccuracy / theme.words.length);
+}
+
+function getTopPriorityThemes(limit = 3) {
+  const ranked = themes
+    .map(theme => {
+      const dueCount = getThemeDueCount(theme);
+      const wrongCount = getThemeWrongCount(theme);
+      const avgAccuracy = getThemeAverageAccuracy(theme);
+
+      const lowAccuracyBonus = Math.max(0, Math.round((100 - avgAccuracy) / 10));
+
+      const priorityScore =
+        dueCount * 2 +
+        wrongCount * 3 +
+        lowAccuracyBonus;
+
+      return {
+        theme,
+        dueCount,
+        wrongCount,
+        avgAccuracy,
+        priorityScore
+      };
+    })
+    .filter(item => item.dueCount > 0 || item.wrongCount > 0)
+    .sort((a, b) => b.priorityScore - a.priorityScore);
+
+  return ranked.slice(0, limit);
+}
+function getNextThemeFromLastOpened() {
+  const lastTheme = getLastOpenedTheme();
+  if (!lastTheme) return null;
+
+  const lastYearGroup = String(lastTheme.yearGroup || "");
+  const lastSortOrder = Number(lastTheme.sortOrder || 9999);
+
+  const candidates = themes
+    .filter(theme => {
+      if (!theme || theme.id === lastTheme.id) return false;
+
+      const sameYearGroup = String(theme.yearGroup || "") === lastYearGroup;
+      const higherSortOrder = Number(theme.sortOrder || 9999) > lastSortOrder;
+
+      return sameYearGroup && higherSortOrder;
+    })
+    .sort((a, b) => {
+      const aOrder = Number(a.sortOrder || 9999);
+      const bOrder = Number(b.sortOrder || 9999);
+
+      if (aOrder !== bOrder) return aOrder - bOrder;
+      return a.name.localeCompare(b.name, "sv");
+    });
+
+  return candidates[0] || null;
+}
+
+function renderContinueSection() {
+  const section = document.getElementById("continueSection");
+  const grid = document.getElementById("continueGrid");
+
+  if (!section || !grid) return;
+
+const cards = [];
+const lastTheme = getLastOpenedTheme();
+const nextTheme = getNextThemeFromLastOpened();
+const priorityThemes = getTopPriorityThemes(2);
+const wrongTheme = buildWrongWordsTheme();
+
+if (nextTheme) {
+  cards.push(`
+    <div class="continue-card">
+      <div class="continue-label">Nästa i din bana</div>
+      <div class="continue-title">${nextTheme.icon || "📘"} ${nextTheme.name}</div>
+      <div class="continue-meta">${nextTheme.goal || "Nästa rekommenderade temakort."}</div>
+      <button class="btn-primary" onclick="openTheme('${nextTheme.id}')">Spela nästa</button>
+    </div>
+  `);
+}
+
+  if (lastTheme) {
+    cards.push(`
+      <div class="continue-card">
+        <div class="continue-label">Senast öppnat</div>
+        <div class="continue-title">${lastTheme.icon || "📘"} ${lastTheme.name}</div>
+        <div class="continue-meta">${lastTheme.goal || "Fortsätt där du slutade."}</div>
+        <button class="btn-primary" onclick="openTheme('${lastTheme.id}')">Fortsätt</button>
+      </div>
+    `);
+  }
+
+  priorityThemes.forEach(item => {
+    if (lastTheme && item.theme.id === lastTheme.id) return;
+if (nextTheme && item.theme.id === nextTheme.id) return;
+
+    cards.push(`
+      <div class="continue-card">
+        <div class="continue-label">Redo att träna</div>
+        <div class="continue-title">${item.theme.icon || "📘"} ${item.theme.name}</div>
+        <div class="continue-meta">
+          ${item.dueCount} redo ·
+          ${item.wrongCount} svåra ·
+          ${item.avgAccuracy}% träffsäkerhet
+        </div>
+        <button class="btn-primary" onclick="openTheme('${item.theme.id}')">Träna nu</button>
+      </div>
+    `);
+  });
+
+  if (wrongTheme.words.length > 0) {
+    cards.push(`
+      <div class="continue-card">
+        <div class="continue-label">Svåra ord</div>
+        <div class="continue-title">🧠 ${wrongTheme.name}</div>
+        <div class="continue-meta">${wrongTheme.words.length} ord att repetera extra</div>
+        <button class="btn-dark" onclick="openWrongWordsTheme()">Öppna</button>
+      </div>
+    `);
+  }
+
+  if (cards.length === 0) {
+    section.classList.add("hidden");
+    grid.innerHTML = "";
+    return;
+  }
+
+  grid.innerHTML = cards.join("");
+  section.classList.remove("hidden");
+}
+
+function handleThemeSearch() {
+  const input = document.getElementById("themeSearch");
+  homeSearchText = input ? input.value.trim().toLowerCase() : "";
+  renderHome();
+}
+
+function setHomeCategory(category, event) {
+  homeCategory = category;
+
+  document.querySelectorAll(".home-filter-btn").forEach(btn => {
+    btn.classList.remove("active-home-filter");
+  });
+
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add("active-home-filter");
+  }
+
+  renderHome();
+}
+
+function renderHome() {
+  const grid = document.getElementById("themeGrid");
+  grid.innerHTML = "";
+  updateHomeStats();
+  renderContinueSection();
+
+  let allCards = [...themes];
+  const wrongTheme = buildWrongWordsTheme();
+
+  if (wrongTheme.words.length > 0) {
+    allCards.unshift({
+      ...wrongTheme,
+      category: "Repetition",
+      level: "Special"
+    });
+  }
+
+  allCards = allCards.filter(theme => {
+    const matchesSearch =
+      !homeSearchText ||
+      theme.name.toLowerCase().includes(homeSearchText) ||
+      (theme.goal || "").toLowerCase().includes(homeSearchText) ||
+      (theme.category || "").toLowerCase().includes(homeSearchText) ||
+      (theme.level || "").toLowerCase().includes(homeSearchText);
+
+    const matchesCategory =
+  homeCategory === "Alla" ||
+  String(theme.yearGroup || "").trim() === homeCategory;
+
+    return matchesSearch && matchesCategory;
+  });
+
+  if (allCards.length === 0) {
+    grid.innerHTML = `
+      <div class="card" style="grid-column: 1 / -1; text-align: center;">
+        <h3 style="margin-top: 0;">Inga teman hittades</h3>
+        <p class="small-text">Prova en annan sökning eller välj filtret "Alla".</p>
+      </div>
+    `;
+    return;
+  }
+
+  allCards.forEach(theme => {
+    const medalProgress = getThemeMedalProgress(theme.words);
+    const percent = medalProgress.percent;
+    const unlockedMedals = renderMedals(theme);
+    const nextStageLabel = getNextStageLabel(theme.words);
+
+    const card = document.createElement("div");
+    card.className = "theme-card";
+    card.style.background = theme.gradient || "linear-gradient(145deg, #94a3b8, #64748b, #475569)";
+
+    card.innerHTML = `
+      <div class="theme-card-inner">
+        <div class="theme-icon">${theme.icon || "📘"}</div>
+        <h3 class="theme-title">${theme.name}</h3>
+        <div class="theme-meta">${theme.category || "Okategoriserad"} · ${theme.level || ""}</div>
+        <div class="theme-goal">${theme.goal || ""}</div>
+        <div class="theme-meta">Poäng: ${theme.points}</div>
+
+        <div class="medal-row">
+          ${unlockedMedals}
+        </div>
+
+        <div class="theme-meta">${nextStageLabel}</div>
+
+        <div class="progress-bar" style="background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.18); margin-top: 10px;">
+          <div class="progress-fill" style="width:${percent}%; background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.65));"></div>
+        </div>
+
+        <div class="progress-percent" style="color: rgba(255,255,255,0.95); margin-top: 8px;">
+          ${percent}%
+        </div>
+
+        <div class="theme-actions">
+          <button class="btn-primary" onclick="openTheme('${theme.id}')">Öppna tema</button>
+          ${theme.grammarLesson ? `<button class="btn-secondary" onclick="openGrammarLesson('${theme.id}')">📘 Grammatik</button>` : ""}
+          ${theme.id !== "wrong-words" ? `<button class="btn-secondary" onclick="copyThemeLink('${theme.id}')">🔗 Kopiera länk</button>` : ""}
+        </div>
+
+        <div class="copy-status" id="copyStatus-${theme.id}"></div>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+}
+    /**********************
+     * 11. FILTER / UI
+     **********************/
+    function updateFilterButtons() {
+      document.getElementById("filterAllBtn").classList.toggle("toggle-active", practiceFilter === "all");
+      document.getElementById("filterDueBtn").classList.toggle("toggle-active", practiceFilter === "due");
+      document.getElementById("filterWrongBtn").classList.toggle("toggle-active", practiceFilter === "wrong");
+    }
+
+    function setPracticeFilter(filter) {
+      practiceFilter = filter;
+      updateFilterButtons();
+      loadWord();
+    }
+
+    function showInfoBanner(text = "") {
+      const el = document.getElementById("infoBanner");
+      if (!text) {
+        el.classList.add("hidden");
+        el.innerText = "";
+        return;
+      }
+      el.innerText = text;
+      el.classList.remove("hidden");
+    }
+
+    function showTextMode() {
+      document.getElementById("answerArea").classList.remove("hidden");
+      document.getElementById("matchArea").classList.add("hidden");
+      document.getElementById("flashcardArea").classList.add("hidden");
+    }
+
+    function showMatchMode() {
+      document.getElementById("answerArea").classList.add("hidden");
+      document.getElementById("matchArea").classList.remove("hidden");
+      document.getElementById("flashcardArea").classList.add("hidden");
+      document.getElementById("playSound").classList.add("hidden");
+    }
+
+    function showFlashcardMode() {
+      document.getElementById("answerArea").classList.add("hidden");
+      document.getElementById("matchArea").classList.add("hidden");
+      document.getElementById("flashcardArea").classList.remove("hidden");
+      document.getElementById("playSound").classList.add("hidden");
+    }
+
+    function focusInput() {
+      const input = document.getElementById("answer");
+      input.focus();
+      input.select();
+    }
+
+    function resetFeedback() {
+      const el = document.getElementById("feedback");
+      el.innerText = "";
+      el.style.color = "#0f172a";
+      el.style.background = "transparent";
+      el.style.border = "none";
+    }
+
+    function setFeedbackState(type, text) {
+      const el = document.getElementById("feedback");
+      el.innerText = text;
+
+      if (type === "success") {
+        el.style.color = "#15803d";
+        el.style.background = "rgba(34, 197, 94, 0.10)";
+        el.style.border = "1px solid rgba(34, 197, 94, 0.18)";
+        return;
+      }
+
+      if (type === "error") {
+        el.style.color = "#b91c1c";
+        el.style.background = "rgba(239, 68, 68, 0.08)";
+        el.style.border = "1px solid rgba(239, 68, 68, 0.16)";
+        return;
+      }
+
+      el.style.color = "#0f172a";
+      el.style.background = "transparent";
+      el.style.border = "none";
+    }
+
+    function triggerInputEffect(type) {
+      const input = document.getElementById("answer");
+      if (!input) return;
+
+      input.classList.remove("input-correct", "input-wrong");
+      void input.offsetWidth;
+
+      if (type === "correct") {
+        input.classList.add("input-correct");
+        setTimeout(() => {
+          input.classList.remove("input-correct");
+        }, 550);
+      }
+
+      if (type === "wrong") {
+        input.classList.add("input-wrong");
+        setTimeout(() => {
+          input.classList.remove("input-wrong");
+        }, 400);
+      }
+    }
+
+    function showPointsBubble() {
+      const bubble = document.getElementById("pointsBubble");
+      if (!bubble) return;
+
+      bubble.classList.remove("show");
+      void bubble.offsetWidth;
+      bubble.classList.add("show");
+    }
+
+    function updateCombo(correct) {
+      const comboEl = document.getElementById("comboText");
+      if (!comboEl) return;
+
+      if (correct) {
+        comboStreak++;
+
+        if (comboStreak >= 2) {
+          comboEl.innerText = `🔥 ${comboStreak} i rad!`;
+          comboEl.classList.remove("pop");
+          void comboEl.offsetWidth;
+          comboEl.classList.add("pop");
+        }
+      } else {
+        comboStreak = 0;
+        comboEl.innerText = "";
+        comboEl.classList.remove("pop");
+      }
+    }
+
+    function togglePanel(panelId) {
+      const panel = document.getElementById(panelId);
+      if (!panel) return;
+      panel.classList.toggle("hidden");
+    }
+
+    function getCurrentModeLabel() {
+      if (mode === "write") return "✍️ Skriv";
+      if (mode === "dictation") return "🔊 Hör";
+      if (mode === "match") return "🧩 Matcha";
+      if (mode === "flashcards") return "🃏 Flashcards";
+      if (mode === "mix") return "🎲 Mix";
+      return "✍️ Skriv";
+    }
+
+    function updateModeUI(activeMode = mode) {
+      const badge = document.getElementById("modeBadge");
+      if (badge) badge.innerText = getCurrentModeLabel();
+
+      const map = {
+        write: "modeWriteBtn",
+        dictation: "modeDictationBtn",
+        match: "modeMatchBtn",
+        flashcards: "modeFlashBtn",
+        mix: "modeMixBtn"
+      };
+
+      Object.values(map).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove("mode-chip-active");
+      });
+
+      const activeId = map[activeMode];
+      if (activeId) {
+        const activeEl = document.getElementById(activeId);
+        if (activeEl) activeEl.classList.add("mode-chip-active");
+      }
+    }
+
+    function updateTopProgressUI() {
+      const theme = getCurrentTheme();
+      if (!theme) return;
+
+      const words = theme.words || [];
+      const medalProgress = getThemeMedalProgress(words);
+      const percent = medalProgress.percent || 0;
+
+      const labelEl = document.getElementById("topProgressLabel");
+      const numbersEl = document.getElementById("topProgressNumbers");
+      const fillEl = document.getElementById("lessonTopProgressFill");
+      const kickerEl = document.getElementById("lessonKicker");
+
+      if (kickerEl) kickerEl.innerText = currentThemeId === "wrong-words" ? "Specialträning" : "Tema";
+      if (labelEl) labelEl.innerText = getNextStageLabel(words);
+      if (numbersEl) numbersEl.innerText = `${percent}%`;
+      if (fillEl) fillEl.style.width = `${percent}%`;
+    }
+
+    function updateMiniStats() {
+      const theme = getCurrentTheme();
+      if (!theme) return;
+
+      const words = theme.words;
+      const dueCount = words.filter(w => w.next <= Date.now()).length;
+      const accuracy = words.length > 0
+        ? Math.round(words.reduce((sum, word) => sum + getAccuracy(word), 0) / words.length)
+        : 0;
+
+      document.getElementById("miniScorePill").innerText =
+        currentThemeId === "wrong-words"
+          ? `⭐ ${meta.totalPoints}`
+          : `⭐ ${theme.points}`;
+
+      document.getElementById("miniDuePill").innerText = `⏰ ${dueCount} redo`;
+      document.getElementById("miniAccuracyPill").innerText = `🎯 ${accuracy}%`;
+    }
+
+    /**********************
+     * 12. GRAMMATIK
+     **********************/
+function openGrammarLesson(themeId) {
+  clearNextWordTimeout();
+
+  const theme = themes.find(t => t.id === themeId);
+  if (!theme || !theme.grammarLesson) return;
+
+  currentThemeId = themeId;
+
+  document.getElementById("homeScreen").classList.add("hidden");
+  document.getElementById("lessonScreen").classList.add("hidden");
+  document.getElementById("grammarScreen").classList.remove("hidden");
+
+  renderGrammarLesson(theme);
+
+  window.scrollTo({
+    top: 0,
+    behavior: "auto"
+  });
+}
+
+function closeGrammarLesson() {
+  document.getElementById("grammarScreen").classList.add("hidden");
+  document.getElementById("lessonScreen").classList.add("hidden");
+  document.getElementById("homeScreen").classList.remove("hidden");
+}
+
+function escapeHtml(value = "") {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function renderInlineFormatting(text = "") {
+  let html = escapeHtml(text);
+
+  // Fetstil: **text**
+  html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+
+  // Extra markering: __text__
+  html = html.replace(/__(.+?)__/g, "<em>$1</em>");
+
+  return html;
+}
+
+function renderTableBlock(tableText = "") {
+  const lines = tableText
+    .split("\n")
+    .map(line => line.trim())
+    .filter(Boolean);
+
+  if (lines.length < 2) return "";
+
+  const rows = lines.map(line =>
+    line.split("|").map(cell => renderInlineFormatting(cell.trim()))
+  );
+
+  const header = rows[0];
+  const body = rows.slice(1);
+
+  return `
+    <div class="grammar-table-wrap">
+      <table class="grammar-table">
+        <thead>
+          <tr>
+            ${header.map(cell => `<th>${cell}</th>`).join("")}
+          </tr>
+        </thead>
+        <tbody>
+          ${body.map(row => `
+            <tr>
+              ${row.map(cell => `<td>${cell}</td>`).join("")}
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderTextParagraphs(text = "") {
+  const blocks = text
+    .split(/\n\s*\n/)
+    .map(block => block.trim())
+    .filter(Boolean);
+
+  return blocks.map(block => {
+    const lines = block
+      .split("\n")
+      .map(line => line.trim())
+      .filter(Boolean);
+
+    const isList = lines.every(line => line.startsWith("- "));
+    if (isList) {
+      return `
+        <ul>
+          ${lines.map(line => `<li>${renderInlineFormatting(line.replace(/^- /, ""))}</li>`).join("")}
+        </ul>
+      `;
+    }
+
+    return `<p>${lines.map(line => renderInlineFormatting(line)).join("<br>")}</p>`;
+  }).join("");
+}
+
+function renderRichText(raw = "") {
+console.log("renderRichText INPUT:", raw);
+  if (!raw) return "";
+
+  const parts = [];
+  const regex = /\[\[table\]\]([\s\S]*?)\[\[\/table\]\]/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(raw)) !== null) {
+    const before = raw.slice(lastIndex, match.index);
+    if (before.trim()) {
+      parts.push(renderTextParagraphs(before));
+    }
+
+    parts.push(renderTableBlock(match[1]));
+    lastIndex = regex.lastIndex;
+  }
+
+  const after = raw.slice(lastIndex);
+  if (after.trim()) {
+    parts.push(renderTextParagraphs(after));
+  }
+
+  return `<div class="grammar-rich">${parts.join("")}</div>`;
+}
+
+function renderGrammarLesson(theme) {
+  const lesson = theme.grammarLesson;
+  if (!lesson) return;
+
+  console.log("GRAMMAR LESSON RAW:", lesson);
+  console.log("INTRO RAW:", lesson.intro);
+
+  document.getElementById("grammarTitle").innerText = `${theme.icon || "📘"} ${lesson.title}`;
+
+  const embedUrl = toEmbedUrl(lesson.videoUrl);
+
+  const videoHtml = embedUrl
+    ? `
+      <div class="grammar-video">
+        <iframe
+          src="${embedUrl}"
+          title="${escapeHtml(lesson.title)}"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    `
+    : "";
+
+  const sectionClass = (lesson.sections || []).length >= 2
+    ? "grammar-section-grid two-cols"
+    : "grammar-section-grid";
+
+  const sectionsHtml = (lesson.sections || []).length
+    ? `
+      <div class="${sectionClass}">
+        ${(lesson.sections || []).map(section => `
+          <div class="grammar-section">
+            <h3>${escapeHtml(section.heading || "")}</h3>
+            ${renderRichText(section.text || "")}
+          </div>
+        `).join("")}
+      </div>
+    `
+    : "";
+
+  const examplesHtml = (lesson.examples || []).length
+    ? `
+      <div>
+        <h3 style="margin-bottom: 12px;">Exempel</h3>
+        <div class="grammar-examples-grid">
+          ${(lesson.examples || []).map(ex => `
+            <div class="grammar-example-card">
+              <h4>${escapeHtml(ex.label || "Exempel")}</h4>
+              ${ex.sv ? renderRichText(`**Svenska:** ${ex.sv}`) : ""}
+              ${ex.es ? `<div class="grammar-example-es">${renderRichText(`**Tyska:** ${ex.es}`)}</div>` : ""}
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    `
+    : "";
+
+  document.getElementById("grammarContent").innerHTML = `
+    <div class="grammar-wrap">
+      ${lesson.intro ? `<div class="grammar-intro">${renderRichText(lesson.intro)}</div>` : ""}
+      ${videoHtml}
+      ${sectionsHtml}
+      ${examplesHtml}
+
+      <div class="grammar-actions">
+        <button class="btn-primary" onclick="startPracticeFromGrammar()">Nu börjar vi öva →</button>
+      </div>
+    </div>
+  `;
+}
+
+function startPracticeFromGrammar() {
+  const themeId = currentThemeId;
+  document.getElementById("grammarScreen").classList.add("hidden");
+  openTheme(themeId, false);
+}
+
+    /**********************
+     * 12. NAVIGATION
+     **********************/
+function openTheme(themeId, updateUrl = true) {
+  clearNextWordTimeout();
+  closeThemeCompletePanel();
+
+  currentThemeId = themeId;
+  meta.lastOpenedThemeId = themeId;
+  correctionMode = false;
+  correctionAnswer = "";
+  mode = "write";
+  practiceFilter = themeId === "wrong-words" ? "wrong" : "all";
+  comboStreak = 0;
+
+  const comboEl = document.getElementById("comboText");
+  if (comboEl) comboEl.innerText = "";
+
+  document.getElementById("settingsPanel").classList.add("hidden");
+  document.getElementById("statsPanel").classList.add("hidden");
+
+  const theme = getCurrentTheme();
+  if (!theme) return;
+
+  document.getElementById("currentThemeName").innerText = `${theme.icon || "📘"} ${theme.name}`;
+  document.getElementById("themeGoal").innerText = theme.goal || "";
+  document.getElementById("themeWordCount").innerText = `${theme.words.length} ord i temat`;
+
+  document.getElementById("homeScreen").classList.add("hidden");
+  document.getElementById("lessonScreen").classList.remove("hidden");
+
+  updateFilterButtons();
+  updateTopProgressUI();
+  updateModeUI();
+
+  if (updateUrl) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("theme", themeId);
+    history.replaceState({}, "", url);
+  }
+
+  loadWord();
+}
+    function openWrongWordsTheme() {
+      const wrongTheme = buildWrongWordsTheme();
+      if (wrongTheme.words.length === 0) {
+        alert("Du har inga svåra ord ännu.");
+        return;
+      }
+      openTheme("wrong-words");
+    }
+
+    function goHome() {
+      clearNextWordTimeout();
+closeThemeCompletePanel();
+      currentThemeId = null;
+      current = null;
+      correctionMode = false;
+      correctionAnswer = "";
+      comboStreak = 0;
+
+      const comboEl = document.getElementById("comboText");
+      if (comboEl) comboEl.innerText = "";
+
+      document.getElementById("lessonScreen").classList.add("hidden");
+      document.getElementById("homeScreen").classList.remove("hidden");
+
+      const url = new URL(window.location.href);
+      url.searchParams.delete("theme");
+      history.replaceState({}, "", url);
+
+      renderHome();
+// saveProgress();
+    }
+
+    function openThemeFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const themeFromUrl = params.get("theme");
+      if (!themeFromUrl) return;
+
+      if (themeFromUrl === "wrong-words") {
+        const wrongTheme = buildWrongWordsTheme();
+        if (wrongTheme.words.length > 0) {
+          openTheme(themeFromUrl, false);
+        }
+        return;
+      }
+
+      const themeExists = themes.find(t => t.id === themeFromUrl);
+      if (themeExists) openTheme(themeFromUrl, false);
+    }
+
+    /**********************
+     * 13. NOLLSTÄLLNING
+     **********************/
+   async function resetAllProgress() {
+  clearNextWordTimeout();
+
+  themes = deepCopy(defaultThemes);
+meta = getEmptyMeta();
+
+  currentThemeId = null;
+  current = null;
+  comboStreak = 0;
+
+  const comboEl = document.getElementById("comboText");
+  if (comboEl) comboEl.innerText = "";
+
+  const url = new URL(window.location.href);
+  url.searchParams.delete("theme");
+  history.replaceState({}, "", url);
+
+  document.getElementById("lessonScreen").classList.add("hidden");
+  document.getElementById("homeScreen").classList.remove("hidden");
+  renderHome();
+  // await saveProgress();
+}
+
+    function resetCurrentTheme() {
+      if (currentThemeId === "wrong-words") {
+        getAllWordsFromRealThemes().forEach(word => {
+          word.wrongCount = 0;
+        });
+        comboStreak = 0;
+        const comboEl = document.getElementById("comboText");
+        if (comboEl) comboEl.innerText = "";
+        renderHome();
+        loadWord();
+        return;
+      }
+
+      const theme = themes.find(t => t.id === currentThemeId);
+      const defaultTheme = defaultThemes.find(t => t.id === currentThemeId);
+      if (!theme || !defaultTheme) return;
+
+      theme.points = 0;
+      theme.words = deepCopy(defaultTheme.words);
+
+      correctionMode = false;
+      correctionAnswer = "";
+      comboStreak = 0;
+
+      const comboEl = document.getElementById("comboText");
+      if (comboEl) comboEl.innerText = "";
+
+      renderHome();
+      loadWord();
+    }
+
+    /**********************
+     * 14. LÄGEN
+     **********************/
+    function setMode(m) {
+      clearNextWordTimeout();
+      mode = m;
+      correctionMode = false;
+      correctionAnswer = "";
+      resetFeedback();
+
+      if (m === "flashcards" || m === "match") {
+        comboStreak = 0;
+        const comboEl = document.getElementById("comboText");
+        if (comboEl) comboEl.innerText = "";
+      }
+
+      updateModeUI();
+      loadWord();
+    }
+
+    function handleKey(event) {
+      if (event.key === "Enter" && mode !== "match" && mode !== "flashcards") {
+        checkAnswer();
+      }
+    }
+
+    /**********************
+     * 15. SRS / FRAMSTEG
+     **********************/
+    function getAvailableWordsForCurrentMode() {
+      const words = getCurrentWords();
+      if (words.length === 0) return [];
+      return words;
+    }
+
+    function pickMixedMode() {
+      const rand = Math.random();
+
+      if (rand < 0.6) return "write";
+      if (rand < 0.85) return "dictation";
+      return "match";
+    }
+
+function getNextDueInfo() {
+  const words = getAvailableWordsForCurrentMode();
+  if (words.length === 0) return null;
+
+  const now = Date.now();
+
+  const unseen = words.filter(
+    w => (w.correctTotal || 0) === 0 && (w.incorrectTotal || 0) === 0
+  );
+
+  const due = words.filter(w => (w.next || 0) <= now);
+
+  // 1. Helt nya ord först
+  if (unseen.length > 0) {
+    return {
+      word: pickRandomWordAvoidingRepeat(unseen),
+      waitMs: 0
+    };
+  }
+
+  // 2. Sedan ord som faktiskt är redo nu
+  if (due.length > 0) {
+    const ranked = due.map(word => {
+      const overdueMs = now - (word.next || 0);
+      const weakness =
+        (word.wrongCount || 0) * 3 +
+        (word.lapseCount || 0) * 2 +
+        ((100 - getAccuracy(word)) / 20) +
+        Math.max(0, 3 - (word.stepIndex || 0));
+
+      return {
+        word,
+        score: weakness + overdueMs / (30 * 60 * 1000) + Math.random() * 2
+      };
+    });
+
+    ranked.sort((a, b) => b.score - a.score);
+
+    const topWords = ranked.slice(0, Math.min(4, ranked.length)).map(item => item.word);
+
+    return {
+      word: pickRandomWordAvoidingRepeat(topWords),
+      waitMs: 0
+    };
+  }
+
+  // 3. Om inget är nytt och inget är redo:
+  // välj ord med lägst repetitionsnivå istället för samma tidigaste review-ord
+  const lowestStep = Math.min(...words.map(w => w.stepIndex || 0));
+  const lowStepWords = words.filter(w => (w.stepIndex || 0) === lowestStep);
+
+  return {
+    word: pickRandomWordAvoidingRepeat(lowStepWords),
+    waitMs: 0
+  };
+}
+
+function markCorrect(word, activeMode = mode) {
+  updateDailyStreak();
+
+  if (currentThemeId !== "wrong-words") {
+    const theme = themes.find(t => t.id === currentThemeId);
+    if (theme) theme.points++;
+  }
+
+  meta.totalPoints++;
+  meta.sessionCorrect++;
+
+  word.correctTotal = (word.correctTotal || 0) + 1;
+  word.repetitions = (word.repetitions || 0) + 1;
+  word.streak = (word.streak || 0) + 1;
+
+  const strength = MODE_STRENGTH[activeMode] ?? 1;
+
+  // Bara skriv/diktering ska verkligen bygga långtidsminne fullt ut
+  if (strength >= 0.8) {
+    const nextStep = Math.min((word.stepIndex || 0) + 1, SRS_STEPS.length - 1);
+    word.stepIndex = nextStep;
+
+    const intervalMs = SRS_STEPS[nextStep];
+    word.strongestIntervalMs = Math.max(word.strongestIntervalMs || 0, intervalMs);
+    word.next = Date.now() + intervalMs;
+
+    updateSuccessfulRecall(word, activeMode);
+
+    if (!word.lastReviewedDate) {
+      word.dayStreak = 1;
+    } else if (word.lastReviewedDate !== todayString()) {
+      word.dayStreak = (word.dayStreak || 0) + 1;
+    }
+  } else {
+    // Match-läge får hjälpa lite, men inte driva upp ord för snabbt
+    const soonMs = 5 * 60 * 1000;
+    word.next = Math.min(
+      word.next || (Date.now() + soonMs),
+      Date.now() + soonMs
+    );
+  }
+
+  if ((word.wrongCount || 0) > 0 && isRecallMode(activeMode)) {
+    word.wrongCount--;
+  }
+
+  word.lastReviewedAt = Date.now();
+  word.lastReviewedDate = todayString();
+
+  updateMasteryState(word);
+}
+
+function markWrong(word, activeMode = mode) {
+  updateDailyStreak();
+
+  meta.sessionWrong++;
+
+  word.incorrectTotal = (word.incorrectTotal || 0) + 1;
+  word.lapseCount = (word.lapseCount || 0) + 1;
+  word.wrongCount = (word.wrongCount || 0) + 1;
+  word.streak = 0;
+  word.dayStreak = 0;
+  word.mastered = 0;
+
+  // Om ordet hunnit långt men glöms -> relearn
+  const currentStep = word.stepIndex || 0;
+  word.stepIndex = currentStep >= 4 ? 1 : 0;
+
+  const intervalMs = SRS_STEPS[word.stepIndex];
+  word.next = Date.now() + intervalMs;
+
+  word.lastReviewedAt = Date.now();
+  word.lastReviewedDate = todayString();
+
+  updateMasteryState(word);
+}
+    /**********************
+     * 16. STATISTIK
+     **********************/
+    function updateStats() {
+      const theme = getCurrentTheme();
+      if (!theme) return;
+
+      const realWords = theme.words;
+      const totalCount = realWords.length;
+      const medalProgress = getThemeMedalProgress(realWords);
+      const percent = medalProgress.percent;
+      const dueCount = realWords.filter(w => w.next <= Date.now()).length;
+
+      document.getElementById("score").innerText =
+        currentThemeId === "wrong-words"
+          ? `Poäng totalt: ${meta.totalPoints}`
+          : `Poäng i temat: ${theme.points}`;
+
+      document.getElementById("progressText").innerText =
+        `${medalProgress.stageLabel}-progress: ${percent}% · Brons ${medalProgress.bronzeCount}/${totalCount} · Silver ${medalProgress.silverCount}/${totalCount} · Guld ${medalProgress.goldCount}/${totalCount}`;
+
+      document.getElementById("progressFill").style.width = percent + "%";
+      document.getElementById("progressPercent").innerText = `${medalProgress.stageLabel} ${percent}%`;
+
+      document.getElementById("sessionStats").innerText =
+        `✅ ${meta.sessionCorrect} rätt · ❌ ${meta.sessionWrong} fel · 🎯 ${
+          totalCount > 0
+            ? Math.round(realWords.reduce((sum, word) => sum + getAccuracy(word), 0) / totalCount)
+            : 0
+        }% träffsäkerhet`;
+
+      document.getElementById("dueStats").innerText =
+        `Redo nu: ${dueCount} · Långtidsläge: ${
+ realWords.filter(w => (w.strongestIntervalMs || 0) >= 24 * 60 * 60 * 1000).length
+        } · Svåra ord: ${realWords.filter(w => (w.wrongCount || 0) > 0).length}`;
+
+      updateMiniStats();
+      updateTopProgressUI();
+      updateModeUI();
+    }
+
+    /**********************
+     * 17. SVARSLÄGEN
+     **********************/
+    function checkAnswer() {
+  const theme = getCurrentTheme();
+  if (!theme || !current || mode === "match" || mode === "flashcards") return;
+
+  const input = document.getElementById("answer");
+  const user = input.value;
+
+  if (correctionMode) {
+    const corrected = isCorrectAnswer(user, {
+      accepted: [correctionAnswer],
+      es: correctionAnswer
+    });
+
+    if (corrected) {
+      setFeedbackState("success", "✅ Bra. Nu går vi vidare.");
+      triggerInputEffect("correct");
+      showPointsBubble();
+      updateCombo(true);
+
+      correctionMode = false;
+      correctionAnswer = "";
+      input.value = "";
+
+      updateStats();
+      scheduleSave(8000);
+      renderHome();
+
+      setTimeout(loadWord, 600);
+    } else {
+      setFeedbackState("error", "❌ Skriv exakt detta innan du går vidare: " + correctionAnswer);
+      triggerInputEffect("wrong");
+      updateCombo(false);
+      input.value = "";
+      focusInput();
+    }
+    return;
+  }
+
+  const correct = isCorrectAnswer(user, current);
+
+  if (correct) {
+    setFeedbackState("success", "✅ Rätt!");
+    triggerInputEffect("correct");
+    showPointsBubble();
+    updateCombo(true);
+
+    playSuccessSequence(current);
+    markCorrect(current, mode);
+
+    input.value = "";
+    updateStats();
+    scheduleSave(8000);
+    renderHome();
+
+    setTimeout(loadWord, 1400);
+  } else {
+    const rightAnswer = formatAcceptedAnswers(current);
+
+    setFeedbackState("error", "❌ Fel. Skriv nu rätt svar för att gå vidare: " + rightAnswer);
+    triggerInputEffect("wrong");
+    updateCombo(false);
+
+    document.getElementById("question").innerText = "Skriv detta rätt: " + rightAnswer;
+
+    markWrong(current, mode);
+
+    correctionMode = true;
+    correctionAnswer = getPrimaryAnswer(current);
+
+    input.value = "";
+    updateStats();
+    scheduleSave(8000);
+    renderHome();
+    focusInput();
+  }
+}
+
+function showWaitingState(waitMs) {
+  document.getElementById("question").innerText = `⏳ Nästa ord om ${Math.ceil(waitMs / 1000)} sek`;
+  document.getElementById("playSound").classList.add("hidden");
+  document.getElementById("answerArea").classList.add("hidden");
+  document.getElementById("flashcardArea").classList.add("hidden");
+
+  showInfoBanner("Spaced repetition väntar tills nästa ord är redo. Du kan byta filter till “Alla ord” om du vill träna direkt.");
+
+  updateStats();
+  scheduleSave(8000);
+  renderHome();
+
+  clearNextWordTimeout();
+  nextWordTimeout = setTimeout(loadWord, Math.min(waitMs, 3000));
+}
+    /**********************
+     * 18. FLASHCARDS
+     **********************/
+    function startFlashcards() {
+      const theme = getCurrentTheme();
+      flashcardWords = theme ? [...theme.words] : [];
+      flashcardIndex = 0;
+      flashcardFlipped = false;
+
+      showFlashcardMode();
+      showInfoBanner("Flashcards påverkar inte poäng eller repetition. Här kan du bara bläddra, lyssna och öva lugnt.");
+      renderFlashcard();
+      updateStats();
+      renderHome();
+    }
+
+    function renderFlashcard() {
+      const questionEl = document.getElementById("question");
+      const frontEl = document.getElementById("flashcardFront");
+      const backEl = document.getElementById("flashcardBack");
+      const innerEl = document.getElementById("flashcardInner");
+      const counterEl = document.getElementById("flashcardCounter");
+      const questionLabelEl = document.getElementById("questionLabel");
+
+      if (questionLabelEl) questionLabelEl.innerText = "Flashcards";
+
+      if (!flashcardWords.length) {
+        questionEl.innerText = "🃏 Inga ord i detta tema ännu";
+        frontEl.innerText = "Inga ord";
+        backEl.innerText = "Lägg till fler ord i temat";
+        innerEl.classList.remove("flipped");
+        counterEl.innerText = "";
+        return;
+      }
+
+      const word = flashcardWords[flashcardIndex];
+      const primaryAnswer = getPrimaryAnswer(word);
+
+      questionEl.innerText = "Flashcards";
+      frontEl.innerText = word.sv;
+      backEl.innerText = primaryAnswer;
+
+      innerEl.classList.toggle("flipped", flashcardFlipped);
+      counterEl.innerText = `Kort ${flashcardIndex + 1} av ${flashcardWords.length}`;
+    }
+
+    function flipFlashcard() {
+      if (!flashcardWords.length) return;
+      flashcardFlipped = !flashcardFlipped;
+      renderFlashcard();
+    }
+
+    function nextFlashcard() {
+      if (!flashcardWords.length) return;
+      flashcardIndex = (flashcardIndex + 1) % flashcardWords.length;
+      flashcardFlipped = false;
+      renderFlashcard();
+    }
+
+    function prevFlashcard() {
+      if (!flashcardWords.length) return;
+      flashcardIndex = (flashcardIndex - 1 + flashcardWords.length) % flashcardWords.length;
+      flashcardFlipped = false;
+      renderFlashcard();
+    }
+
+    function shuffleFlashcards() {
+      if (!flashcardWords.length) return;
+      flashcardWords = [...flashcardWords].sort(() => Math.random() - 0.5);
+      flashcardIndex = 0;
+      flashcardFlipped = false;
+      renderFlashcard();
+    }
+
+    /**********************
+     * 19. MATCHA
+     **********************/
+    function getMatchSet() {
+      const words = getCurrentWords();
+      const now = Date.now();
+
+      let source = words;
+      const dueWords = words.filter(w => w.next <= now);
+
+      if (practiceFilter !== "all") {
+        source = words;
+      } else if (dueWords.length >= 4) {
+        source = dueWords;
+      }
+
+      const shuffled = [...source].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, Math.min(4, source.length));
+    }
+
+    function loadMatchGame() {
+      showMatchMode();
+      showInfoBanner("");
+
+      const questionLabelEl = document.getElementById("questionLabel");
+      if (questionLabelEl) questionLabelEl.innerText = "Matcha orden";
+
+      currentMatchSet = getMatchSet();
+      matchedPairs = 0;
+      selectedSwedish = null;
+      selectedSpanish = null;
+
+      if (currentMatchSet.length < 2) {
+        document.getElementById("question").innerText = "🎯 För få ord för matcha-läge i det här filtret";
+        document.getElementById("feedback").innerText = "";
+        updateStats();
+        return;
+      }
+
+      document.getElementById("question").innerText = "Matcha svenska med tyska";
+
+      const swedishColumn = document.getElementById("swedishColumn");
+      const spanishColumn = document.getElementById("spanishColumn");
+
+      swedishColumn.innerHTML = "";
+      spanishColumn.innerHTML = "";
+
+      const spanishShuffled = [...currentMatchSet].sort(() => Math.random() - 0.5);
+
+      currentMatchSet.forEach((item, index) => {
+        const btn = document.createElement("button");
+        btn.className = "match-btn";
+        btn.innerText = item.sv;
+        btn.dataset.index = index;
+        btn.onclick = () => selectSwedish(btn, item);
+        swedishColumn.appendChild(btn);
+      });
+
+      spanishShuffled.forEach(item => {
+        const btn = document.createElement("button");
+        btn.className = "match-btn";
+        btn.innerText = getPrimaryAnswer(item);
+        btn.dataset.es = item.es;
+        btn.onclick = () => selectSpanish(btn, item);
+        spanishColumn.appendChild(btn);
+      });
+
+      updateStats();
+      saveProgress();
+      renderHome();
+    }
+
+    function selectSwedish(button, item) {
+      if (button.classList.contains("matched")) return;
+
+      document.querySelectorAll("#swedishColumn .match-btn").forEach(btn => {
+        if (!btn.classList.contains("matched")) btn.classList.remove("selected");
+      });
+
+      button.classList.add("selected");
+      selectedSwedish = { button, item };
+      tryMatch();
+    }
+
+    function selectSpanish(button, item) {
+      if (button.classList.contains("matched")) return;
+
+      document.querySelectorAll("#spanishColumn .match-btn").forEach(btn => {
+        if (!btn.classList.contains("matched")) btn.classList.remove("selected");
+      });
+
+      button.classList.add("selected");
+      selectedSpanish = { button, item };
+      tryMatch();
+    }
+
+    function tryMatch() {
+      if (!selectedSwedish || !selectedSpanish) return;
+
+      if (selectedSwedish.item.es === selectedSpanish.item.es) {
+        selectedSwedish.button.classList.remove("selected");
+        selectedSpanish.button.classList.remove("selected");
+        selectedSwedish.button.classList.add("matched");
+        selectedSpanish.button.classList.add("matched");
+
+        setFeedbackState("success", "✅ Rätt par!");
+
+        markCorrect(selectedSwedish.item);
+        matchedPairs++;
+
+        selectedSwedish = null;
+        selectedSpanish = null;
+
+        updateStats();
+        saveProgress();
+        renderHome();
+
+        if (matchedPairs === currentMatchSet.length) {
+          setFeedbackState("success", "🎉 Alla par rätt!");
+          setTimeout(loadMatchGame, 700);
+        }
+      } else {
+        setFeedbackState("error", "❌ Försök igen");
+
+        const swBtn = selectedSwedish.button;
+        const esBtn = selectedSpanish.button;
+
+        markWrong(selectedSwedish.item);
+
+        setTimeout(() => {
+          swBtn.classList.remove("selected");
+          esBtn.classList.remove("selected");
+        }, 300);
+
+        selectedSwedish = null;
+        selectedSpanish = null;
+
+        updateStats();
+        saveProgress();
+        renderHome();
+      }
+    }
+
+    /**********************
+     * 20. LADDA NÄSTA ORD
+     **********************/
+    function loadWord() {
+      clearNextWordTimeout();
+      resetFeedback();
+
+      const theme = getCurrentTheme();
+      if (!theme) return;
+
+      document.getElementById("currentThemeName").innerText = `${theme.icon || "📘"} ${theme.name}`;
+      document.getElementById("themeGoal").innerText = theme.goal || "";
+      document.getElementById("themeWordCount").innerText = `${theme.words.length} ord i temat`;
+
+      let activeMode = mode;
+
+      if (mode === "mix") {
+        activeMode = pickMixedMode();
+      }
+
+      const questionLabelEl = document.getElementById("questionLabel");
+      if (questionLabelEl) {
+        if (activeMode === "write") questionLabelEl.innerText = "Översätt till tyska";
+        else if (activeMode === "dictation") questionLabelEl.innerText = "Lyssna och skriv";
+        else if (activeMode === "match") questionLabelEl.innerText = "Matcha orden";
+        else if (activeMode === "flashcards") questionLabelEl.innerText = "Flashcards";
+        else questionLabelEl.innerText = "Öva";
+      }
+
+      if (mode === "flashcards") {
+        correctionMode = false;
+        correctionAnswer = "";
+        resetFeedback();
+        startFlashcards();
+        return;
+      }
+
+      if (activeMode === "match") {
+        correctionMode = false;
+        correctionAnswer = "";
+        comboStreak = 0;
+        const comboEl = document.getElementById("comboText");
+        if (comboEl) comboEl.innerText = "";
+        loadMatchGame();
+        return;
+      }
+
+      showTextMode();
+
+      const words = getCurrentWords();
+      if (words.length === 0) {
+        current = null;
+        document.getElementById("question").innerText = "🎉 Inga ord i detta filter just nu!";
+        document.getElementById("playSound").classList.add("hidden");
+        document.getElementById("answerArea").classList.add("hidden");
+
+        if (practiceFilter === "wrong") {
+          showInfoBanner("Du har inga svåra ord här just nu. Bra jobbat!");
+        } else if (practiceFilter === "due") {
+          showInfoBanner("Inga ord är redo just nu. Testa filtret “Alla ord”.");
+        } else {
+          showInfoBanner("");
+        }
+
+        updateStats();
+        saveProgress();
+        renderHome();
+        return;
+      }
+
+      const dueInfo = getNextDueInfo();
+      if (!dueInfo) return;
+
+      if (practiceFilter === "due" && dueInfo.waitMs > 0) {
+        current = dueInfo.word;
+        showWaitingState(dueInfo.waitMs);
+        return;
+      }
+
+      current = dueInfo.word;
+lastShownWordId = getWordId(current);
+      correctionMode = false;
+      correctionAnswer = "";
+      showInfoBanner("");
+
+      document.getElementById("answerArea").classList.remove("hidden");
+      document.getElementById("answer").value = "";
+
+      if (activeMode === "write") {
+        document.getElementById("question").innerText = current.sv;
+        document.getElementById("playSound").classList.add("hidden");
+showInfoBanner(`${getSrsLabel(current)} · Träffsäkerhet ${getAccuracy(current)}% · Steg ${((current.stepIndex || 0) + 1)}/${SRS_STEPS.length} · Intervall ${formatInterval(getDisplayInterval(current))}`);
+      }
+
+      if (activeMode === "dictation") {
+        document.getElementById("question").innerText = "Vad hör du?";
+        document.getElementById("playSound").classList.remove("hidden");
+showInfoBanner(`${getSrsLabel(current)} · Träffsäkerhet ${getAccuracy(current)}% · Steg ${((current.stepIndex || 0) + 1)}/${SRS_STEPS.length} · Intervall ${formatInterval(getDisplayInterval(current))}`);
+        setTimeout(() => playAudio(), 250);
+      }
+
+      focusInput();
+      updateStats();
+      saveProgress();
+      renderHome();
+    }
+
+    /**********************
+     * 21. STARTA APPEN
+     **********************/
+loadProgress();
+document.getElementById("loginScreen").classList.remove("hidden");
+document.getElementById("homeScreen").classList.add("hidden");
+document.getElementById("lessonScreen").classList.add("hidden");
+  </script>
+</body>
+</html>
