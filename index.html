@@ -4104,13 +4104,13 @@ let meta = getEmptyMeta();
 
     function getJourneyWordPool() {
       return getJourneyEligibleThemes().flatMap(theme =>
-        (theme.words || []).map(word => ({
-          ...word,
-          __themeId: theme.id,
-          __themeName: theme.name,
-          __sortOrder: Number(theme.sortOrder || 0),
-          __themeIcon: theme.icon || "📘"
-        }))
+        (theme.words || []).map(word => {
+          word.__themeId = theme.id;
+          word.__themeName = theme.name;
+          word.__sortOrder = Number(theme.sortOrder || 0);
+          word.__themeIcon = theme.icon || "📘";
+          return word;
+        })
       );
     }
 
@@ -4127,7 +4127,8 @@ let meta = getEmptyMeta();
     }
 
     function getWordId(word) {
-      return `${word.es}__${word.sv}`;
+      if (!word) return "";
+      return word.wordId || `${word.es}__${word.sv}`;
     }
 function pickRandomWordAvoidingRepeat(words) {
   if (!words.length) return null;
@@ -4190,9 +4191,9 @@ function pickJourneyBucket(pool) {
 
   const roll = Math.random();
 
-  if (due.length > 0 && roll < 0.50) return due;
-  if (weak.length > 0 && roll < 0.75) return weak;
-  if (fresh.length > 0 && roll < 0.90) return fresh;
+  if (due.length > 0 && roll < 0.35) return due;
+  if (weak.length > 0 && roll < 0.55) return weak;
+  if (fresh.length > 0 && roll < 0.85) return fresh;
   if (stable.length > 0) return stable;
 
   return due.length ? due : weak.length ? weak : fresh.length ? fresh : stable;
