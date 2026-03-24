@@ -1838,12 +1838,11 @@ function makeWord(esList, sv, extra = {}) {
     es: accepted[0],
     accepted,
     sv,
-
-    // Session-stege
-    sessionStrength: 0,
-    sessionCorrectCount: 0,
-    sessionExposureCount: 0,
-    sessionLevel: 0,
+// Ny session-stege
+sessionStrength: 0,
+sessionCorrectCount: 0,
+sessionExposureCount: 0,
+sessionLevel: 0,
 
     // Ny SRS-modell
     stepIndex: 0,
@@ -2310,6 +2309,74 @@ function getSrsLabel(word) {
   return "Långtidsminne byggs";
 }
 
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+function getMemoryLevel(word) {
+  const days = word.successfulRecallDays || 0;
+  const interval = word.strongestIntervalMs || 0;
+  const accuracy = getAccuracy(word);
+
+  if ((word.mastered || 0) === 1 || (days >= 5 && interval >= 14 * DAY_MS && accuracy >= 85)) return 5;
+  if (days >= 3 && interval >= 7 * DAY_MS && accuracy >= 75) return 4;
+  if (days >= 2 && interval >= 1 * DAY_MS && accuracy >= 65) return 3;
+  if (days >= 1 && interval >= 1 * DAY_MS) return 2;
+  if ((word.correctTotal || 0) > 0 || (word.repetitions || 0) > 0) return 1;
+  return 0;
+}
+
+function getMemoryLevelMeta(level) {
+  const map = {
+    0: { label: "Ny", shortLabel: "Ny", icon: "⚪" },
+    1: { label: "Bekant", shortLabel: "Bekant", icon: "⭐" },
+    2: { label: "På gång", shortLabel: "På gång", icon: "⭐⭐" },
+    3: { label: "Stabil", shortLabel: "Stabil", icon: "🛡️" },
+    4: { label: "Säker", shortLabel: "Säker", icon: "💎" },
+    5: { label: "Mästare", shortLabel: "Mästare", icon: "🏆" }
+  };
+
+  return map[level] || map[0];
+}
+
+function getThemeMemoryStatus(words) {
+  const total = words.length;
+
+  if (total === 0) {
+    return {
+      level: 0,
+      label: "Ny",
+      icon: "⚪",
+      progressText: "Inga ord ännu"
+    };
+  }
+
+  const atLeast = level => words.filter(word => getMemoryLevel(word) >= level).length;
+  const lvl1 = atLeast(1);
+  const lvl2 = atLeast(2);
+  const lvl3 = atLeast(3);
+  const lvl4 = atLeast(4);
+  const lvl5 = atLeast(5);
+
+  let level = 0;
+  if (lvl5 / total >= 0.70) level = 5;
+  else if (lvl4 / total >= 0.80) level = 4;
+  else if (lvl3 / total >= 0.80) level = 3;
+  else if (lvl2 / total >= 0.70) level = 2;
+  else if (lvl1 / total >= 0.50) level = 1;
+
+  const meta = getMemoryLevelMeta(level);
+  const progressText = level === 5
+    ? "Temat är bemästrat på lång sikt"
+    : `Minnesnivå: ${meta.label}`;
+
+  return {
+    level,
+    label: meta.label,
+    icon: meta.icon,
+    progressText,
+    counts: { lvl1, lvl2, lvl3, lvl4, lvl5 }
+  };
+}
+
 function getWordMedalLevel(word) {
   const accuracy = getAccuracy(word);
   const successfulRecallDays = word.successfulRecallDays || 0;
@@ -2401,14 +2468,19 @@ function getNextStageLabel(words) {
   const total = words.length;
   if (total === 0) return "På väg";
 
-  const bronzeCount = words.filter(word => getWordMedalLevel(word) >= 1).length;
-  const silverCount = words.filter(word => getWordMedalLevel(word) >= 2).length;
-  const goldCount = words.filter(word => getWordMedalLevel(word) >= 3).length;
+  const memoryStatus = getThemeMemoryStatus(words);
+  const meta = getMemoryLevelMeta(memoryStatus.level);
 
-  if (goldCount === total) return "Alla ord har guld";
-  if (silverCount === total) return "På väg mot allt guld";
-  if (bronzeCount === total) return "Alla ord har minst brons";
-  return "Varje medalj räknas";
+  if (memoryStatus.level >= 5) return "Alla ord är på mästarnivå";
+  if (memoryStatus.level >= 4) return "Temat är säkert i långtidsminnet";
+  if (memoryStatus.level >= 3) return "Temat är stabilt – bygg vidare";
+  if (memoryStatus.level >= 2) return "Många ord är på väg in i långtidsminnet";
+  if (memoryStatus.level >= 1) return `Minnesmärke: ${meta.label}`;
+
+  const bronzeCount = words.filter(word => getSessionLevel(word) >= 1).length;
+  if (bronzeCount > 0) return "Bra start idag – fortsätt nöta";
+
+  return "Varje repetition räknas";
 }
     function formatInterval(ms) {
       if (!ms || ms <= 0) return "nytt ord";
@@ -3836,10 +3908,11 @@ function serializeProgress(themes) {
       dayStreak: word.dayStreak || 0,
       lastReviewedAt: word.lastReviewedAt || 0,
       lastReviewedDate: word.lastReviewedDate || null,
-      sessionStrength: word.sessionStrength || 0,
-      sessionCorrectCount: word.sessionCorrectCount || 0,
-      sessionExposureCount: word.sessionExposureCount || 0,
-      sessionLevel: word.sessionLevel || 0,
+
+sessionStrength: word.sessionStrength || 0,
+sessionCorrectCount: word.sessionCorrectCount || 0,
+sessionExposureCount: word.sessionExposureCount || 0,
+sessionLevel: word.sessionLevel || 0,
     }))
   }));
 }
@@ -3891,10 +3964,10 @@ function buildThemeProgressPayload(theme) {
       dayStreak: word.dayStreak || 0,
       lastReviewedAt: word.lastReviewedAt || 0,
       lastReviewedDate: word.lastReviewedDate || null,
-      sessionStrength: word.sessionStrength || 0,
-      sessionCorrectCount: word.sessionCorrectCount || 0,
-      sessionExposureCount: word.sessionExposureCount || 0,
-      sessionLevel: word.sessionLevel || 0,
+sessionStrength: word.sessionStrength || 0,
+sessionCorrectCount: word.sessionCorrectCount || 0,
+sessionExposureCount: word.sessionExposureCount || 0,
+sessionLevel: word.sessionLevel || 0,
     };
   });
 
@@ -4265,6 +4338,7 @@ function renderHome() {
 
   allCards.forEach(theme => {
     const medalProgress = getThemeMedalProgress(theme.words);
+    const memoryStatus = getThemeMemoryStatus(theme.words);
     const percent = medalProgress.percent;
     const unlockedMedals = renderMedals(theme);
     const nextStageLabel = getNextStageLabel(theme.words);
@@ -4275,6 +4349,10 @@ function renderHome() {
 
     card.innerHTML = `
       <div class="theme-card-inner">
+        <div class="theme-memory-badge" title="${memoryStatus.progressText}">
+          <span class="theme-memory-badge-icon">${memoryStatus.icon}</span>
+          <span>${memoryStatus.label}</span>
+        </div>
         <div class="theme-icon">${theme.icon || "📘"}</div>
         <h3 class="theme-title">${theme.name}</h3>
         <div class="theme-meta">${theme.category || "Okategoriserad"} · ${theme.level || ""}</div>
@@ -4286,6 +4364,7 @@ function renderHome() {
         </div>
 
         <div class="theme-meta">${nextStageLabel}</div>
+        <div class="theme-meta">Långtidsminne: ${memoryStatus.icon} ${memoryStatus.label}</div>
 
         <div class="progress-bar" style="background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.18); margin-top: 10px;">
           <div class="progress-fill" style="width:${percent}%; background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.65));"></div>
@@ -5069,9 +5148,10 @@ function markWrong(word, activeMode = mode) {
       const realWords = theme.words;
       const totalCount = realWords.length;
       const medalProgress = getThemeMedalProgress(realWords);
-      const memoryPercent = medalProgress.percent;
-      const sessionProgress = getThemeSessionProgress(realWords);
+      const memoryStatus = getThemeMemoryStatus(realWords);
+      const percent = medalProgress.percent;
       const dueCount = realWords.filter(w => w.next <= Date.now()).length;
+      const sessionProgress = getThemeSessionProgress(realWords);
 
       document.getElementById("score").innerText =
         currentThemeId === "wrong-words"
@@ -5079,17 +5159,17 @@ function markWrong(word, activeMode = mode) {
           : `Poäng i temat: ${theme.points}`;
 
       document.getElementById("progressText").innerText =
-        `🥉 ${medalProgress.bronzeCount}/${totalCount} · 🥈 ${medalProgress.silverCount}/${totalCount} · 🥇 ${medalProgress.goldCount}/${totalCount}`;
+        `Minnesprogress: ${percent}% · 🥉 ${medalProgress.bronzeCount}/${totalCount} · 🥈 ${medalProgress.silverCount}/${totalCount} · 🥇 ${medalProgress.goldCount}/${totalCount} · ${memoryStatus.icon} ${memoryStatus.label}`;
 
-      document.getElementById("progressFill").style.width = memoryPercent + "%";
-      document.getElementById("progressPercent").innerText = `${memoryPercent}%`;
+      document.getElementById("progressFill").style.width = percent + "%";
+      document.getElementById("progressPercent").innerText = `${memoryStatus.label} · ${percent}%`;
 
       document.getElementById("sessionStats").innerText =
-        `🥉 ${sessionProgress.bronzeCount}/${totalCount} · 🥈 ${sessionProgress.silverCount}/${totalCount} · 🥇 ${sessionProgress.goldCount}/${totalCount}`;
+        `Idag: 🥉 ${sessionProgress.bronzeCount} · 🥈 ${sessionProgress.silverCount} · 🥇 ${sessionProgress.goldCount} · ✅ ${meta.sessionCorrect} rätt · ❌ ${meta.sessionWrong} fel`;
 
       document.getElementById("dueStats").innerText =
         `Redo nu: ${dueCount} · Långtidsläge: ${
-          realWords.filter(w => (w.strongestIntervalMs || 0) >= 24 * 60 * 60 * 1000).length
+ realWords.filter(w => (w.strongestIntervalMs || 0) >= 24 * 60 * 60 * 1000).length
         } · Svåra ord: ${realWords.filter(w => (w.wrongCount || 0) > 0).length}`;
 
       updateMiniStats();
