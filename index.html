@@ -286,6 +286,49 @@
       z-index: 1;
     }
 
+    .theme-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .theme-icon-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .theme-memory-badge {
+      min-width: 52px;
+      height: 52px;
+      padding: 0 12px;
+      border-radius: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.32);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 8px 20px rgba(15,23,42,0.12);
+      backdrop-filter: blur(10px);
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: rgba(255,255,255,0.98);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .theme-memory-badge.is-empty { opacity: 0.45; }
+    .theme-memory-badge.is-earned {
+      background: rgba(255,255,255,0.22);
+      border-color: rgba(255,255,255,0.42);
+    }
+
+    .theme-memory-badge.is-master {
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.26), 0 0 0 4px rgba(255,255,255,0.10), 0 10px 24px rgba(15,23,42,0.16);
+    }
+
     .theme-icon {
       width: 72px;
       height: 72px;
@@ -1551,6 +1594,7 @@
 
     <div class="footer-actions">
 <button class="btn-secondary" onclick="logout()">🚪 Logga ut</button>
+      <button class="btn-primary" onclick="startJourney()">🗺️ Språkresa</button>
       <button class="btn-dark" onclick="openWrongWordsTheme()">🧠 Träna svåra ord</button>
       <button class="btn-secondary" onclick="resetAllProgress()">🗑 Nollställ all progress</button>
     </div>
@@ -2368,11 +2412,15 @@ function getThemeMemoryStatus(words) {
     ? "Temat är bemästrat på lång sikt"
     : `Minnesnivå: ${meta.label}`;
 
+  const totalPoints = words.reduce((sum, word) => sum + getMemoryLevel(word), 0);
+  const percent = total > 0 ? Math.round((totalPoints / (total * 5)) * 100) : 0;
+
   return {
     level,
     label: meta.label,
     icon: meta.icon,
     progressText,
+    percent,
     counts: { lvl1, lvl2, lvl3, lvl4, lvl5 }
   };
 }
@@ -3645,6 +3693,7 @@ function getDisplayInterval(word) {
     let current = null;
     let mode = "write";
     let practiceFilter = "all";
+    let trainingTrack = "theme"; // "theme" | "journey"
 
 let homeSearchText = "";
 let homeCategory = "Alla";
@@ -3801,10 +3850,61 @@ let meta = getEmptyMeta();
      * 7. TEMAN / ORD
      **********************/
     function getCurrentTheme() {
+      if (isJourneyMode()) {
+        return getJourneyPseudoTheme();
+      }
       if (currentThemeId === "wrong-words") {
         return buildWrongWordsTheme();
       }
       return themes.find(t => t.id === currentThemeId);
+    }
+
+    function setTrainingTrack(track) {
+      clearNextWordTimeout();
+      trainingTrack = track;
+      correctionMode = false;
+      correctionAnswer = "";
+      resetFeedback();
+    }
+
+    function isJourneyMode() {
+      return trainingTrack === "journey";
+    }
+
+    function getJourneyMaxSortOrder() {
+      return 3;
+    }
+
+    function getJourneyEligibleThemes() {
+      return themes
+        .filter(theme => theme.id !== "wrong-words")
+        .filter(theme => Number(theme.sortOrder || 0) > 0)
+        .filter(theme => Number(theme.sortOrder || 0) <= getJourneyMaxSortOrder())
+        .sort((a, b) => Number(a.sortOrder || 0) - Number(b.sortOrder || 0));
+    }
+
+    function getJourneyWordPool() {
+      return getJourneyEligibleThemes().flatMap(theme =>
+        (theme.words || []).map(word => ({
+          ...word,
+          __themeId: theme.id,
+          __themeName: theme.name,
+          __sortOrder: Number(theme.sortOrder || 0),
+          __themeIcon: theme.icon || "📘"
+        }))
+      );
+    }
+
+    function getJourneyPseudoTheme() {
+      const words = getJourneyWordPool();
+      return {
+        id: "journey",
+        name: "Språkresa",
+        icon: "🗺️",
+        goal: "Blandad långtidsövning från flera teman",
+        points: meta.totalPoints || 0,
+        words
+      };
     }
 
     function getWordId(word) {
@@ -3817,6 +3917,52 @@ function pickRandomWordAvoidingRepeat(words) {
 
   const pool = withoutLast.length > 0 ? withoutLast : words;
   return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function getJourneyWordType(word) {
+  const now = Date.now();
+  const correctTotal = word.correctTotal || 0;
+  const incorrectTotal = word.incorrectTotal || 0;
+  const wrongCount = word.wrongCount || 0;
+  const lapseCount = word.lapseCount || 0;
+  const next = word.next || 0;
+  const memoryLevel = typeof getMemoryLevel === "function" ? getMemoryLevel(word) : 0;
+
+  if (correctTotal === 0 && incorrectTotal === 0) return "new";
+  if (next <= now) return "due";
+  if (wrongCount >= 2 || lapseCount >= 2 || memoryLevel <= 1) return "weak";
+  return "stable";
+}
+
+function pickRandom(arr) {
+  if (!arr || arr.length === 0) return null;
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function pickJourneyBucket(pool) {
+  const due = pool.filter(word => getJourneyWordType(word) === "due");
+  const weak = pool.filter(word => getJourneyWordType(word) === "weak");
+  const fresh = pool.filter(word => getJourneyWordType(word) === "new");
+  const stable = pool.filter(word => getJourneyWordType(word) === "stable");
+
+  const roll = Math.random();
+
+  if (due.length > 0 && roll < 0.50) return due;
+  if (weak.length > 0 && roll < 0.75) return weak;
+  if (fresh.length > 0 && roll < 0.90) return fresh;
+  if (stable.length > 0) return stable;
+
+  return due.length ? due : weak.length ? weak : fresh.length ? fresh : stable;
+}
+
+function pickNextJourneyWord() {
+  const pool = getJourneyWordPool();
+  if (pool.length === 0) return null;
+
+  const bucket = pickJourneyBucket(pool);
+  if (!bucket || bucket.length === 0) return null;
+
+  return pickRandomWordAvoidingRepeat(bucket);
 }
 
     function buildWrongWordsTheme() {
@@ -4339,7 +4485,7 @@ function renderHome() {
   allCards.forEach(theme => {
     const medalProgress = getThemeMedalProgress(theme.words);
     const memoryStatus = getThemeMemoryStatus(theme.words);
-    const percent = medalProgress.percent;
+    const percent = memoryStatus.percent || 0;
     const unlockedMedals = renderMedals(theme);
     const nextStageLabel = getNextStageLabel(theme.words);
 
@@ -4349,11 +4495,14 @@ function renderHome() {
 
     card.innerHTML = `
       <div class="theme-card-inner">
-        <div class="theme-memory-badge" title="${memoryStatus.progressText}">
-          <span class="theme-memory-badge-icon">${memoryStatus.icon}</span>
-          <span>${memoryStatus.label}</span>
+        <div class="theme-card-top">
+          <div class="theme-icon-wrap">
+            <div class="theme-icon">${theme.icon || "📘"}</div>
+          </div>
+          <div class="theme-memory-badge ${memoryStatus.level === 0 ? "is-empty" : "is-earned"} ${memoryStatus.level === 5 ? "is-master" : ""}" title="${memoryStatus.progressText}">
+            ${memoryStatus.icon || "•"}
+          </div>
         </div>
-        <div class="theme-icon">${theme.icon || "📘"}</div>
         <h3 class="theme-title">${theme.name}</h3>
         <div class="theme-meta">${theme.category || "Okategoriserad"} · ${theme.level || ""}</div>
         <div class="theme-goal">${theme.goal || ""}</div>
@@ -4573,7 +4722,7 @@ function renderHome() {
       const fillEl = document.getElementById("lessonTopProgressFill");
       const kickerEl = document.getElementById("lessonKicker");
 
-      if (kickerEl) kickerEl.innerText = currentThemeId === "wrong-words" ? "Specialträning" : "Tema";
+      if (kickerEl) kickerEl.innerText = isJourneyMode() ? "Språkresa" : (currentThemeId === "wrong-words" ? "Specialträning" : "Tema");
       if (labelEl) labelEl.innerText = "Idag";
       if (numbersEl) numbersEl.innerText = `${percent}%`;
       if (fillEl) fillEl.style.width = `${percent}%`;
@@ -4820,6 +4969,7 @@ function openTheme(themeId, updateUrl = true) {
   clearNextWordTimeout();
   closeThemeCompletePanel();
 
+  trainingTrack = "theme";
   currentThemeId = themeId;
   meta.lastOpenedThemeId = themeId;
   correctionMode = false;
@@ -4856,6 +5006,35 @@ function openTheme(themeId, updateUrl = true) {
 
   loadWord();
 }
+    function startJourney() {
+      clearNextWordTimeout();
+      closeThemeCompletePanel();
+
+      currentThemeId = null;
+      setTrainingTrack("journey");
+      meta.lastOpenedThemeId = "journey";
+      mode = "mix";
+      practiceFilter = "all";
+      comboStreak = 0;
+
+      const comboEl = document.getElementById("comboText");
+      if (comboEl) comboEl.innerText = "";
+
+      document.getElementById("settingsPanel").classList.add("hidden");
+      document.getElementById("statsPanel").classList.add("hidden");
+      document.getElementById("homeScreen").classList.add("hidden");
+      document.getElementById("lessonScreen").classList.remove("hidden");
+
+      document.getElementById("currentThemeName").innerText = "🗺️ Språkresa";
+      document.getElementById("themeGoal").innerText = "Blandad långtidsövning från flera teman";
+      document.getElementById("themeWordCount").innerText = `${getJourneyWordPool().length} ord i språkresan`;
+
+      updateFilterButtons();
+      updateTopProgressUI();
+      updateModeUI();
+      loadWord();
+    }
+
     function openWrongWordsTheme() {
       const wrongTheme = buildWrongWordsTheme();
       if (wrongTheme.words.length === 0) {
@@ -4868,6 +5047,7 @@ function openTheme(themeId, updateUrl = true) {
     function goHome() {
       clearNextWordTimeout();
 closeThemeCompletePanel();
+      trainingTrack = "theme";
       currentThemeId = null;
       current = null;
       correctionMode = false;
@@ -5154,21 +5334,25 @@ function markWrong(word, activeMode = mode) {
       const sessionProgress = getThemeSessionProgress(realWords);
 
       document.getElementById("score").innerText =
-        currentThemeId === "wrong-words"
+        isJourneyMode()
           ? `Poäng totalt: ${meta.totalPoints}`
-          : `Poäng i temat: ${theme.points}`;
+          : currentThemeId === "wrong-words"
+            ? `Poäng totalt: ${meta.totalPoints}`
+            : `Poäng i temat: ${theme.points}`;
 
       document.getElementById("progressText").innerText =
-        `Minnesprogress: ${percent}% · 🥉 ${medalProgress.bronzeCount}/${totalCount} · 🥈 ${medalProgress.silverCount}/${totalCount} · 🥇 ${medalProgress.goldCount}/${totalCount} · ${memoryStatus.icon} ${memoryStatus.label}`;
+        `Minnesprogress: ${memoryStatus.percent}% · 🥉 ${medalProgress.bronzeCount}/${totalCount} · 🥈 ${medalProgress.silverCount}/${totalCount} · 🥇 ${medalProgress.goldCount}/${totalCount} · ${memoryStatus.icon} ${memoryStatus.label}`;
 
-      document.getElementById("progressFill").style.width = percent + "%";
-      document.getElementById("progressPercent").innerText = `${memoryStatus.label} · ${percent}%`;
+      document.getElementById("progressFill").style.width = (memoryStatus.percent || 0) + "%";
+      document.getElementById("progressPercent").innerText = `${memoryStatus.label} · ${memoryStatus.percent || 0}%`;
 
       document.getElementById("sessionStats").innerText =
         `Idag: 🥉 ${sessionProgress.bronzeCount} · 🥈 ${sessionProgress.silverCount} · 🥇 ${sessionProgress.goldCount} · ✅ ${meta.sessionCorrect} rätt · ❌ ${meta.sessionWrong} fel`;
 
       document.getElementById("dueStats").innerText =
-        `Redo nu: ${dueCount} · Långtidsläge: ${
+        isJourneyMode()
+          ? `Språkresa: ${getJourneyEligibleThemes().length} teman · Redo nu: ${dueCount} · Svåra ord: ${realWords.filter(w => (w.wrongCount || 0) > 0).length}`
+          : `Redo nu: ${dueCount} · Långtidsläge: ${
  realWords.filter(w => (w.strongestIntervalMs || 0) >= 24 * 60 * 60 * 1000).length
         } · Svåra ord: ${realWords.filter(w => (w.wrongCount || 0) > 0).length}`;
 
@@ -5510,6 +5694,124 @@ function showWaitingState(waitMs) {
     function loadWord() {
       clearNextWordTimeout();
       resetFeedback();
+
+      if (isJourneyMode()) {
+        const journeyTheme = getJourneyPseudoTheme();
+        const nextJourneyWord = pickNextJourneyWord();
+
+        document.getElementById("currentThemeName").innerText = "🗺️ Språkresa";
+        document.getElementById("themeGoal").innerText = journeyTheme.goal || "";
+        document.getElementById("themeWordCount").innerText = `${journeyTheme.words.length} ord i språkresan`;
+
+        if (!nextJourneyWord) {
+          current = null;
+          document.getElementById("question").innerText = "🎉 Språkresan har inga ord ännu!";
+          document.getElementById("playSound").classList.add("hidden");
+          document.getElementById("answerArea").classList.add("hidden");
+          showInfoBanner("Lägg till fler teman eller höj sortOrder-fönstret för att fylla språkresan.");
+          updateStats();
+          renderHome();
+          return;
+        }
+
+        current = nextJourneyWord;
+        lastShownWordId = getWordId(current);
+        correctionMode = false;
+        correctionAnswer = "";
+
+        let activeMode = mode === "mix" ? pickMixedMode() : mode;
+
+        const questionLabelEl = document.getElementById("questionLabel");
+        if (questionLabelEl) {
+          if (activeMode === "write") questionLabelEl.innerText = "Översätt till tyska";
+          else if (activeMode === "dictation") questionLabelEl.innerText = "Lyssna och skriv";
+          else if (activeMode === "match") questionLabelEl.innerText = "Matcha orden";
+          else if (activeMode === "flashcards") questionLabelEl.innerText = "Flashcards";
+          else questionLabelEl.innerText = "Öva";
+        }
+
+        if (mode === "flashcards") {
+          flashcardWords = journeyTheme.words.slice(0, Math.min(24, journeyTheme.words.length));
+          flashcardIndex = 0;
+          flashcardFlipped = false;
+          showFlashcardMode();
+          showInfoBanner("Språkresa i flashcards-läge. Blanda mellan teman och lyssna lugnt.");
+          renderFlashcard();
+          updateStats();
+          renderHome();
+          return;
+        }
+
+        if (activeMode === "match") {
+          showMatchMode();
+          showInfoBanner(`Språkresa · ${current.__themeName || "Tema"}`);
+          currentMatchSet = [...journeyTheme.words].sort(() => Math.random() - 0.5).slice(0, Math.min(4, journeyTheme.words.length));
+          matchedPairs = 0;
+          selectedSwedish = null;
+          selectedSpanish = null;
+
+          if (currentMatchSet.length < 2) {
+            document.getElementById("question").innerText = "🎯 För få ord för matcha-läge i språkresan";
+            document.getElementById("feedback").innerText = "";
+            updateStats();
+            return;
+          }
+
+          document.getElementById("question").innerText = "Matcha svenska med tyska";
+
+          const swedishColumn = document.getElementById("swedishColumn");
+          const spanishColumn = document.getElementById("spanishColumn");
+          swedishColumn.innerHTML = "";
+          spanishColumn.innerHTML = "";
+
+          const spanishShuffled = [...currentMatchSet].sort(() => Math.random() - 0.5);
+
+          currentMatchSet.forEach((item, index) => {
+            const btn = document.createElement("button");
+            btn.className = "match-btn";
+            btn.innerText = item.sv;
+            btn.dataset.index = index;
+            btn.onclick = () => selectSwedish(btn, item);
+            swedishColumn.appendChild(btn);
+          });
+
+          spanishShuffled.forEach(item => {
+            const btn = document.createElement("button");
+            btn.className = "match-btn";
+            btn.innerText = getPrimaryAnswer(item);
+            btn.dataset.es = item.es;
+            btn.onclick = () => selectSpanish(btn, item);
+            spanishColumn.appendChild(btn);
+          });
+
+          updateStats();
+          saveProgress();
+          renderHome();
+          return;
+        }
+
+        showTextMode();
+        showInfoBanner(`Språkresa · ${current.__themeName || "Tema"} · ${getSrsLabel(current)}`);
+        document.getElementById("answerArea").classList.remove("hidden");
+        document.getElementById("answer").value = "";
+
+        if (activeMode === "write") {
+          document.getElementById("question").innerText = current.sv;
+          document.getElementById("playSound").classList.add("hidden");
+        }
+
+        if (activeMode === "dictation") {
+          document.getElementById("question").innerText = "Vad hör du?";
+          document.getElementById("playSound").classList.remove("hidden");
+          setTimeout(() => playAudio(), 250);
+        }
+
+        focusInput();
+        updateStats();
+        saveProgress();
+        renderHome();
+        return;
+      }
 
       const theme = getCurrentTheme();
       if (!theme) return;
