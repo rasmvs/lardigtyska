@@ -5228,7 +5228,7 @@ closeThemeCompletePanel();
       history.replaceState({}, "", url);
 
       renderHome();
-// saveProgress();
+// scheduleSave(8000);
     }
 
     function openThemeFromUrl() {
@@ -5271,7 +5271,7 @@ meta = getEmptyMeta();
   document.getElementById("lessonScreen").classList.add("hidden");
   document.getElementById("homeScreen").classList.remove("hidden");
   renderHome();
-  // await saveProgress();
+  // await scheduleSave(8000);
 }
 
     function resetCurrentTheme() {
@@ -5776,7 +5776,7 @@ function showWaitingState(waitMs) {
       });
 
       updateStats();
-      saveProgress();
+      scheduleSave(8000);
       renderHome();
     }
 
@@ -5824,14 +5824,14 @@ function showWaitingState(waitMs) {
         selectedSpanish = null;
 
         updateStats();
-        saveProgress();
+        scheduleSave(8000);
         renderHome();
 
         if (matchedPairs === currentMatchSet.length) {
           setFeedbackState("success", "🎉 Alla par rätt!");
           scheduleSave(8000);
           renderHome();
-          advanceAfterMatchComplete();
+          setTimeout(loadWord, 900);
         }
       } else {
         setFeedbackState("error", "❌ Försök igen");
@@ -5851,33 +5851,10 @@ function showWaitingState(waitMs) {
         selectedSpanish = null;
 
         updateStats();
-        saveProgress();
+        scheduleSave(8000);
         renderHome();
       }
     }
-
-
-function advanceAfterMatchComplete() {
-  console.log("Match klar → laddar nästa steg", {
-    journey: typeof isJourneyMode === "function" ? isJourneyMode() : false,
-    mode,
-    current
-  });
-
-  selectedSwedish = null;
-  selectedSpanish = null;
-  matchedPairs = 0;
-
-  setTimeout(() => {
-    try {
-      loadWord();
-    } catch (err) {
-      console.error("Fel när nästa runda skulle laddas efter match:", err);
-      setFeedbackState("error", "⚠️ Kunde inte ladda nästa runda");
-    }
-  }, 900);
-}
-
 
     /**********************
      * 20. LADDA NÄSTA ORD
@@ -5976,7 +5953,7 @@ function advanceAfterMatchComplete() {
           });
 
           updateStats();
-          saveProgress();
+          scheduleSave(8000);
           renderHome();
           return;
         }
@@ -5999,7 +5976,7 @@ function advanceAfterMatchComplete() {
 
         focusInput();
         updateStats();
-        saveProgress();
+        scheduleSave(8000);
         renderHome();
         return;
       }
@@ -6062,7 +6039,7 @@ function advanceAfterMatchComplete() {
         }
 
         updateStats();
-        saveProgress();
+        scheduleSave(8000);
         renderHome();
         return;
       }
@@ -6100,7 +6077,7 @@ showInfoBanner(`${getSrsLabel(current)} · Träffsäkerhet ${getAccuracy(current
 
       focusInput();
       updateStats();
-      saveProgress();
+      scheduleSave(8000);
       renderHome();
     }
 
