@@ -1045,6 +1045,29 @@
       box-shadow: var(--shadow-sm);
     }
 
+    .journey-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 38px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.92);
+      box-shadow: 0 10px 24px rgba(15,23,42,0.07);
+      color: #334155;
+      font-size: 0.92rem;
+      font-weight: 900;
+      margin: 0 auto 4px;
+      max-width: fit-content;
+      backdrop-filter: blur(12px);
+    }
+
+    .journey-label.hidden {
+      display: none !important;
+    }
+
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1768,6 +1791,7 @@
           </div>
 
           <div id="infoBanner" class="info-banner hidden"></div>
+          <div id="journeyLabel" class="journey-label hidden"></div>
 
           <div class="practice-stage modern-practice-stage">
             <div class="question-box question-box-modern">
@@ -4014,8 +4038,60 @@ let meta = getEmptyMeta();
       return trainingTrack === "journey";
     }
 
+    function getThemeUnlockProgress(words) {
+      const total = words.length;
+
+      if (!total) {
+        return {
+          knownPercent: 0,
+          growingPercent: 0,
+          knownCount: 0,
+          growingCount: 0,
+          total: 0,
+          canUnlockNext: false
+        };
+      }
+
+      const knownCount = words.filter(word => getMemoryLevel(word) >= 1).length;
+      const growingCount = words.filter(word => getMemoryLevel(word) >= 2).length;
+
+      const knownPercent = Math.round((knownCount / total) * 100);
+      const growingPercent = Math.round((growingCount / total) * 100);
+
+      return {
+        knownPercent,
+        growingPercent,
+        knownCount,
+        growingCount,
+        total,
+        canUnlockNext: knownPercent >= 70 && growingPercent >= 40
+      };
+    }
+
     function getJourneyMaxSortOrder() {
-      return 3;
+      const orderedThemes = themes
+        .filter(theme => theme.id !== "wrong-words")
+        .filter(theme => Number(theme.sortOrder || 0) > 0)
+        .sort((a, b) => Number(a.sortOrder || 0) - Number(b.sortOrder || 0));
+
+      if (orderedThemes.length === 0) return 0;
+
+      let unlockedMax = Math.min(3, Math.max(...orderedThemes.map(theme => Number(theme.sortOrder || 0))));
+
+      while (true) {
+        const currentTheme = orderedThemes.find(theme => Number(theme.sortOrder || 0) === unlockedMax);
+        if (!currentTheme) break;
+
+        const unlockProgress = getThemeUnlockProgress(currentTheme.words || []);
+        if (!unlockProgress.canUnlockNext) break;
+
+        const nextExists = orderedThemes.some(theme => Number(theme.sortOrder || 0) === unlockedMax + 1);
+        if (!nextExists) break;
+
+        unlockedMax += 1;
+      }
+
+      return unlockedMax;
     }
 
     function getJourneyEligibleThemes() {
@@ -4075,6 +4151,30 @@ function getJourneyWordType(word) {
   if (next <= now) return "due";
   if (wrongCount >= 2 || lapseCount >= 2 || memoryLevel <= 1) return "weak";
   return "stable";
+}
+
+function getJourneyLabel(word) {
+  const type = getJourneyWordType(word);
+  const themeName = word && word.__themeName ? ` · ${word.__themeName}` : "";
+
+  if (type === "due") return `🔁 Repetition${themeName}`;
+  if (type === "weak") return `⚠️ Träna extra${themeName}`;
+  if (type === "new") return `🆕 Nytt ord${themeName}`;
+  return `✅ Kontroll${themeName}`;
+}
+
+function updateJourneyLabel(word) {
+  const el = document.getElementById("journeyLabel");
+  if (!el) return;
+
+  if (!isJourneyMode() || !word) {
+    el.classList.add("hidden");
+    el.innerText = "";
+    return;
+  }
+
+  el.innerText = getJourneyLabel(word);
+  el.classList.remove("hidden");
 }
 
 function pickRandom(arr) {
@@ -4585,21 +4685,50 @@ function setHomeCategory(category, event) {
 
 function updateJourneyHero() {
   const heroMeta = document.getElementById("journeyHeroMeta");
+  const heroText = document.querySelector(".journey-hero-text");
+  const heroBadge = document.querySelector(".journey-hero-badge");
   if (!heroMeta) return;
 
   const eligibleThemes = getJourneyEligibleThemes();
   const pool = getJourneyWordPool();
   const now = Date.now();
+  const maxSortOrder = getJourneyMaxSortOrder();
 
   const dueCount = pool.filter(word => (word.next || 0) <= now && (((word.correctTotal || 0) > 0) || ((word.incorrectTotal || 0) > 0))).length;
   const weakCount = pool.filter(word => getJourneyWordType(word) === "weak").length;
 
   if (pool.length === 0) {
     heroMeta.innerText = "Inga ord tillgängliga ännu";
+    if (heroText) {
+      heroText.innerText = "Öva smart med blandade ord från dina teman och bygg minne över tid.";
+    }
+    if (heroBadge) heroBadge.innerText = "↗";
+    return;
+  }
+
+  const orderedThemes = themes
+    .filter(theme => theme.id !== "wrong-words")
+    .filter(theme => Number(theme.sortOrder || 0) > 0)
+    .sort((a, b) => Number(a.sortOrder || 0) - Number(b.sortOrder || 0));
+
+  const currentUnlockTheme = orderedThemes.find(theme => Number(theme.sortOrder || 0) === maxSortOrder);
+  const nextTheme = orderedThemes.find(theme => Number(theme.sortOrder || 0) === maxSortOrder + 1);
+  const unlockProgress = currentUnlockTheme ? getThemeUnlockProgress(currentUnlockTheme.words || []) : null;
+
+  if (!nextTheme || !unlockProgress) {
+    heroMeta.innerText = `${eligibleThemes.length} teman aktiva · ${dueCount} redo · ${weakCount} svaga ord`;
+    if (heroText) {
+      heroText.innerText = "Alla tillgängliga teman är upplåsta i Språkresa just nu. Fortsätt repetera för att bygga starkare minne över tid.";
+    }
+    if (heroBadge) heroBadge.innerText = "🏆";
     return;
   }
 
   heroMeta.innerText = `${eligibleThemes.length} teman aktiva · ${dueCount} redo · ${weakCount} svaga ord`;
+  if (heroText) {
+    heroText.innerText = `Nästa tema ${nextTheme.icon || "📘"} ${nextTheme.name} låses upp när ${currentUnlockTheme.icon || "📘"} ${currentUnlockTheme.name} når 70 % bekant och 40 % på gång. Nu: ${unlockProgress.knownPercent}% bekant · ${unlockProgress.growingPercent}% på gång.`;
+  }
+  if (heroBadge) heroBadge.innerText = `${maxSortOrder}`;
 }
 
 function renderHome() {
@@ -5190,7 +5319,7 @@ function openTheme(themeId, updateUrl = true) {
 
       document.getElementById("currentThemeName").innerText = "🗺️ Språkresa";
       document.getElementById("themeGoal").innerText = "Blandad långtidsövning från flera teman";
-      document.getElementById("themeWordCount").innerText = `${getJourneyWordPool().length} ord i språkresan`;
+      document.getElementById("themeWordCount").innerText = `${getJourneyWordPool().length} ord · teman upp till ${getJourneyMaxSortOrder()}`;
 
       updateFilterButtons();
       updateTopProgressUI();
@@ -5831,7 +5960,7 @@ function showWaitingState(waitMs) {
           setFeedbackState("success", "🎉 Alla par rätt!");
           scheduleSave(8000);
           renderHome();
-          setTimeout(loadWord, 900);
+          advanceAfterMatchComplete();
         }
       } else {
         setFeedbackState("error", "❌ Försök igen");
@@ -5856,6 +5985,29 @@ function showWaitingState(waitMs) {
       }
     }
 
+
+function advanceAfterMatchComplete() {
+  console.log("Match klar → laddar nästa steg", {
+    journey: typeof isJourneyMode === "function" ? isJourneyMode() : false,
+    mode,
+    current
+  });
+
+  selectedSwedish = null;
+  selectedSpanish = null;
+  matchedPairs = 0;
+
+  setTimeout(() => {
+    try {
+      loadWord();
+    } catch (err) {
+      console.error("Fel när nästa runda skulle laddas efter match:", err);
+      setFeedbackState("error", "⚠️ Kunde inte ladda nästa runda");
+    }
+  }, 900);
+}
+
+
     /**********************
      * 20. LADDA NÄSTA ORD
      **********************/
@@ -5877,6 +6029,7 @@ function showWaitingState(waitMs) {
           document.getElementById("playSound").classList.add("hidden");
           document.getElementById("answerArea").classList.add("hidden");
           showInfoBanner("Lägg till fler teman eller höj sortOrder-fönstret för att fylla språkresan.");
+          updateJourneyLabel(null);
           updateStats();
           renderHome();
           return;
@@ -5897,6 +6050,8 @@ function showWaitingState(waitMs) {
           else if (activeMode === "flashcards") questionLabelEl.innerText = "Flashcards";
           else questionLabelEl.innerText = "Öva";
         }
+
+        updateJourneyLabel(current);
 
         if (mode === "flashcards") {
           flashcardWords = journeyTheme.words.slice(0, Math.min(24, journeyTheme.words.length));
@@ -5959,7 +6114,7 @@ function showWaitingState(waitMs) {
         }
 
         showTextMode();
-        showInfoBanner(`Språkresa · ${current.__themeName || "Tema"} · ${getSrsLabel(current)}`);
+        showInfoBanner(`Språkresa · ${current.__themeName || "Tema"} · ${getSrsLabel(current)} · ${getJourneyLabel(current)}`);
         document.getElementById("answerArea").classList.remove("hidden");
         document.getElementById("answer").value = "";
 
@@ -6002,6 +6157,8 @@ function showWaitingState(waitMs) {
         else if (activeMode === "flashcards") questionLabelEl.innerText = "Flashcards";
         else questionLabelEl.innerText = "Öva";
       }
+
+      updateJourneyLabel(null);
 
       if (mode === "flashcards") {
         correctionMode = false;
