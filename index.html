@@ -1567,7 +1567,7 @@
             <h2 id="currentThemeName" class="lesson-title-modern">🇪🇸 Hälsningar</h2>
 
             <div class="lesson-progress-meta">
-              <span id="topProgressLabel">Framsteg</span>
+              <span id="topProgressLabel">Idag</span>
               <span id="topProgressNumbers">0%</span>
             </div>
 
@@ -1707,7 +1707,7 @@
               </div>
 
               <div class="stat-card">
-                <div class="stat-label">Framsteg</div>
+                <div class="stat-label">Minnesprogress</div>
                 <p id="progressText"></p>
                 <div class="progress-bar">
                   <div id="progressFill" class="progress-fill"></div>
@@ -1809,6 +1809,28 @@ const MEDAL_LEVELS = {
     /**********************
      * 2. HJÄLPFUNKTIONER
      **********************/
+function getSessionLevel(word) {
+  const strength = word.sessionStrength || 0;
+
+  if (strength >= 12) return 3; // guld idag
+  if (strength >= 8) return 2;  // silver idag
+  if (strength >= 5) return 1;  // brons idag
+  return 0;
+}
+
+function updateSessionLevel(word) {
+  word.sessionLevel = getSessionLevel(word);
+}
+
+function resetSessionProgressForTheme(theme) {
+  theme.words.forEach(word => {
+    word.sessionStrength = 0;
+    word.sessionCorrectCount = 0;
+    word.sessionExposureCount = 0;
+    word.sessionLevel = 0;
+  });
+}
+
 function makeWord(esList, sv, extra = {}) {
   const accepted = Array.isArray(esList) ? esList : [esList];
 
@@ -1816,6 +1838,12 @@ function makeWord(esList, sv, extra = {}) {
     es: accepted[0],
     accepted,
     sv,
+
+    // Session-stege
+    sessionStrength: 0,
+    sessionCorrectCount: 0,
+    sessionExposureCount: 0,
+    sessionLevel: 0,
 
     // Ny SRS-modell
     stepIndex: 0,
@@ -2340,6 +2368,35 @@ function getThemeMedalProgress(words) {
     goldCount
   };
 }
+
+function getThemeSessionProgress(words) {
+  const total = words.length;
+
+  if (total === 0) {
+    return {
+      percent: 0,
+      bronzeCount: 0,
+      silverCount: 0,
+      goldCount: 0
+    };
+  }
+
+  const bronzeCount = words.filter(word => getSessionLevel(word) >= 1).length;
+  const silverCount = words.filter(word => getSessionLevel(word) >= 2).length;
+  const goldCount = words.filter(word => getSessionLevel(word) >= 3).length;
+
+  const totalPoints = words.reduce((sum, word) => sum + getSessionLevel(word), 0);
+  const maxPoints = total * 3;
+  const percent = Math.round((totalPoints / maxPoints) * 100);
+
+  return {
+    percent,
+    bronzeCount,
+    silverCount,
+    goldCount
+  };
+}
+
 function getNextStageLabel(words) {
   const total = words.length;
   if (total === 0) return "På väg";
@@ -3778,7 +3835,11 @@ function serializeProgress(themes) {
       streak: word.streak || 0,
       dayStreak: word.dayStreak || 0,
       lastReviewedAt: word.lastReviewedAt || 0,
-      lastReviewedDate: word.lastReviewedDate || null
+      lastReviewedDate: word.lastReviewedDate || null,
+      sessionStrength: word.sessionStrength || 0,
+      sessionCorrectCount: word.sessionCorrectCount || 0,
+      sessionExposureCount: word.sessionExposureCount || 0,
+      sessionLevel: word.sessionLevel || 0,
     }))
   }));
 }
@@ -3805,6 +3866,10 @@ function buildThemeProgressPayload(theme) {
       (word.streak || 0) > 0 ||
       (word.dayStreak || 0) > 0 ||
       (word.lastReviewedAt || 0) > 0 ||
+      (word.sessionStrength || 0) > 0 ||
+      (word.sessionCorrectCount || 0) > 0 ||
+      (word.sessionExposureCount || 0) > 0 ||
+      (word.sessionLevel || 0) > 0 ||
       word.lastSuccessDate ||
       word.lastReviewedDate;
 
@@ -3825,7 +3890,11 @@ function buildThemeProgressPayload(theme) {
       streak: word.streak || 0,
       dayStreak: word.dayStreak || 0,
       lastReviewedAt: word.lastReviewedAt || 0,
-      lastReviewedDate: word.lastReviewedDate || null
+      lastReviewedDate: word.lastReviewedDate || null,
+      sessionStrength: word.sessionStrength || 0,
+      sessionCorrectCount: word.sessionCorrectCount || 0,
+      sessionExposureCount: word.sessionExposureCount || 0,
+      sessionLevel: word.sessionLevel || 0,
     };
   });
 
@@ -4417,8 +4486,8 @@ function renderHome() {
       if (!theme) return;
 
       const words = theme.words || [];
-      const medalProgress = getThemeMedalProgress(words);
-      const percent = medalProgress.percent || 0;
+      const sessionProgress = getThemeSessionProgress(words);
+      const percent = sessionProgress.percent || 0;
 
       const labelEl = document.getElementById("topProgressLabel");
       const numbersEl = document.getElementById("topProgressNumbers");
@@ -4426,7 +4495,7 @@ function renderHome() {
       const kickerEl = document.getElementById("lessonKicker");
 
       if (kickerEl) kickerEl.innerText = currentThemeId === "wrong-words" ? "Specialträning" : "Tema";
-      if (labelEl) labelEl.innerText = getNextStageLabel(words);
+      if (labelEl) labelEl.innerText = "Idag";
       if (numbersEl) numbersEl.innerText = `${percent}%`;
       if (fillEl) fillEl.style.width = `${percent}%`;
     }
@@ -5000,7 +5069,8 @@ function markWrong(word, activeMode = mode) {
       const realWords = theme.words;
       const totalCount = realWords.length;
       const medalProgress = getThemeMedalProgress(realWords);
-      const percent = medalProgress.percent;
+      const memoryPercent = medalProgress.percent;
+      const sessionProgress = getThemeSessionProgress(realWords);
       const dueCount = realWords.filter(w => w.next <= Date.now()).length;
 
       document.getElementById("score").innerText =
@@ -5009,21 +5079,17 @@ function markWrong(word, activeMode = mode) {
           : `Poäng i temat: ${theme.points}`;
 
       document.getElementById("progressText").innerText =
-        `${medalProgress.stageLabel}-progress: ${percent}% · Brons ${medalProgress.bronzeCount}/${totalCount} · Silver ${medalProgress.silverCount}/${totalCount} · Guld ${medalProgress.goldCount}/${totalCount}`;
+        `🥉 ${medalProgress.bronzeCount}/${totalCount} · 🥈 ${medalProgress.silverCount}/${totalCount} · 🥇 ${medalProgress.goldCount}/${totalCount}`;
 
-      document.getElementById("progressFill").style.width = percent + "%";
-      document.getElementById("progressPercent").innerText = `${medalProgress.stageLabel} ${percent}%`;
+      document.getElementById("progressFill").style.width = memoryPercent + "%";
+      document.getElementById("progressPercent").innerText = `${memoryPercent}%`;
 
       document.getElementById("sessionStats").innerText =
-        `✅ ${meta.sessionCorrect} rätt · ❌ ${meta.sessionWrong} fel · 🎯 ${
-          totalCount > 0
-            ? Math.round(realWords.reduce((sum, word) => sum + getAccuracy(word), 0) / totalCount)
-            : 0
-        }% träffsäkerhet`;
+        `🥉 ${sessionProgress.bronzeCount}/${totalCount} · 🥈 ${sessionProgress.silverCount}/${totalCount} · 🥇 ${sessionProgress.goldCount}/${totalCount}`;
 
       document.getElementById("dueStats").innerText =
         `Redo nu: ${dueCount} · Långtidsläge: ${
- realWords.filter(w => (w.strongestIntervalMs || 0) >= 24 * 60 * 60 * 1000).length
+          realWords.filter(w => (w.strongestIntervalMs || 0) >= 24 * 60 * 60 * 1000).length
         } · Svåra ord: ${realWords.filter(w => (w.wrongCount || 0) > 0).length}`;
 
       updateMiniStats();
@@ -5079,6 +5145,7 @@ function markWrong(word, activeMode = mode) {
     triggerInputEffect("correct");
     showPointsBubble();
     updateCombo(true);
+updateSessionProgress(current, true, mode);
 
     playSuccessSequence(current);
     markCorrect(current, mode);
@@ -5095,6 +5162,7 @@ function markWrong(word, activeMode = mode) {
     setFeedbackState("error", "❌ Fel. Skriv nu rätt svar för att gå vidare: " + rightAnswer);
     triggerInputEffect("wrong");
     updateCombo(false);
+updateSessionProgress(current, false, mode);
 
     document.getElementById("question").innerText = "Skriv detta rätt: " + rightAnswer;
 
@@ -5109,6 +5177,19 @@ function markWrong(word, activeMode = mode) {
     renderHome();
     focusInput();
   }
+}
+
+function updateSessionProgress(word, wasCorrect, activeMode) {
+  word.sessionExposureCount = (word.sessionExposureCount || 0) + 1;
+
+  if (wasCorrect) {
+    word.sessionCorrectCount = (word.sessionCorrectCount || 0) + 1;
+    word.sessionStrength = (word.sessionStrength || 0) + (MODE_STRENGTH[activeMode] || 0);
+  } else {
+    word.sessionStrength = Math.max(0, (word.sessionStrength || 0) - 1);
+  }
+
+  updateSessionLevel(word);
 }
 
 function showWaitingState(waitMs) {
