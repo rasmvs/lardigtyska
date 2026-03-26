@@ -1045,29 +1045,6 @@
       box-shadow: var(--shadow-sm);
     }
 
-    .journey-label {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-height: 38px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(255,255,255,0.92);
-      box-shadow: 0 10px 24px rgba(15,23,42,0.07);
-      color: #334155;
-      font-size: 0.92rem;
-      font-weight: 900;
-      margin: 0 auto 4px;
-      max-width: fit-content;
-      backdrop-filter: blur(12px);
-    }
-
-    .journey-label.hidden {
-      display: none !important;
-    }
-
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1678,6 +1655,28 @@
         padding: 8px;
       }
     }
+  
+
+    .journey-label {
+      margin: 0 0 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(99, 102, 241, 0.10);
+      border: 1px solid rgba(99, 102, 241, 0.14);
+      color: #4338ca;
+      font-size: 0.92rem;
+      font-weight: 900;
+      letter-spacing: 0.01em;
+    }
+
+    .journey-label.hidden {
+      display: none;
+    }
+
   </style>
 </head>
 <body>
@@ -1714,10 +1713,10 @@
     <div id="journeyHero" class="journey-hero" onclick="startJourney()">
       <div class="journey-hero-inner">
         <div class="journey-hero-left">
-          <div class="journey-hero-kicker">Långtidsminne</div>
+          <div class="journey-hero-kicker">Smart progression</div>
           <div class="journey-hero-title">🗺️ Språkresa</div>
           <div class="journey-hero-text">
-            Öva smart med blandade ord från dina teman och bygg minne över tid.
+            Upptäck nya ord, repetera smart och lås upp nästa tema i rätt takt.
           </div>
           <div class="journey-hero-meta" id="journeyHeroMeta">Starta din resa</div>
         </div>
@@ -2046,6 +2045,10 @@ sessionStrength: 0,
 sessionCorrectCount: 0,
 sessionExposureCount: 0,
 sessionLevel: 0,
+
+    // Gemensam progressionsmotor för tema + språkresa
+    journeyScore: 0,
+    journeyLevel: 0,
 
     // Ny SRS-modell
     stepIndex: 0,
@@ -2502,6 +2505,146 @@ function updateMasteryState(word) {
   word.mastered = qualifies ? 1 : 0;
 }
 
+const JOURNEY_LEVELS = {
+  start: 0,
+  paVag: 1,
+  flyt: 2,
+  driv: 3,
+  mal: 4
+};
+
+const JOURNEY_WEIGHTS = {
+  flashcards: 1,
+  match: 1,
+  dictation: 2,
+  write: 2,
+  mixed: 2
+};
+
+function getJourneyProgressLevel(word) {
+  const score = word.journeyScore || 0;
+
+  if (score >= 8) return JOURNEY_LEVELS.mal;
+  if (score >= 6) return JOURNEY_LEVELS.driv;
+  if (score >= 4) return JOURNEY_LEVELS.flyt;
+  if (score >= 2) return JOURNEY_LEVELS.paVag;
+  return JOURNEY_LEVELS.start;
+}
+
+function updateJourneyLevel(word) {
+  word.journeyLevel = getJourneyProgressLevel(word);
+}
+
+function getJourneyLevelMeta(level) {
+  const map = {
+    0: { label: "Start", shortLabel: "Start", icon: "🟢" },
+    1: { label: "På väg", shortLabel: "På väg", icon: "🟡" },
+    2: { label: "Flyt", shortLabel: "Flyt", icon: "🟠" },
+    3: { label: "Driv", shortLabel: "Driv", icon: "🔵" },
+    4: { label: "Mål", shortLabel: "Mål", icon: "🏁" }
+  };
+
+  return map[level] || map[0];
+}
+
+function getJourneyWeight(activeMode = mode) {
+  return JOURNEY_WEIGHTS[activeMode] ?? 1;
+}
+
+function updateJourneyProgress(word, wasCorrect, activeMode = mode) {
+  const delta = getJourneyWeight(activeMode);
+
+  if (wasCorrect) {
+    word.journeyScore = (word.journeyScore || 0) + delta;
+  } else {
+    word.journeyScore = Math.max(0, (word.journeyScore || 0) - 1);
+  }
+
+  updateJourneyLevel(word);
+}
+
+function getThemeJourneyStatus(words) {
+  const total = words.length;
+
+  if (total === 0) {
+    return {
+      level: 0,
+      label: "Start",
+      icon: "🟢",
+      percent: 0,
+      counts: { start: 0, paVag: 0, flyt: 0, driv: 0, mal: 0 }
+    };
+  }
+
+  const startCount = words.filter(word => getJourneyProgressLevel(word) === 0).length;
+  const paVagCount = words.filter(word => getJourneyProgressLevel(word) >= 1).length;
+  const flytCount = words.filter(word => getJourneyProgressLevel(word) >= 2).length;
+  const drivCount = words.filter(word => getJourneyProgressLevel(word) >= 3).length;
+  const malCount = words.filter(word => getJourneyProgressLevel(word) >= 4).length;
+
+  let level = 0;
+  if (malCount / total >= 0.60) level = 4;
+  else if (drivCount / total >= 0.55) level = 3;
+  else if (flytCount / total >= 0.40) level = 2;
+  else if (paVagCount / total >= 0.35) level = 1;
+
+  const meta = getJourneyLevelMeta(level);
+  const totalPoints = words.reduce((sum, word) => sum + getJourneyProgressLevel(word), 0);
+  const percent = Math.round((totalPoints / (total * 4)) * 100);
+
+  return {
+    level,
+    label: meta.label,
+    icon: meta.icon,
+    percent,
+    counts: {
+      start: startCount,
+      paVag: paVagCount,
+      flyt: flytCount,
+      driv: drivCount,
+      mal: malCount
+    }
+  };
+}
+
+function getThemeUnlockProgress(words) {
+  const total = words.length;
+
+  if (!total) {
+    return {
+      flytCount: 0,
+      flytPercent: 0,
+      total: 0,
+      canUnlockNext: false
+    };
+  }
+
+  const flytCount = words.filter(word => getJourneyProgressLevel(word) >= JOURNEY_LEVELS.flyt).length;
+  const flytPercent = Math.round((flytCount / total) * 100);
+
+  return {
+    flytCount,
+    flytPercent,
+    total,
+    canUnlockNext: flytPercent >= 40
+  };
+}
+
+function getJourneyLabel(word) {
+  const levelMeta = getJourneyLevelMeta(getJourneyProgressLevel(word));
+  const now = Date.now();
+
+  if ((word.next || 0) <= now && ((word.correctTotal || 0) > 0 || (word.incorrectTotal || 0) > 0)) {
+    return `🔁 Repetition · ${levelMeta.label}`;
+  }
+
+  if ((word.journeyScore || 0) === 0) return `🆕 Ny upptäckt · ${levelMeta.label}`;
+  if ((word.wrongCount || 0) >= 2 || (word.lapseCount || 0) >= 2) return `⚠️ Träna extra · ${levelMeta.label}`;
+  if ((word.journeyScore || 0) >= 8) return `🏁 Mål i sikte · ${levelMeta.label}`;
+  if ((word.journeyScore || 0) >= 4) return `✨ Bygg flyt · ${levelMeta.label}`;
+  return `🚀 Framfart · ${levelMeta.label}`;
+}
+
 function getSrsLabel(word) {
   const step = word.stepIndex || 0;
 
@@ -2673,21 +2816,19 @@ function getThemeSessionProgress(words) {
 
 function getNextStageLabel(words) {
   const total = words.length;
-  if (total === 0) return "På väg";
+  if (total === 0) return "Starta temat";
 
-  const memoryStatus = getThemeMemoryStatus(words);
-  const meta = getMemoryLevelMeta(memoryStatus.level);
+  const journeyStatus = getThemeJourneyStatus(words);
 
-  if (memoryStatus.level >= 5) return "Alla ord är på mästarnivå";
-  if (memoryStatus.level >= 4) return "Temat är säkert i långtidsminnet";
-  if (memoryStatus.level >= 3) return "Temat är stabilt – bygg vidare";
-  if (memoryStatus.level >= 2) return "Många ord är på väg in i långtidsminnet";
-  if (memoryStatus.level >= 1) return `Minnesmärke: ${meta.label}`;
+  if (journeyStatus.level >= 4) return "Mål nära – fortsätt putsa detaljer";
+  if (journeyStatus.level >= 3) return "Starkt driv – nästa steg är nära";
+  if (journeyStatus.level >= 2) return "Bra flyt – fortsätt framåt";
+  if (journeyStatus.level >= 1) return "Du är på väg – bygg mer flyt";
 
-  const bronzeCount = words.filter(word => getSessionLevel(word) >= 1).length;
-  if (bronzeCount > 0) return "Bra start idag – fortsätt nöta";
+  const activeCount = words.filter(word => (word.journeyScore || 0) > 0).length;
+  if (activeCount > 0) return "Bra start – fortsätt träna temat";
 
-  return "Varje repetition räknas";
+  return "Börja resa genom temat";
 }
     function formatInterval(ms) {
       if (!ms || ms <= 0) return "nytt ord";
@@ -4038,36 +4179,6 @@ let meta = getEmptyMeta();
       return trainingTrack === "journey";
     }
 
-    function getThemeUnlockProgress(words) {
-      const total = words.length;
-
-      if (!total) {
-        return {
-          knownPercent: 0,
-          growingPercent: 0,
-          knownCount: 0,
-          growingCount: 0,
-          total: 0,
-          canUnlockNext: false
-        };
-      }
-
-      const knownCount = words.filter(word => getMemoryLevel(word) >= 1).length;
-      const growingCount = words.filter(word => getMemoryLevel(word) >= 2).length;
-
-      const knownPercent = Math.round((knownCount / total) * 100);
-      const growingPercent = Math.round((growingCount / total) * 100);
-
-      return {
-        knownPercent,
-        growingPercent,
-        knownCount,
-        growingCount,
-        total,
-        canUnlockNext: knownPercent >= 70 && growingPercent >= 40
-      };
-    }
-
     function getJourneyMaxSortOrder() {
       const orderedThemes = themes
         .filter(theme => theme.id !== "wrong-words")
@@ -4127,8 +4238,8 @@ let meta = getEmptyMeta();
     }
 
     function getWordId(word) {
-      if (!word) return "";
-      return word.wordId || `${word.es}__${word.sv}`;
+      if (word.wordId) return String(word.wordId);
+      return `${word.es}__${word.sv}`;
     }
 function pickRandomWordAvoidingRepeat(words) {
   if (!words.length) return null;
@@ -4141,41 +4252,16 @@ function pickRandomWordAvoidingRepeat(words) {
 
 function getJourneyWordType(word) {
   const now = Date.now();
-  const correctTotal = word.correctTotal || 0;
-  const incorrectTotal = word.incorrectTotal || 0;
+  const score = word.journeyScore || 0;
   const wrongCount = word.wrongCount || 0;
   const lapseCount = word.lapseCount || 0;
-  const next = word.next || 0;
-  const memoryLevel = typeof getMemoryLevel === "function" ? getMemoryLevel(word) : 0;
+  const hasHistory = ((word.correctTotal || 0) + (word.incorrectTotal || 0) + score) > 0;
 
-  if (correctTotal === 0 && incorrectTotal === 0) return "new";
-  if (next <= now) return "due";
-  if (wrongCount >= 2 || lapseCount >= 2 || memoryLevel <= 1) return "weak";
+  if (!hasHistory && score === 0) return "new";
+  if ((word.next || 0) <= now && hasHistory) return "due";
+  if (wrongCount >= 2 || lapseCount >= 2 || score <= 1) return "weak";
+  if (score >= 2 && score < 8) return "growing";
   return "stable";
-}
-
-function getJourneyLabel(word) {
-  const type = getJourneyWordType(word);
-  const themeName = word && word.__themeName ? ` · ${word.__themeName}` : "";
-
-  if (type === "due") return `🔁 Repetition${themeName}`;
-  if (type === "weak") return `⚠️ Träna extra${themeName}`;
-  if (type === "new") return `🆕 Nytt ord${themeName}`;
-  return `✅ Kontroll${themeName}`;
-}
-
-function updateJourneyLabel(word) {
-  const el = document.getElementById("journeyLabel");
-  if (!el) return;
-
-  if (!isJourneyMode() || !word) {
-    el.classList.add("hidden");
-    el.innerText = "";
-    return;
-  }
-
-  el.innerText = getJourneyLabel(word);
-  el.classList.remove("hidden");
 }
 
 function pickRandom(arr) {
@@ -4187,16 +4273,18 @@ function pickJourneyBucket(pool) {
   const due = pool.filter(word => getJourneyWordType(word) === "due");
   const weak = pool.filter(word => getJourneyWordType(word) === "weak");
   const fresh = pool.filter(word => getJourneyWordType(word) === "new");
+  const growing = pool.filter(word => getJourneyWordType(word) === "growing");
   const stable = pool.filter(word => getJourneyWordType(word) === "stable");
 
   const roll = Math.random();
 
-  if (due.length > 0 && roll < 0.35) return due;
-  if (weak.length > 0 && roll < 0.55) return weak;
-  if (fresh.length > 0 && roll < 0.85) return fresh;
+  if (due.length > 0 && roll < 0.20) return due;
+  if (weak.length > 0 && roll < 0.45) return weak;
+  if (fresh.length > 0 && roll < 0.70) return fresh;
+  if (growing.length > 0 && roll < 0.90) return growing;
   if (stable.length > 0) return stable;
 
-  return due.length ? due : weak.length ? weak : fresh.length ? fresh : stable;
+  return due.length ? due : weak.length ? weak : fresh.length ? fresh : growing.length ? growing : stable;
 }
 
 function pickNextJourneyWord() {
@@ -4686,50 +4774,35 @@ function setHomeCategory(category, event) {
 
 function updateJourneyHero() {
   const heroMeta = document.getElementById("journeyHeroMeta");
-  const heroText = document.querySelector(".journey-hero-text");
-  const heroBadge = document.querySelector(".journey-hero-badge");
   if (!heroMeta) return;
 
   const eligibleThemes = getJourneyEligibleThemes();
   const pool = getJourneyWordPool();
   const now = Date.now();
-  const maxSortOrder = getJourneyMaxSortOrder();
 
   const dueCount = pool.filter(word => (word.next || 0) <= now && (((word.correctTotal || 0) > 0) || ((word.incorrectTotal || 0) > 0))).length;
   const weakCount = pool.filter(word => getJourneyWordType(word) === "weak").length;
 
   if (pool.length === 0) {
     heroMeta.innerText = "Inga ord tillgängliga ännu";
-    if (heroText) {
-      heroText.innerText = "Öva smart med blandade ord från dina teman och bygg minne över tid.";
-    }
-    if (heroBadge) heroBadge.innerText = "↗";
     return;
   }
 
-  const orderedThemes = themes
+  const maxSortOrder = getJourneyMaxSortOrder();
+  const nextTheme = themes
     .filter(theme => theme.id !== "wrong-words")
-    .filter(theme => Number(theme.sortOrder || 0) > 0)
-    .sort((a, b) => Number(a.sortOrder || 0) - Number(b.sortOrder || 0));
+    .find(theme => Number(theme.sortOrder || 0) === maxSortOrder + 1);
+  const currentUnlockTheme = themes
+    .filter(theme => theme.id !== "wrong-words")
+    .find(theme => Number(theme.sortOrder || 0) === maxSortOrder);
 
-  const currentUnlockTheme = orderedThemes.find(theme => Number(theme.sortOrder || 0) === maxSortOrder);
-  const nextTheme = orderedThemes.find(theme => Number(theme.sortOrder || 0) === maxSortOrder + 1);
-  const unlockProgress = currentUnlockTheme ? getThemeUnlockProgress(currentUnlockTheme.words || []) : null;
-
-  if (!nextTheme || !unlockProgress) {
-    heroMeta.innerText = `${eligibleThemes.length} teman aktiva · ${dueCount} redo · ${weakCount} svaga ord`;
-    if (heroText) {
-      heroText.innerText = "Alla tillgängliga teman är upplåsta i Språkresa just nu. Fortsätt repetera för att bygga starkare minne över tid.";
-    }
-    if (heroBadge) heroBadge.innerText = "🏆";
+  if (nextTheme && currentUnlockTheme) {
+    const unlockProgress = getThemeUnlockProgress(currentUnlockTheme.words || []);
+    heroMeta.innerText = `${eligibleThemes.length} teman aktiva · ${dueCount} redo · ${weakCount} svaga ord · Nästa: ${nextTheme.name} (${unlockProgress.flytPercent}% Flyt)`;
     return;
   }
 
-  heroMeta.innerText = `${eligibleThemes.length} teman aktiva · ${dueCount} redo · ${weakCount} svaga ord`;
-  if (heroText) {
-    heroText.innerText = `Nästa tema ${nextTheme.icon || "📘"} ${nextTheme.name} låses upp när ${currentUnlockTheme.icon || "📘"} ${currentUnlockTheme.name} når 70 % bekant och 40 % på gång. Nu: ${unlockProgress.knownPercent}% bekant · ${unlockProgress.growingPercent}% på gång.`;
-  }
-  if (heroBadge) heroBadge.innerText = `${maxSortOrder}`;
+  heroMeta.innerText = `${eligibleThemes.length} teman aktiva · ${dueCount} redo · ${weakCount} svaga ord · Alla teman öppna`;
 }
 
 function renderHome() {
@@ -4778,7 +4851,8 @@ function renderHome() {
   allCards.forEach(theme => {
     const medalProgress = getThemeMedalProgress(theme.words);
     const memoryStatus = getThemeMemoryStatus(theme.words);
-    const percent = memoryStatus.percent || 0;
+    const journeyStatus = getThemeJourneyStatus(theme.words);
+    const percent = journeyStatus.percent || 0;
     const unlockedMedals = renderMedals(theme);
     const nextStageLabel = getNextStageLabel(theme.words);
 
@@ -4806,6 +4880,7 @@ function renderHome() {
         </div>
 
         <div class="theme-meta">${nextStageLabel}</div>
+        <div class="theme-meta">Resenivå: ${journeyStatus.icon} ${journeyStatus.label}</div>
         <div class="theme-meta">Långtidsminne: ${memoryStatus.icon} ${memoryStatus.label}</div>
 
         <div class="progress-bar" style="background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.18); margin-top: 10px;">
@@ -5320,7 +5395,7 @@ function openTheme(themeId, updateUrl = true) {
 
       document.getElementById("currentThemeName").innerText = "🗺️ Språkresa";
       document.getElementById("themeGoal").innerText = "Blandad långtidsövning från flera teman";
-      document.getElementById("themeWordCount").innerText = `${getJourneyWordPool().length} ord · teman upp till ${getJourneyMaxSortOrder()}`;
+      document.getElementById("themeWordCount").innerText = `${getJourneyWordPool().length} ord i språkresan`;
 
       updateFilterButtons();
       updateTopProgressUI();
@@ -5584,6 +5659,7 @@ function markCorrect(word, activeMode = mode) {
   word.lastReviewedAt = Date.now();
   word.lastReviewedDate = todayString();
 
+  updateJourneyProgress(word, true, activeMode);
   updateMasteryState(word);
 }
 
@@ -5609,6 +5685,7 @@ function markWrong(word, activeMode = mode) {
   word.lastReviewedAt = Date.now();
   word.lastReviewedDate = todayString();
 
+  updateJourneyProgress(word, true, activeMode);
   updateMasteryState(word);
 }
     /**********************
@@ -5622,7 +5699,8 @@ function markWrong(word, activeMode = mode) {
       const totalCount = realWords.length;
       const medalProgress = getThemeMedalProgress(realWords);
       const memoryStatus = getThemeMemoryStatus(realWords);
-      const percent = medalProgress.percent;
+      const journeyStatus = getThemeJourneyStatus(realWords);
+      const percent = journeyStatus.percent;
       const dueCount = realWords.filter(w => w.next <= Date.now()).length;
       const sessionProgress = getThemeSessionProgress(realWords);
 
@@ -5634,17 +5712,17 @@ function markWrong(word, activeMode = mode) {
             : `Poäng i temat: ${theme.points}`;
 
       document.getElementById("progressText").innerText =
-        `Minnesprogress: ${memoryStatus.percent}% · 🥉 ${medalProgress.bronzeCount}/${totalCount} · 🥈 ${medalProgress.silverCount}/${totalCount} · 🥇 ${medalProgress.goldCount}/${totalCount} · ${memoryStatus.icon} ${memoryStatus.label}`;
+        `Reseprogress: ${journeyStatus.percent}% · ${journeyStatus.icon} ${journeyStatus.label} · Minnesmärke: ${memoryStatus.icon} ${memoryStatus.label}`;
 
-      document.getElementById("progressFill").style.width = (memoryStatus.percent || 0) + "%";
-      document.getElementById("progressPercent").innerText = `${memoryStatus.label} · ${memoryStatus.percent || 0}%`;
+      document.getElementById("progressFill").style.width = (journeyStatus.percent || 0) + "%";
+      document.getElementById("progressPercent").innerText = `${journeyStatus.label} · ${journeyStatus.percent || 0}%`;
 
       document.getElementById("sessionStats").innerText =
         `Idag: 🥉 ${sessionProgress.bronzeCount} · 🥈 ${sessionProgress.silverCount} · 🥇 ${sessionProgress.goldCount} · ✅ ${meta.sessionCorrect} rätt · ❌ ${meta.sessionWrong} fel`;
 
       document.getElementById("dueStats").innerText =
         isJourneyMode()
-          ? `Språkresa: ${getJourneyEligibleThemes().length} teman · Redo nu: ${dueCount} · Svåra ord: ${realWords.filter(w => (w.wrongCount || 0) > 0).length}`
+          ? `Språkresa: ${getJourneyEligibleThemes().length} teman · Redo nu: ${dueCount} · Flyt+: ${journeyStatus.counts.flyt} ord`
           : `Redo nu: ${dueCount} · Långtidsläge: ${
  realWords.filter(w => (w.strongestIntervalMs || 0) >= 24 * 60 * 60 * 1000).length
         } · Svåra ord: ${realWords.filter(w => (w.wrongCount || 0) > 0).length}`;
@@ -5865,7 +5943,7 @@ function showWaitingState(waitMs) {
       const questionLabelEl = document.getElementById("questionLabel");
       if (questionLabelEl) questionLabelEl.innerText = "Matcha orden";
 
-      currentMatchSet = getMatchSet();
+      currentMatchSet = getMatchSet(current);
       matchedPairs = 0;
       selectedSwedish = null;
       selectedSpanish = null;
@@ -6024,13 +6102,17 @@ function advanceAfterMatchComplete() {
         document.getElementById("themeGoal").innerText = journeyTheme.goal || "";
         document.getElementById("themeWordCount").innerText = `${journeyTheme.words.length} ord i språkresan`;
 
+        const journeyLabelEl = document.getElementById("journeyLabel");
+        if (journeyLabelEl) {
+          journeyLabelEl.classList.remove("hidden");
+        }
+
         if (!nextJourneyWord) {
           current = null;
           document.getElementById("question").innerText = "🎉 Språkresan har inga ord ännu!";
           document.getElementById("playSound").classList.add("hidden");
           document.getElementById("answerArea").classList.add("hidden");
           showInfoBanner("Lägg till fler teman eller höj sortOrder-fönstret för att fylla språkresan.");
-          updateJourneyLabel(null);
           updateStats();
           renderHome();
           return;
@@ -6041,7 +6123,7 @@ function advanceAfterMatchComplete() {
         correctionMode = false;
         correctionAnswer = "";
 
-        let activeMode = mode === "mix" ? pickMixedMode() : mode;
+        let activeMode = (mode === "mix" || mode === "mixed") ? pickMixedMode() : mode;
 
         const questionLabelEl = document.getElementById("questionLabel");
         if (questionLabelEl) {
@@ -6051,8 +6133,6 @@ function advanceAfterMatchComplete() {
           else if (activeMode === "flashcards") questionLabelEl.innerText = "Flashcards";
           else questionLabelEl.innerText = "Öva";
         }
-
-        updateJourneyLabel(current);
 
         if (mode === "flashcards") {
           flashcardWords = journeyTheme.words.slice(0, Math.min(24, journeyTheme.words.length));
@@ -6069,7 +6149,8 @@ function advanceAfterMatchComplete() {
         if (activeMode === "match") {
           showMatchMode();
           showInfoBanner(`Språkresa · ${current.__themeName || "Tema"}`);
-          currentMatchSet = [...journeyTheme.words].sort(() => Math.random() - 0.5).slice(0, Math.min(4, journeyTheme.words.length));
+          if (journeyLabelEl) journeyLabelEl.innerText = `${getJourneyLabel(current)} · ${current.__themeName || "Tema"}`;
+          currentMatchSet = getMatchSet(current);
           matchedPairs = 0;
           selectedSwedish = null;
           selectedSpanish = null;
@@ -6115,7 +6196,8 @@ function advanceAfterMatchComplete() {
         }
 
         showTextMode();
-        showInfoBanner(`Språkresa · ${current.__themeName || "Tema"} · ${getSrsLabel(current)} · ${getJourneyLabel(current)}`);
+        showInfoBanner(`Språkresa · ${current.__themeName || "Tema"} · ${getSrsLabel(current)}`);
+        if (journeyLabelEl) journeyLabelEl.innerText = `${getJourneyLabel(current)} · ${current.__themeName || "Tema"}`;
         document.getElementById("answerArea").classList.remove("hidden");
         document.getElementById("answer").value = "";
 
@@ -6140,6 +6222,12 @@ function advanceAfterMatchComplete() {
       const theme = getCurrentTheme();
       if (!theme) return;
 
+      const journeyLabelEl = document.getElementById("journeyLabel");
+      if (journeyLabelEl) {
+        journeyLabelEl.classList.add("hidden");
+        journeyLabelEl.innerText = "";
+      }
+
       document.getElementById("currentThemeName").innerText = `${theme.icon || "📘"} ${theme.name}`;
       document.getElementById("themeGoal").innerText = theme.goal || "";
       document.getElementById("themeWordCount").innerText = `${theme.words.length} ord i temat`;
@@ -6158,8 +6246,6 @@ function advanceAfterMatchComplete() {
         else if (activeMode === "flashcards") questionLabelEl.innerText = "Flashcards";
         else questionLabelEl.innerText = "Öva";
       }
-
-      updateJourneyLabel(null);
 
       if (mode === "flashcards") {
         correctionMode = false;
