@@ -4668,7 +4668,7 @@ function renderHome() {
 
     grid.appendChild(card);
   });
-}}
+}
     /**********************
      * 11. FILTER / UI
      **********************/
@@ -5140,32 +5140,7 @@ function openTheme(themeId, updateUrl = true) {
   loadWord();
 }
     function startJourney() {
-      clearNextWordTimeout();
-      closeThemeCompletePanel();
-
-      currentThemeId = null;
-      setTrainingTrack("journey");
-      meta.lastOpenedThemeId = "journey";
-      mode = "mix";
-      practiceFilter = "all";
-      comboStreak = 0;
-
-      const comboEl = document.getElementById("comboText");
-      if (comboEl) comboEl.innerText = "";
-
-      document.getElementById("settingsPanel").classList.add("hidden");
-      document.getElementById("statsPanel").classList.add("hidden");
-      document.getElementById("homeScreen").classList.add("hidden");
-      document.getElementById("lessonScreen").classList.remove("hidden");
-
-      document.getElementById("currentThemeName").innerText = "🗺️ Språkresa";
-      document.getElementById("themeGoal").innerText = "Blandad långtidsövning från flera teman";
-      document.getElementById("themeWordCount").innerText = `${getJourneyWordPool().length} ord i språkresan`;
-
-      updateFilterButtons();
-      updateTopProgressUI();
-      updateModeUI();
-      loadWord();
+      alert("Språkresa är borttagen i den här förenklade versionen.");
     }
 
     function openWrongWordsTheme() {
