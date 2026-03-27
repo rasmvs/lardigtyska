@@ -107,25 +107,171 @@
       margin: 18px 0 12px;
     }
 .continue-section {
-  margin: 14px 0 6px;
+  margin: 18px auto 10px;
+  max-width: 1120px;
 }
 
 .continue-header {
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   font-weight: 900;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #64748b;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   text-align: left;
+  padding-left: 4px;
 }
 
 .continue-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 10px;
+  grid-template-columns: minmax(0, 1.35fr) repeat(2, minmax(0, 1fr));
+  gap: 12px;
   align-items: stretch;
 }
+
+.continue-card {
+  position: relative;
+  min-height: 128px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(255,255,255,0.90), rgba(255,255,255,0.78));
+  border: 1px solid rgba(255,255,255,0.94);
+  border-radius: 22px;
+  padding: 14px 14px 13px;
+  box-shadow: 0 16px 34px rgba(15,23,42,0.08);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+  animation: homeCardEntrance 0.55s cubic-bezier(.2,.8,.2,1) both;
+  animation-delay: var(--stagger, 0ms);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.continue-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 42%, rgba(255,255,255,0) 72%);
+  pointer-events: none;
+}
+
+.continue-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 38px rgba(15,23,42,0.11);
+  border-color: rgba(255,255,255,0.98);
+}
+
+.continue-card-primary {
+  background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(239,246,255,0.88));
+  box-shadow: 0 18px 42px rgba(59,130,246,0.12);
+}
+
+.continue-card-quiet {
+  min-height: 116px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.72));
+}
+
+.continue-card-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.continue-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.42));
+  border: 1px solid rgba(226,232,240,0.95);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.95);
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.continue-kicker {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(241,245,249,0.9);
+  color: #475569;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.continue-label {
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.continue-title {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.continue-meta {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.continue-footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.continue-mini {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #64748b;
+}
+
+.continue-action-btn {
+  min-height: 40px;
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 920px) {
+  .continue-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .continue-card-primary {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .continue-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .theme-complete-overlay {
   position: fixed;
   inset: 0;
@@ -167,82 +313,6 @@
   justify-content: center;
 }
 
-.continue-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-height: 126px;
-  background: rgba(255,255,255,0.74);
-  border: 1px solid rgba(255,255,255,0.88);
-  border-radius: 20px;
-  padding: 13px 14px;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
-  backdrop-filter: blur(12px);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  overflow: hidden;
-}
-
-.continue-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0));
-  pointer-events: none;
-}
-
-.continue-card > * {
-  position: relative;
-  z-index: 1;
-}
-
-.continue-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
-  border-color: rgba(191, 219, 254, 0.95);
-}
-
-.continue-card.primary-continue {
-  background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(239,246,255,0.92));
-  border-color: rgba(147, 197, 253, 0.82);
-}
-
-.continue-label {
-  font-size: 0.72rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #64748b;
-  margin-bottom: 0;
-}
-
-.continue-title {
-  font-size: 1rem;
-  font-weight: 900;
-  color: #0f172a;
-  margin-bottom: 0;
-  line-height: 1.2;
-}
-
-.continue-meta {
-  font-size: 0.84rem;
-  font-weight: 700;
-  color: #475569;
-  margin-bottom: 0;
-  line-height: 1.4;
-}
-
-.continue-card .btn-primary,
-.continue-card .btn-dark,
-.continue-card .btn-secondary {
-  margin-top: auto;
-  align-self: flex-start;
-  min-height: 38px;
-  padding: 9px 13px;
-  border-radius: 14px;
-  font-size: 0.9rem;
-  box-shadow: none;
-}
 .home-tools {
   max-width: 1120px;
   margin: 18px auto 10px;
@@ -312,29 +382,32 @@
 
     .theme-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(216px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 16px;
-      margin-top: 20px;
-      align-items: stretch;
+      margin-top: 24px;
     }
 
     .theme-card {
       position: relative;
-      border-radius: 24px;
+      border-radius: 26px;
       padding: 16px;
       color: white;
       overflow: hidden;
-      min-height: 100%;
-      box-shadow: 0 18px 34px rgba(15, 23, 42, 0.14);
+      box-shadow:
+        0 18px 38px rgba(15, 23, 42, 0.14),
+        inset 0 1px 0 rgba(255,255,255,0.10);
       transform: translateY(0);
-      transition: transform 0.24s ease, box-shadow 0.24s ease, filter 0.24s ease;
-      opacity: 0;
-      animation: homeCardIn 0.55s cubic-bezier(.2,.75,.25,1) forwards;
+      transition: transform 0.26s ease, box-shadow 0.26s ease, filter 0.26s ease;
+      animation: homeCardEntrance 0.6s cubic-bezier(.2,.8,.2,1) both;
+      animation-delay: var(--stagger, 0ms);
+      isolation: isolate;
     }
 
     .theme-card:hover {
-      transform: translateY(-6px) scale(1.01);
-      box-shadow: 0 24px 44px rgba(15, 23, 42, 0.18);
+      transform: translateY(-6px) scale(1.015);
+      box-shadow:
+        0 24px 46px rgba(15, 23, 42, 0.17),
+        inset 0 1px 0 rgba(255,255,255,0.14);
       filter: saturate(1.04);
     }
 
@@ -342,26 +415,28 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.10) 40%, rgba(255,255,255,0) 70%);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.34), transparent 35%),
+        linear-gradient(135deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.10) 38%, rgba(255,255,255,0) 64%);
       pointer-events: none;
+      z-index: 0;
     }
 
     .theme-card::after {
       content: "";
       position: absolute;
-      inset: -120% auto auto -20%;
-      width: 56%;
-      height: 280%;
-      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.18), rgba(255,255,255,0));
-      transform: rotate(18deg);
+      inset: -40% -90%;
+      background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,0.20) 50%, transparent 61%);
+      transform: translateX(-42%) rotate(8deg);
       opacity: 0;
-      transition: opacity 0.25s ease;
+      transition: transform 0.6s ease, opacity 0.35s ease;
       pointer-events: none;
+      z-index: 0;
     }
 
     .theme-card:hover::after {
       opacity: 1;
-      animation: cardShimmer 1.15s ease;
+      transform: translateX(18%) rotate(8deg);
     }
 
     .theme-card-inner {
@@ -376,8 +451,8 @@
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 12px;
+      gap: 12px;
+      margin-bottom: 10px;
     }
 
     .theme-icon-wrap {
@@ -387,118 +462,191 @@
       min-width: 0;
     }
 
-    .theme-memory-badge {
-      min-width: 52px;
-      height: 52px;
-      padding: 0 12px;
+    .theme-icon {
+      width: 56px;
+      height: 56px;
       border-radius: 18px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      font-size: 1.7rem;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.22);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.22);
+      flex-shrink: 0;
+    }
+
+    .theme-memory-badge {
+      min-width: 46px;
+      height: 46px;
+      padding: 0 11px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       background: rgba(255,255,255,0.16);
-      border: 1px solid rgba(255,255,255,0.32);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 8px 20px rgba(15,23,42,0.12);
+      border: 1px solid rgba(255,255,255,0.28);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.20), 0 8px 18px rgba(15,23,42,0.10);
       backdrop-filter: blur(10px);
-      font-size: 1.35rem;
+      font-size: 1.12rem;
       font-weight: 900;
       color: rgba(255,255,255,0.98);
       line-height: 1;
       flex-shrink: 0;
     }
 
-    .theme-memory-badge.is-empty { opacity: 0.45; }
+    .theme-memory-badge.is-empty { opacity: 0.42; }
     .theme-memory-badge.is-earned {
       background: rgba(255,255,255,0.22);
-      border-color: rgba(255,255,255,0.42);
+      border-color: rgba(255,255,255,0.38);
     }
 
     .theme-memory-badge.is-master {
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.26), 0 0 0 4px rgba(255,255,255,0.10), 0 10px 24px rgba(15,23,42,0.16);
-    }
-
-    .theme-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.17);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.55rem;
-      box-shadow: inset 0 2px 8px rgba(255,255,255,0.22);
-      margin-bottom: 0;
-      backdrop-filter: blur(8px);
-      flex-shrink: 0;
-    }
-
-    .theme-heading {
-      min-width: 0;
-      flex: 1;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.24), 0 0 0 4px rgba(255,255,255,0.10), 0 10px 22px rgba(15,23,42,0.14);
     }
 
     .theme-title {
-      margin: 0 0 4px;
+      margin: 0;
       font-size: 1.18rem;
       font-weight: 900;
       line-height: 1.1;
+      letter-spacing: -0.02em;
     }
 
-    .theme-kicker {
-      font-size: 0.77rem;
+    .theme-level-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.22);
+      color: rgba(255,255,255,0.98);
+      font-size: 0.72rem;
       font-weight: 900;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.82);
-      margin-bottom: 0;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .theme-meta {
+      margin-top: 6px;
+      font-weight: 800;
+      font-size: 0.82rem;
+      letter-spacing: 0.01em;
+      color: rgba(255,255,255,0.94);
+      opacity: 0.95;
     }
 
     .theme-goal {
-      font-size: 0.84rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.94);
-      margin-bottom: 0;
-      line-height: 1.38;
+      margin-top: 8px;
+      font-weight: 800;
+      line-height: 1.35;
+      color: rgba(255,255,255,0.95);
+      font-size: 0.9rem;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      min-height: 2.7em;
+      min-height: 2.45em;
     }
 
-    .theme-meta {
-      font-size: 0.83rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.88);
+    .medal-row {
+      display: flex;
+      gap: 8px;
+      margin: 10px 0 6px;
+      font-size: 1.24rem;
+    }
+
+    .medal {
+      opacity: .30;
+      transform: scale(.92);
+    }
+
+    .medal.on {
+      opacity: 1;
+      transform: scale(1.08);
+      filter: drop-shadow(0 0 8px rgba(255,255,255,.50));
+    }
+
+    .theme-card-status {
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.20);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+    }
+
+    .theme-card-status-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 900;
+      color: rgba(255,255,255,0.96);
+      margin-bottom: 8px;
+    }
+
+    .theme-card-status-line:last-child {
       margin-bottom: 0;
     }
 
-    .theme-data-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-      margin-bottom: 10px;
+    .theme-progress-track {
+      width: 100%;
+      height: 9px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.20);
+      border: 1px solid rgba(255,255,255,0.14);
     }
 
-    .theme-mini-chip {
-      display: inline-flex;
-      align-items: center;
-      min-height: 28px;
-      padding: 6px 10px;
+    .theme-progress-fill {
+      height: 100%;
       border-radius: 999px;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.18);
-      font-size: 0.76rem;
-      font-weight: 900;
-      color: rgba(255,255,255,0.96);
+      background: linear-gradient(90deg, rgba(255,255,255,0.98), rgba(255,255,255,0.72));
+      transform-origin: left center;
+      animation: themeProgressGrow 0.9s cubic-bezier(.2,.8,.2,1) both;
+      animation-delay: calc(var(--stagger, 0ms) + 120ms);
+    }
+
+
+    .theme-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.17);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: inset 0 2px 8px rgba(255,255,255,0.22);
+      margin-bottom: 14px;
       backdrop-filter: blur(8px);
     }
 
-    .theme-memory-text {
-      margin-top: 10px;
-      font-size: 0.8rem;
-      font-weight: 800;
-      color: rgba(255,255,255,0.92);
+    .theme-title {
+      margin: 0 0 6px;
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+
+    .theme-goal {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.95);
+      margin-bottom: 10px;
+      line-height: 1.45;
+    }
+
+    .theme-meta {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 8px;
     }
 
     .theme-actions,
@@ -521,48 +669,10 @@
       color: rgba(255,255,255,0.96);
     }
 
-
-    .theme-progress-wrap {
-      margin-top: 12px;
-    }
-
-    .theme-progress-wrap .progress-bar {
-      height: 12px;
-      margin-top: 0;
-      background: rgba(255,255,255,0.2);
-      border-color: rgba(255,255,255,0.22);
-    }
-
-    .theme-progress-wrap .progress-fill {
-      width: 0;
-      background: linear-gradient(90deg, rgba(255,255,255,0.96), rgba(255,255,255,0.66));
-    }
-
-    .theme-progress-summary {
-      margin-top: 8px;
-      font-size: 0.78rem;
-      font-weight: 900;
-      line-height: 1.45;
-      color: rgba(255,255,255,0.96);
-    }
-
-    .theme-actions {
-      margin-top: auto;
-      padding-top: 12px;
-    }
-
-    .theme-actions .btn-primary,
-    .theme-actions .btn-secondary {
-      min-height: 40px;
-      padding: 10px 14px;
-      border-radius: 14px;
-      box-shadow: none;
-    }
-
-    @keyframes homeCardIn {
+    @keyframes homeCardEntrance {
       from {
         opacity: 0;
-        transform: translateY(18px) scale(0.98);
+        transform: translateY(18px) scale(0.985);
       }
       to {
         opacity: 1;
@@ -570,10 +680,17 @@
       }
     }
 
-    @keyframes cardShimmer {
-      0% { transform: translateX(-120%) rotate(18deg); }
-      100% { transform: translateX(260%) rotate(18deg); }
+    @keyframes themeProgressGrow {
+      from {
+        transform: scaleX(0.18);
+        opacity: 0.78;
+      }
+      to {
+        transform: scaleX(1);
+        opacity: 1;
+      }
     }
+
 
     @keyframes inputCorrectFlash {
       0% {
@@ -1380,17 +1497,17 @@
     }
 
     .lesson-kicker {
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       font-weight: 900;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: #64748b;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
 
     .lesson-title-modern {
       margin: 0;
-      font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+      font-size: clamp(1.35rem, 2.5vw, 1.82rem);
       font-weight: 900;
       letter-spacing: -0.03em;
       color: #0f172a;
@@ -1402,7 +1519,7 @@
       gap: 10px;
       margin-top: 10px;
       margin-bottom: 8px;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       font-weight: 800;
       color: #64748b;
     }
@@ -1421,7 +1538,7 @@
       height: 100%;
       width: 0%;
       border-radius: 999px;
-      background: linear-gradient(90deg, #fb7185 0%, #f59e0b 35%, #8b5cf6 70%, #3b82f6 100%);
+      background: linear-gradient(90deg, #fb7185 0%, #f59e0b 34%, #8b5cf6 68%, #3b82f6 100%);
       transition: width 0.35s ease;
     }
 
@@ -1447,29 +1564,31 @@
 
     .top-score-badge {
       min-width: 88px;
-      height: 52px;
+      min-height: 52px;
       padding: 0 16px;
       border-radius: 18px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,255,255,0.68));
-      border: 1px solid rgba(255,255,255,0.92);
-      box-shadow: 0 10px 24px rgba(15,23,42,0.08);
-      backdrop-filter: blur(12px);
+      background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(248,250,252,0.82));
+      border: 1px solid rgba(255,255,255,0.94);
+      box-shadow: 0 12px 28px rgba(15,23,42,0.08);
       font-weight: 900;
       color: #0f172a;
+      white-space: nowrap;
     }
 
     .lesson-stage-card {
       position: relative;
-      background: linear-gradient(180deg, rgba(255,255,255,0.76), rgba(255,255,255,0.60));
-      border: 1px solid rgba(255,255,255,0.86);
-      border-radius: 36px;
-      padding: 20px;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.30), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,255,255,0.64));
+      border: 1px solid rgba(255,255,255,0.88);
+      border-radius: 34px;
+      padding: 18px;
       box-shadow:
-        0 30px 80px rgba(15, 23, 42, 0.12),
-        inset 0 1px 0 rgba(255,255,255,0.88);
+        0 26px 64px rgba(15, 23, 42, 0.11),
+        inset 0 1px 0 rgba(255,255,255,0.92);
       backdrop-filter: blur(20px);
       overflow: hidden;
     }
@@ -1479,8 +1598,8 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at top left, rgba(255,255,255,0.32), transparent 34%),
-        linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+        radial-gradient(circle at bottom right, rgba(191,219,254,0.22), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0));
       pointer-events: none;
     }
 
@@ -1490,24 +1609,24 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .mode-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      height: 38px;
+      height: 36px;
       padding: 0 14px;
       border-radius: 999px;
       background: linear-gradient(135deg, #eff6ff, #dbeafe);
       color: #1d4ed8;
       border: 1px solid rgba(96,165,250,0.42);
-      font-size: 0.9rem;
+      font-size: 0.86rem;
       font-weight: 900;
-      box-shadow: 0 8px 18px rgba(59,130,246,0.12);
+      box-shadow: 0 8px 18px rgba(59,130,246,0.10);
     }
 
     .stage-meta-inline {
@@ -1523,18 +1642,20 @@
     }
 
     .modern-practice-stage {
-      max-width: 700px;
-      gap: 14px;
+      max-width: 720px;
+      gap: 12px;
     }
 
     .question-box-modern {
-      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.82));
+      position: relative;
+      background:
+        radial-gradient(circle at top center, rgba(255,255,255,0.92), rgba(255,255,255,0.82) 46%, rgba(248,250,252,0.82) 100%);
       border: 1px solid rgba(255,255,255,0.96);
-      border-radius: 32px;
-      padding: 26px 22px 20px;
-      min-height: 180px;
+      border-radius: 30px;
+      padding: 24px 20px 18px;
+      min-height: 172px;
       box-shadow:
-        0 22px 50px rgba(15, 23, 42, 0.10),
+        0 20px 44px rgba(15, 23, 42, 0.09),
         inset 0 1px 0 rgba(255,255,255,0.98);
     }
 
@@ -1542,33 +1663,34 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 32px;
+      min-height: 30px;
       padding: 6px 12px;
       border-radius: 999px;
-      background: rgba(241,245,249,0.9);
+      background: rgba(241,245,249,0.92);
       color: #475569;
-      font-size: 0.8rem;
+      font-size: 0.76rem;
       font-weight: 900;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       margin-bottom: 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.92);
     }
 
     .play-sound-btn {
-      margin-top: 16px;
-      min-height: 48px;
+      margin-top: 14px;
+      min-height: 46px;
       border-radius: 16px;
     }
 
     .answer-row-modern {
       gap: 10px;
-      max-width: 680px;
-      margin-top: 4px;
+      max-width: 700px;
+      margin-top: 2px;
       padding: 6px;
-      border-radius: 28px;
-      background: rgba(255,255,255,0.68);
-      border: 1px solid rgba(255,255,255,0.86);
-      box-shadow: 0 20px 46px rgba(15,23,42,0.08);
+      border-radius: 24px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.90);
+      box-shadow: 0 16px 36px rgba(15,23,42,0.07);
       backdrop-filter: blur(14px);
     }
 
@@ -1576,9 +1698,9 @@
       border: none;
       background: transparent;
       box-shadow: none;
-      padding: 18px 18px;
-      font-size: 1.08rem;
-      border-radius: 22px;
+      padding: 16px 18px;
+      font-size: 1.06rem;
+      border-radius: 20px;
     }
 
     .answer-row-modern input:focus {
@@ -1592,14 +1714,15 @@
     }
 
     .feedback-modern {
-      min-height: 52px;
+      min-height: 50px;
       margin: 2px 0 0;
       padding: 12px 14px;
       border-radius: 18px;
       text-align: center;
-      font-size: 1rem;
+      font-size: 0.98rem;
       font-weight: 900;
     }
+
 
     .mode-helper-text {
       text-align: center;
@@ -1654,6 +1777,12 @@
 
     @media (max-width: 720px) {
       body { padding: 14px; }
+
+      .theme-grid {
+        grid-template-columns: repeat(auto-fit, minmax(176px, 1fr));
+        gap: 12px;
+      }
+
 
       .card {
         padding: 16px;
@@ -1722,47 +1851,28 @@
         padding: 22px 16px 18px;
       }
 
-      .continue-header {
-        text-align: center;
-      }
-
-      .theme-grid {
-        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-        gap: 12px;
-      }
-
       .theme-card {
         padding: 14px;
         border-radius: 22px;
       }
 
-      .theme-card-top {
-        gap: 8px;
-      }
-
       .theme-icon {
         width: 50px;
         height: 50px;
-        font-size: 1.4rem;
+        border-radius: 16px;
+        font-size: 1.5rem;
+      }
+
+      .theme-memory-badge {
+        min-width: 42px;
+        height: 42px;
+        border-radius: 14px;
       }
 
       .theme-title {
         font-size: 1.04rem;
       }
 
-      .theme-goal {
-        min-height: auto;
-        -webkit-line-clamp: 2;
-      }
-
-      .theme-actions {
-        gap: 8px;
-      }
-
-      .theme-actions .btn-primary,
-      .theme-actions .btn-secondary {
-        flex: 1 1 100%;
-      }
 
       .answer-row-modern {
         flex-direction: column;
@@ -4481,49 +4591,99 @@ function renderContinueSection() {
   const priorityThemes = getTopPriorityThemes(2);
   const wrongTheme = buildWrongWordsTheme();
 
-  if (nextTheme) {
-    cards.push(`
-      <div class="continue-card primary-continue">
-        <div class="continue-label">Nästa i din bana</div>
-        <div class="continue-title">${nextTheme.icon || "📘"} ${nextTheme.name}</div>
-        <div class="continue-meta">${nextTheme.goal || "Fortsätt till nästa rekommenderade tema."}</div>
-        <button class="btn-primary" onclick="openTheme('${nextTheme.id}')">Spela nästa</button>
-      </div>
-    `);
-  }
-
   if (lastTheme) {
+    const lastProgress = getThemeMedalProgress(lastTheme.words || []);
     cards.push(`
-      <div class="continue-card">
-        <div class="continue-label">Senast öppnat</div>
-        <div class="continue-title">${lastTheme.icon || "📘"} ${lastTheme.name}</div>
-        <div class="continue-meta">${lastTheme.goal || "Fortsätt där du slutade."}</div>
-        <button class="btn-secondary" onclick="openTheme('${lastTheme.id}')">Fortsätt</button>
+      <div class="continue-card continue-card-primary" style="--stagger:0ms;">
+        <div class="continue-card-top">
+          <div style="display:flex; gap:12px; min-width:0;">
+            <div class="continue-icon">${lastTheme.icon || "📘"}</div>
+            <div style="min-width:0;">
+              <div class="continue-label">Fortsätt där du var</div>
+              <div class="continue-title">${lastTheme.name}</div>
+              <div class="continue-meta">${lastTheme.goal || "Fortsätt träna i ditt senaste tema."}</div>
+            </div>
+          </div>
+          <div class="continue-kicker">Senast</div>
+        </div>
+        <div class="continue-footer">
+          <div class="continue-mini">${lastProgress.percent || 0}% tränat</div>
+          <button class="btn-primary continue-action-btn" onclick="openTheme('${lastTheme.id}')">Fortsätt</button>
+        </div>
+      </div>
+    `);
+  } else if (nextTheme) {
+    cards.push(`
+      <div class="continue-card continue-card-primary" style="--stagger:0ms;">
+        <div class="continue-card-top">
+          <div style="display:flex; gap:12px; min-width:0;">
+            <div class="continue-icon">${nextTheme.icon || "📘"}</div>
+            <div style="min-width:0;">
+              <div class="continue-label">Rekommenderat nästa steg</div>
+              <div class="continue-title">${nextTheme.name}</div>
+              <div class="continue-meta">${nextTheme.goal || "Nästa rekommenderade tema att spela."}</div>
+            </div>
+          </div>
+          <div class="continue-kicker">Nästa</div>
+        </div>
+        <div class="continue-footer">
+          <div class="continue-mini">${nextTheme.level || "Tema"}</div>
+          <button class="btn-primary continue-action-btn" onclick="openTheme('${nextTheme.id}')">Spela</button>
+        </div>
       </div>
     `);
   }
 
-  priorityThemes.forEach(item => {
-    if (lastTheme && item.theme.id === lastTheme.id) return;
-    if (nextTheme && item.theme.id === nextTheme.id) return;
-
+  if (nextTheme && (!lastTheme || nextTheme.id !== lastTheme.id)) {
     cards.push(`
-      <div class="continue-card">
-        <div class="continue-label">Redo att träna</div>
-        <div class="continue-title">${item.theme.icon || "📘"} ${item.theme.name}</div>
-        <div class="continue-meta">${item.dueCount} redo · ${item.wrongCount} svåra · ${item.avgAccuracy}% träffsäkerhet</div>
-        <button class="btn-secondary" onclick="openTheme('${item.theme.id}')">Träna nu</button>
+      <div class="continue-card continue-card-quiet" style="--stagger:70ms;">
+        <div>
+          <div class="continue-label">På tur</div>
+          <div class="continue-title">${nextTheme.icon || "📘"} ${nextTheme.name}</div>
+          <div class="continue-meta">${nextTheme.goal || "Nästa rekommenderade temakort."}</div>
+        </div>
+        <div class="continue-footer">
+          <div class="continue-mini">${nextTheme.level || "Tema"}</div>
+          <button class="btn-secondary continue-action-btn" onclick="openTheme('${nextTheme.id}')">Öppna</button>
+        </div>
       </div>
     `);
+  }
+
+  const priorityCandidate = priorityThemes.find(item => {
+    if (lastTheme && item.theme.id === lastTheme.id) return false;
+    if (nextTheme && item.theme.id === nextTheme.id) return false;
+    return true;
   });
+
+  if (priorityCandidate) {
+    cards.push(`
+      <div class="continue-card continue-card-quiet" style="--stagger:140ms;">
+        <div>
+          <div class="continue-label">Redo att träna</div>
+          <div class="continue-title">${priorityCandidate.theme.icon || "📘"} ${priorityCandidate.theme.name}</div>
+          <div class="continue-meta">${priorityCandidate.dueCount} redo · ${priorityCandidate.wrongCount} svåra · ${priorityCandidate.avgAccuracy}% träffsäkerhet</div>
+        </div>
+        <div class="continue-footer">
+          <div class="continue-mini">Smart val</div>
+          <button class="btn-secondary continue-action-btn" onclick="openTheme('${priorityCandidate.theme.id}')">Träna</button>
+        </div>
+      </div>
+    `);
+  }
 
   if (wrongTheme.words.length > 0) {
     cards.push(`
-      <div class="continue-card">
-        <div class="continue-label">Svåra ord</div>
-        <div class="continue-title">🧠 ${wrongTheme.name}</div>
-        <div class="continue-meta">${wrongTheme.words.length} ord att repetera extra</div>
-        <button class="btn-dark" onclick="openWrongWordsTheme()">Öppna</button>
+      <div class="continue-card continue-card-quiet" style="--stagger:210ms;">
+        <div>
+          <div class="continue-label">Svåra ord</div>
+          <div class="continue-title">🧠 ${wrongTheme.name}</div>
+          <div class="continue-meta">${wrongTheme.words.length} ord att repetera extra.</div>
+        </div>
+        <div class="continue-footer">
+          <div class="continue-mini">Extra träning</div>
+          <button class="btn-dark continue-action-btn" onclick="openWrongWordsTheme()">Öppna</button>
+        </div>
       </div>
     `);
   }
@@ -4534,9 +4694,10 @@ function renderContinueSection() {
     return;
   }
 
-  grid.innerHTML = cards.join("");
+  grid.innerHTML = cards.slice(0, 4).join("");
   section.classList.remove("hidden");
 }
+
 
 function handleThemeSearch() {
   const input = document.getElementById("themeSearch");
@@ -4609,63 +4770,56 @@ function renderHome() {
     const percent = medalProgress.percent;
     const unlockedMedals = renderMedals(theme);
     const nextStageLabel = getNextStageLabel(theme.words);
-    const memoryLevel = typeof getMemoryLevel === "function"
-      ? Math.max(...theme.words.map(word => getMemoryLevel(word) || 0), 0)
-      : 0;
-    const memoryBadge = memoryLevel >= 5 ? "🧠" : memoryLevel >= 3 ? "⚡" : memoryLevel >= 1 ? "🌱" : "·";
-    const memoryText = memoryLevel >= 5
-      ? "Minnesnivå: stark"
-      : memoryLevel >= 3
-        ? "Minnesnivå: på väg"
-        : memoryLevel >= 1
-          ? "Minnesnivå: startad"
-          : "Minnesnivå: ny";
-
+    const isWrongWords = theme.id === "wrong-words";
     const card = document.createElement("div");
     card.className = "theme-card";
     card.style.background = theme.gradient || "linear-gradient(145deg, #94a3b8, #64748b, #475569)";
-    card.style.animationDelay = `${Math.min(index * 45, 260)}ms`;
+    card.style.setProperty("--stagger", `${Math.min(index, 10) * 55}ms`);
+
+    const goalText = theme.goal || "Öppna temat och fortsätt samla poäng, medaljer och streak.";
+    const levelLabel = theme.level || (isWrongWords ? "Special" : "Tema");
+    const categoryLabel = theme.category || "Okategoriserad";
 
     card.innerHTML = `
       <div class="theme-card-inner">
         <div class="theme-card-top">
           <div class="theme-icon-wrap">
             <div class="theme-icon">${theme.icon || "📘"}</div>
-            <div class="theme-heading">
-              <div class="theme-kicker">${theme.category || "Okategoriserad"}${theme.level ? ` · ${theme.level}` : ""}</div>
+            <div style="min-width:0;">
               <h3 class="theme-title">${theme.name}</h3>
+              <div class="theme-meta">${categoryLabel} · ${levelLabel}</div>
             </div>
           </div>
-          <div class="theme-memory-badge ${memoryLevel === 0 ? "is-empty" : "is-earned"} ${memoryLevel >= 5 ? "is-master" : ""}">${memoryBadge}</div>
+          <div class="theme-memory-badge ${medalProgress.goldCount >= theme.words.length && theme.words.length ? 'is-master' : medalProgress.bronzeCount ? 'is-earned' : 'is-empty'}">${getThemeMemoryBadge(theme)}</div>
         </div>
 
-        <div class="theme-goal">${theme.goal || "Utforska tema och fortsätt bygga ditt ordförråd."}</div>
-
-        <div class="theme-data-row">
-          <div class="theme-mini-chip">⭐ ${theme.points} poäng</div>
-          <div class="theme-mini-chip">📚 ${theme.words.length} ord</div>
-        </div>
+        <div class="theme-goal">${goalText}</div>
 
         <div class="medal-row">
           ${unlockedMedals}
         </div>
 
-        <div class="theme-meta">${nextStageLabel}</div>
-        <div class="theme-memory-text">${memoryText}</div>
-
-        <div class="theme-progress-wrap">
-          <div class="progress-bar">
-            <div class="progress-fill" data-progress="${percent}"></div>
+        <div class="theme-card-status">
+          <div class="theme-card-status-line">
+            <span>${nextStageLabel}</span>
+            <span>${percent}%</span>
           </div>
-          <div class="theme-progress-summary">
-            ${percent}% klart · 🥉 ${medalProgress.bronzeCount}/${theme.words.length} · 🥈 ${medalProgress.silverCount}/${theme.words.length} · 🥇 ${medalProgress.goldCount}/${theme.words.length}
+          <div class="theme-progress-track">
+            <div class="theme-progress-fill" style="width:${percent}%;"></div>
+          </div>
+          <div class="theme-card-status-line" style="margin-top:8px;">
+            <span>🥉 ${medalProgress.bronzeCount}/${theme.words.length}</span>
+            <span>🥈 ${medalProgress.silverCount}/${theme.words.length}</span>
+            <span>🥇 ${medalProgress.goldCount}/${theme.words.length}</span>
           </div>
         </div>
 
-        <div class="theme-actions">
-          <button class="btn-primary" onclick="openTheme('${theme.id}')">Öppna</button>
+        <div class="theme-meta" style="margin-top:10px;">Poäng: ${theme.points}</div>
+
+        <div class="theme-actions" style="margin-top:14px;">
+          <button class="btn-primary" onclick="openTheme('${theme.id}')">Öppna tema</button>
           ${theme.grammarLesson ? `<button class="btn-secondary" onclick="openGrammarLesson('${theme.id}')">📘 Grammatik</button>` : ""}
-          ${theme.id !== "wrong-words" ? `<button class="btn-secondary" onclick="copyThemeLink('${theme.id}')">🔗 Länk</button>` : ""}
+          ${theme.id !== "wrong-words" ? `<button class="btn-secondary" onclick="copyThemeLink('${theme.id}')">🔗 Kopiera länk</button>` : ""}
         </div>
 
         <div class="copy-status" id="copyStatus-${theme.id}"></div>
@@ -4673,15 +4827,9 @@ function renderHome() {
     `;
 
     grid.appendChild(card);
-
-    requestAnimationFrame(() => {
-      const fill = card.querySelector('.progress-fill');
-      if (fill) {
-        fill.style.width = `${fill.dataset.progress || 0}%`;
-      }
-    });
   });
 }
+
     /**********************
      * 11. FILTER / UI
      **********************/
