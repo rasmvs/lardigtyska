@@ -107,171 +107,23 @@
       margin: 18px 0 12px;
     }
 .continue-section {
-  margin: 18px auto 10px;
-  max-width: 1120px;
+  margin: 18px 0 8px;
 }
 
 .continue-header {
-  font-size: 0.82rem;
+  font-size: 1.1rem;
   font-weight: 900;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #64748b;
+  color: #334155;
   margin-bottom: 12px;
-  text-align: left;
-  padding-left: 4px;
+  text-align: center;
 }
 
 .continue-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 12px;
-  align-items: stretch;
+  align-items: start;
 }
-
-.continue-card {
-  position: relative;
-  min-height: 128px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: linear-gradient(180deg, rgba(255,255,255,0.90), rgba(255,255,255,0.78));
-  border: 1px solid rgba(255,255,255,0.94);
-  border-radius: 22px;
-  padding: 14px 14px 13px;
-  box-shadow: 0 16px 34px rgba(15,23,42,0.08);
-  backdrop-filter: blur(16px);
-  overflow: hidden;
-  animation: homeCardEntrance 0.55s cubic-bezier(.2,.8,.2,1) both;
-  animation-delay: var(--stagger, 0ms);
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-}
-
-.continue-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 42%, rgba(255,255,255,0) 72%);
-  pointer-events: none;
-}
-
-.continue-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 38px rgba(15,23,42,0.11);
-  border-color: rgba(255,255,255,0.98);
-}
-
-.continue-card-primary {
-  background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(239,246,255,0.88));
-  box-shadow: 0 18px 42px rgba(59,130,246,0.12);
-}
-
-.continue-card-quiet {
-  min-height: 116px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.72));
-}
-
-.continue-card-top {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.continue-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.42));
-  border: 1px solid rgba(226,232,240,0.95);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.95);
-  font-size: 1.15rem;
-  flex-shrink: 0;
-}
-
-.continue-kicker {
-  display: inline-flex;
-  align-items: center;
-  min-height: 26px;
-  padding: 0 10px;
-  border-radius: 999px;
-  background: rgba(241,245,249,0.9);
-  color: #475569;
-  font-size: 0.72rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.continue-label {
-  font-size: 0.74rem;
-  font-weight: 900;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: #64748b;
-  margin-bottom: 6px;
-}
-
-.continue-title {
-  font-size: 1rem;
-  font-weight: 900;
-  color: #0f172a;
-  margin-bottom: 6px;
-  line-height: 1.2;
-}
-
-.continue-meta {
-  font-size: 0.86rem;
-  font-weight: 700;
-  color: #475569;
-  margin-bottom: 12px;
-  line-height: 1.4;
-}
-
-.continue-footer {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.continue-mini {
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: #64748b;
-}
-
-.continue-action-btn {
-  min-height: 40px;
-  border-radius: 14px;
-  padding: 10px 14px;
-  font-size: 0.9rem;
-}
-
-@media (max-width: 920px) {
-  .continue-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .continue-card-primary {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 640px) {
-  .continue-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 .theme-complete-overlay {
   position: fixed;
   inset: 0;
@@ -313,6 +165,69 @@
   justify-content: center;
 }
 
+.continue-card {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(255,255,255,0.72));
+  border: 1px solid rgba(255,255,255,0.9);
+  border-radius: 22px;
+  padding: 14px 14px 13px;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  animation: homeCardReveal 0.45s ease both;
+}
+
+.continue-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.36), rgba(255,255,255,0.08) 48%, transparent 74%);
+  pointer-events: none;
+}
+
+.continue-card:first-child {
+  background: linear-gradient(135deg, rgba(255,255,255,0.94), rgba(255,255,255,0.78));
+  box-shadow: 0 18px 36px rgba(59, 130, 246, 0.10);
+}
+
+.continue-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.continue-card .btn-primary,
+.continue-card .btn-secondary,
+.continue-card .btn-dark {
+  min-height: 42px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.92rem;
+}
+
+.continue-label {
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 5px;
+}
+
+.continue-title {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+
+.continue-meta {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
 .home-tools {
   max-width: 1120px;
   margin: 18px auto 10px;
@@ -389,264 +304,134 @@
 
     .theme-card {
       position: relative;
-      border-radius: 26px;
+      border-radius: 24px;
       padding: 16px;
       color: white;
       overflow: hidden;
-      box-shadow:
-        0 18px 38px rgba(15, 23, 42, 0.14),
-        inset 0 1px 0 rgba(255,255,255,0.10);
+      box-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
       transform: translateY(0);
-      transition: transform 0.26s ease, box-shadow 0.26s ease, filter 0.26s ease;
-      animation: homeCardEntrance 0.6s cubic-bezier(.2,.8,.2,1) both;
-      animation-delay: var(--stagger, 0ms);
-      isolation: isolate;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+      animation: homeCardReveal 0.5s ease both;
+      animation-delay: var(--card-delay, 0ms);
     }
 
     .theme-card:hover {
       transform: translateY(-6px) scale(1.015);
-      box-shadow:
-        0 24px 46px rgba(15, 23, 42, 0.17),
-        inset 0 1px 0 rgba(255,255,255,0.14);
-      filter: saturate(1.04);
+      box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+      filter: saturate(1.03);
     }
 
     .theme-card::before {
       content: "";
       position: absolute;
       inset: 0;
-      background:
-        radial-gradient(circle at top left, rgba(255,255,255,0.34), transparent 35%),
-        linear-gradient(135deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.10) 38%, rgba(255,255,255,0) 64%);
+      background: linear-gradient(135deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.08) 38%, rgba(255,255,255,0) 68%);
       pointer-events: none;
-      z-index: 0;
     }
 
     .theme-card::after {
       content: "";
       position: absolute;
-      inset: -40% -90%;
-      background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,0.20) 50%, transparent 61%);
-      transform: translateX(-42%) rotate(8deg);
+      inset: -35%;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 35%, rgba(255,255,255,0.22) 48%, rgba(255,255,255,0) 61%);
+      transform: translateX(-65%) rotate(10deg);
       opacity: 0;
-      transition: transform 0.6s ease, opacity 0.35s ease;
+      transition: transform 0.55s ease, opacity 0.28s ease;
       pointer-events: none;
-      z-index: 0;
     }
 
     .theme-card:hover::after {
+      transform: translateX(55%) rotate(10deg);
       opacity: 1;
-      transform: translateX(18%) rotate(8deg);
     }
 
     .theme-card-inner {
       position: relative;
       z-index: 1;
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
     }
 
     .theme-card-top {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       margin-bottom: 10px;
     }
 
     .theme-icon-wrap {
       display: flex;
       align-items: center;
-      gap: 10px;
-      min-width: 0;
+      gap: 12px;
     }
 
-    .theme-icon {
-      width: 56px;
-      height: 56px;
+    .theme-memory-badge {
+      min-width: 52px;
+      height: 52px;
+      padding: 0 12px;
       border-radius: 18px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.7rem;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.22);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.22);
-      flex-shrink: 0;
-    }
-
-    .theme-memory-badge {
-      min-width: 46px;
-      height: 46px;
-      padding: 0 11px;
-      border-radius: 16px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
       background: rgba(255,255,255,0.16);
-      border: 1px solid rgba(255,255,255,0.28);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.20), 0 8px 18px rgba(15,23,42,0.10);
+      border: 1px solid rgba(255,255,255,0.32);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 8px 20px rgba(15,23,42,0.12);
       backdrop-filter: blur(10px);
-      font-size: 1.12rem;
+      font-size: 1.35rem;
       font-weight: 900;
       color: rgba(255,255,255,0.98);
       line-height: 1;
       flex-shrink: 0;
     }
 
-    .theme-memory-badge.is-empty { opacity: 0.42; }
+    .theme-memory-badge.is-empty { opacity: 0.45; }
     .theme-memory-badge.is-earned {
       background: rgba(255,255,255,0.22);
-      border-color: rgba(255,255,255,0.38);
+      border-color: rgba(255,255,255,0.42);
     }
 
     .theme-memory-badge.is-master {
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.24), 0 0 0 4px rgba(255,255,255,0.10), 0 10px 22px rgba(15,23,42,0.14);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.26), 0 0 0 4px rgba(255,255,255,0.10), 0 10px 24px rgba(15,23,42,0.16);
     }
 
-    .theme-title {
-      margin: 0;
-      font-size: 1.18rem;
-      font-weight: 900;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-
-    .theme-level-pill {
-      display: inline-flex;
+    .theme-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.18);
+      display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 28px;
-      padding: 0 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.16);
-      border: 1px solid rgba(255,255,255,0.22);
-      color: rgba(255,255,255,0.98);
-      font-size: 0.72rem;
-      font-weight: 900;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      white-space: nowrap;
+      font-size: 1.75rem;
+      box-shadow: inset 0 2px 8px rgba(255,255,255,0.22);
+      margin-bottom: 0;
+      backdrop-filter: blur(8px);
       flex-shrink: 0;
     }
 
-    .theme-meta {
-      margin-top: 6px;
-      font-weight: 800;
-      font-size: 0.82rem;
-      letter-spacing: 0.01em;
-      color: rgba(255,255,255,0.94);
-      opacity: 0.95;
+    .theme-title {
+      margin: 0 0 5px;
+      font-size: 1.22rem;
+      line-height: 1.15;
+      font-weight: 900;
     }
 
     .theme-goal {
-      margin-top: 8px;
-      font-weight: 800;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.94);
+      margin-bottom: 8px;
       line-height: 1.35;
-      color: rgba(255,255,255,0.95);
-      font-size: 0.9rem;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      min-height: 2.45em;
-    }
-
-    .medal-row {
-      display: flex;
-      gap: 8px;
-      margin: 10px 0 6px;
-      font-size: 1.24rem;
-    }
-
-    .medal {
-      opacity: .30;
-      transform: scale(.92);
-    }
-
-    .medal.on {
-      opacity: 1;
-      transform: scale(1.08);
-      filter: drop-shadow(0 0 8px rgba(255,255,255,.50));
-    }
-
-    .theme-card-status {
-      margin-top: 8px;
-      padding: 10px 12px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.20);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
-    }
-
-    .theme-card-status-line {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      font-size: 0.78rem;
-      font-weight: 900;
-      color: rgba(255,255,255,0.96);
-      margin-bottom: 8px;
-    }
-
-    .theme-card-status-line:last-child {
-      margin-bottom: 0;
-    }
-
-    .theme-progress-track {
-      width: 100%;
-      height: 9px;
-      border-radius: 999px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.20);
-      border: 1px solid rgba(255,255,255,0.14);
-    }
-
-    .theme-progress-fill {
-      height: 100%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(255,255,255,0.98), rgba(255,255,255,0.72));
-      transform-origin: left center;
-      animation: themeProgressGrow 0.9s cubic-bezier(.2,.8,.2,1) both;
-      animation-delay: calc(var(--stagger, 0ms) + 120ms);
-    }
-
-
-    .theme-icon {
-      width: 72px;
-      height: 72px;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.17);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      box-shadow: inset 0 2px 8px rgba(255,255,255,0.22);
-      margin-bottom: 14px;
-      backdrop-filter: blur(8px);
-    }
-
-    .theme-title {
-      margin: 0 0 6px;
-      font-size: 1.5rem;
-      font-weight: 900;
-    }
-
-    .theme-goal {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.95);
-      margin-bottom: 10px;
-      line-height: 1.45;
     }
 
     .theme-meta {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.9);
-      margin-bottom: 8px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.90);
+      margin-bottom: 6px;
     }
 
     .theme-actions,
@@ -657,7 +442,7 @@
       flex-wrap: wrap;
     }
 
-    .theme-actions { margin-top: 16px; }
+    .theme-actions { margin-top: 12px; }
     .footer-actions { margin-top: 18px; justify-content: center; }
     .toolbar-row { margin-bottom: 10px; }
 
@@ -668,29 +453,6 @@
       font-weight: 700;
       color: rgba(255,255,255,0.96);
     }
-
-    @keyframes homeCardEntrance {
-      from {
-        opacity: 0;
-        transform: translateY(18px) scale(0.985);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    @keyframes themeProgressGrow {
-      from {
-        transform: scaleX(0.18);
-        opacity: 0.78;
-      }
-      to {
-        transform: scaleX(1);
-        opacity: 1;
-      }
-    }
-
 
     @keyframes inputCorrectFlash {
       0% {
@@ -737,6 +499,17 @@
       0% { transform: scale(0.85); }
       50% { transform: scale(1.16); }
       100% { transform: scale(1); }
+    }
+
+    @keyframes homeCardReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     .lesson-shell {
@@ -1497,17 +1270,17 @@
     }
 
     .lesson-kicker {
-      font-size: 0.74rem;
+      font-size: 0.78rem;
       font-weight: 900;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: #64748b;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
 
     .lesson-title-modern {
       margin: 0;
-      font-size: clamp(1.35rem, 2.5vw, 1.82rem);
+      font-size: clamp(1.35rem, 2.4vw, 1.8rem);
       font-weight: 900;
       letter-spacing: -0.03em;
       color: #0f172a;
@@ -1519,7 +1292,7 @@
       gap: 10px;
       margin-top: 10px;
       margin-bottom: 8px;
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       font-weight: 800;
       color: #64748b;
     }
@@ -1538,7 +1311,7 @@
       height: 100%;
       width: 0%;
       border-radius: 999px;
-      background: linear-gradient(90deg, #fb7185 0%, #f59e0b 34%, #8b5cf6 68%, #3b82f6 100%);
+      background: linear-gradient(90deg, #fb7185 0%, #f59e0b 35%, #8b5cf6 70%, #3b82f6 100%);
       transition: width 0.35s ease;
     }
 
@@ -1564,30 +1337,28 @@
 
     .top-score-badge {
       min-width: 88px;
-      min-height: 52px;
+      height: 52px;
       padding: 0 16px;
       border-radius: 18px;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(248,250,252,0.82));
-      border: 1px solid rgba(255,255,255,0.94);
-      box-shadow: 0 12px 28px rgba(15,23,42,0.08);
+      background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,255,255,0.68));
+      border: 1px solid rgba(255,255,255,0.92);
+      box-shadow: 0 10px 24px rgba(15,23,42,0.08);
+      backdrop-filter: blur(12px);
       font-weight: 900;
       color: #0f172a;
-      white-space: nowrap;
     }
 
     .lesson-stage-card {
       position: relative;
-      background:
-        radial-gradient(circle at top left, rgba(255,255,255,0.30), transparent 32%),
-        linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,255,255,0.64));
-      border: 1px solid rgba(255,255,255,0.88);
+      background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.70));
+      border: 1px solid rgba(255,255,255,0.92);
       border-radius: 34px;
-      padding: 18px;
+      padding: 20px;
       box-shadow:
-        0 26px 64px rgba(15, 23, 42, 0.11),
+        0 26px 64px rgba(15, 23, 42, 0.12),
         inset 0 1px 0 rgba(255,255,255,0.92);
       backdrop-filter: blur(20px);
       overflow: hidden;
@@ -1598,8 +1369,8 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at bottom right, rgba(191,219,254,0.22), transparent 30%),
-        linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0));
+        radial-gradient(circle at top left, rgba(255,255,255,0.32), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
       pointer-events: none;
     }
 
@@ -1609,24 +1380,24 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .mode-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      height: 36px;
+      height: 38px;
       padding: 0 14px;
       border-radius: 999px;
       background: linear-gradient(135deg, #eff6ff, #dbeafe);
       color: #1d4ed8;
       border: 1px solid rgba(96,165,250,0.42);
-      font-size: 0.86rem;
+      font-size: 0.9rem;
       font-weight: 900;
-      box-shadow: 0 8px 18px rgba(59,130,246,0.10);
+      box-shadow: 0 8px 18px rgba(59,130,246,0.12);
     }
 
     .stage-meta-inline {
@@ -1642,20 +1413,19 @@
     }
 
     .modern-practice-stage {
-      max-width: 720px;
-      gap: 12px;
+      max-width: 700px;
+      gap: 14px;
     }
 
     .question-box-modern {
-      position: relative;
       background:
-        radial-gradient(circle at top center, rgba(255,255,255,0.92), rgba(255,255,255,0.82) 46%, rgba(248,250,252,0.82) 100%);
-      border: 1px solid rgba(255,255,255,0.96);
+        radial-gradient(circle at top, rgba(255,255,255,0.98), rgba(255,255,255,0.90) 54%, rgba(248,250,252,0.84) 100%);
+      border: 1px solid rgba(255,255,255,0.98);
       border-radius: 30px;
-      padding: 24px 20px 18px;
-      min-height: 172px;
+      padding: 26px 22px 20px;
+      min-height: 180px;
       box-shadow:
-        0 20px 44px rgba(15, 23, 42, 0.09),
+        0 18px 42px rgba(15, 23, 42, 0.08),
         inset 0 1px 0 rgba(255,255,255,0.98);
     }
 
@@ -1663,34 +1433,33 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 30px;
+      min-height: 32px;
       padding: 6px 12px;
       border-radius: 999px;
-      background: rgba(241,245,249,0.92);
+      background: rgba(241,245,249,0.9);
       color: #475569;
-      font-size: 0.76rem;
+      font-size: 0.8rem;
       font-weight: 900;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
       margin-bottom: 14px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.92);
     }
 
     .play-sound-btn {
-      margin-top: 14px;
-      min-height: 46px;
+      margin-top: 16px;
+      min-height: 48px;
       border-radius: 16px;
     }
 
     .answer-row-modern {
       gap: 10px;
-      max-width: 700px;
-      margin-top: 2px;
+      max-width: 680px;
+      margin-top: 4px;
       padding: 6px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(255,255,255,0.90);
-      box-shadow: 0 16px 36px rgba(15,23,42,0.07);
+      border-radius: 28px;
+      background: rgba(255,255,255,0.68);
+      border: 1px solid rgba(255,255,255,0.86);
+      box-shadow: 0 20px 46px rgba(15,23,42,0.08);
       backdrop-filter: blur(14px);
     }
 
@@ -1698,9 +1467,9 @@
       border: none;
       background: transparent;
       box-shadow: none;
-      padding: 16px 18px;
-      font-size: 1.06rem;
-      border-radius: 20px;
+      padding: 18px 18px;
+      font-size: 1.08rem;
+      border-radius: 22px;
     }
 
     .answer-row-modern input:focus {
@@ -1714,15 +1483,14 @@
     }
 
     .feedback-modern {
-      min-height: 50px;
+      min-height: 52px;
       margin: 2px 0 0;
       padding: 12px 14px;
       border-radius: 18px;
       text-align: center;
-      font-size: 0.98rem;
+      font-size: 1rem;
       font-weight: 900;
     }
-
 
     .mode-helper-text {
       text-align: center;
@@ -1777,12 +1545,6 @@
 
     @media (max-width: 720px) {
       body { padding: 14px; }
-
-      .theme-grid {
-        grid-template-columns: repeat(auto-fit, minmax(176px, 1fr));
-        gap: 12px;
-      }
-
 
       .card {
         padding: 16px;
@@ -1850,29 +1612,6 @@
         min-height: 160px;
         padding: 22px 16px 18px;
       }
-
-      .theme-card {
-        padding: 14px;
-        border-radius: 22px;
-      }
-
-      .theme-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 16px;
-        font-size: 1.5rem;
-      }
-
-      .theme-memory-badge {
-        min-width: 42px;
-        height: 42px;
-        border-radius: 14px;
-      }
-
-      .theme-title {
-        font-size: 1.04rem;
-      }
-
 
       .answer-row-modern {
         flex-direction: column;
@@ -4585,105 +4324,59 @@ function renderContinueSection() {
 
   if (!section || !grid) return;
 
-  const cards = [];
-  const lastTheme = getLastOpenedTheme();
-  const nextTheme = getNextThemeFromLastOpened();
-  const priorityThemes = getTopPriorityThemes(2);
-  const wrongTheme = buildWrongWordsTheme();
+const cards = [];
+const lastTheme = getLastOpenedTheme();
+const nextTheme = getNextThemeFromLastOpened();
+const priorityThemes = getTopPriorityThemes(2);
+const wrongTheme = buildWrongWordsTheme();
+
+if (nextTheme) {
+  cards.push(`
+    <div class="continue-card">
+      <div class="continue-label">Nästa i din bana</div>
+      <div class="continue-title">${nextTheme.icon || "📘"} ${nextTheme.name}</div>
+      <div class="continue-meta">${nextTheme.goal || "Nästa rekommenderade temakort."}</div>
+      <button class="btn-primary" onclick="openTheme('${nextTheme.id}')">Spela nästa</button>
+    </div>
+  `);
+}
 
   if (lastTheme) {
-    const lastProgress = getThemeMedalProgress(lastTheme.words || []);
     cards.push(`
-      <div class="continue-card continue-card-primary" style="--stagger:0ms;">
-        <div class="continue-card-top">
-          <div style="display:flex; gap:12px; min-width:0;">
-            <div class="continue-icon">${lastTheme.icon || "📘"}</div>
-            <div style="min-width:0;">
-              <div class="continue-label">Fortsätt där du var</div>
-              <div class="continue-title">${lastTheme.name}</div>
-              <div class="continue-meta">${lastTheme.goal || "Fortsätt träna i ditt senaste tema."}</div>
-            </div>
-          </div>
-          <div class="continue-kicker">Senast</div>
-        </div>
-        <div class="continue-footer">
-          <div class="continue-mini">${lastProgress.percent || 0}% tränat</div>
-          <button class="btn-primary continue-action-btn" onclick="openTheme('${lastTheme.id}')">Fortsätt</button>
-        </div>
-      </div>
-    `);
-  } else if (nextTheme) {
-    cards.push(`
-      <div class="continue-card continue-card-primary" style="--stagger:0ms;">
-        <div class="continue-card-top">
-          <div style="display:flex; gap:12px; min-width:0;">
-            <div class="continue-icon">${nextTheme.icon || "📘"}</div>
-            <div style="min-width:0;">
-              <div class="continue-label">Rekommenderat nästa steg</div>
-              <div class="continue-title">${nextTheme.name}</div>
-              <div class="continue-meta">${nextTheme.goal || "Nästa rekommenderade tema att spela."}</div>
-            </div>
-          </div>
-          <div class="continue-kicker">Nästa</div>
-        </div>
-        <div class="continue-footer">
-          <div class="continue-mini">${nextTheme.level || "Tema"}</div>
-          <button class="btn-primary continue-action-btn" onclick="openTheme('${nextTheme.id}')">Spela</button>
-        </div>
+      <div class="continue-card">
+        <div class="continue-label">Senast öppnat</div>
+        <div class="continue-title">${lastTheme.icon || "📘"} ${lastTheme.name}</div>
+        <div class="continue-meta">${lastTheme.goal || "Fortsätt där du slutade."}</div>
+        <button class="btn-primary" onclick="openTheme('${lastTheme.id}')">Fortsätt</button>
       </div>
     `);
   }
 
-  if (nextTheme && (!lastTheme || nextTheme.id !== lastTheme.id)) {
+  priorityThemes.forEach(item => {
+    if (lastTheme && item.theme.id === lastTheme.id) return;
+if (nextTheme && item.theme.id === nextTheme.id) return;
+
     cards.push(`
-      <div class="continue-card continue-card-quiet" style="--stagger:70ms;">
-        <div>
-          <div class="continue-label">På tur</div>
-          <div class="continue-title">${nextTheme.icon || "📘"} ${nextTheme.name}</div>
-          <div class="continue-meta">${nextTheme.goal || "Nästa rekommenderade temakort."}</div>
+      <div class="continue-card">
+        <div class="continue-label">Redo att träna</div>
+        <div class="continue-title">${item.theme.icon || "📘"} ${item.theme.name}</div>
+        <div class="continue-meta">
+          ${item.dueCount} redo ·
+          ${item.wrongCount} svåra ·
+          ${item.avgAccuracy}% träffsäkerhet
         </div>
-        <div class="continue-footer">
-          <div class="continue-mini">${nextTheme.level || "Tema"}</div>
-          <button class="btn-secondary continue-action-btn" onclick="openTheme('${nextTheme.id}')">Öppna</button>
-        </div>
+        <button class="btn-primary" onclick="openTheme('${item.theme.id}')">Träna nu</button>
       </div>
     `);
-  }
-
-  const priorityCandidate = priorityThemes.find(item => {
-    if (lastTheme && item.theme.id === lastTheme.id) return false;
-    if (nextTheme && item.theme.id === nextTheme.id) return false;
-    return true;
   });
-
-  if (priorityCandidate) {
-    cards.push(`
-      <div class="continue-card continue-card-quiet" style="--stagger:140ms;">
-        <div>
-          <div class="continue-label">Redo att träna</div>
-          <div class="continue-title">${priorityCandidate.theme.icon || "📘"} ${priorityCandidate.theme.name}</div>
-          <div class="continue-meta">${priorityCandidate.dueCount} redo · ${priorityCandidate.wrongCount} svåra · ${priorityCandidate.avgAccuracy}% träffsäkerhet</div>
-        </div>
-        <div class="continue-footer">
-          <div class="continue-mini">Smart val</div>
-          <button class="btn-secondary continue-action-btn" onclick="openTheme('${priorityCandidate.theme.id}')">Träna</button>
-        </div>
-      </div>
-    `);
-  }
 
   if (wrongTheme.words.length > 0) {
     cards.push(`
-      <div class="continue-card continue-card-quiet" style="--stagger:210ms;">
-        <div>
-          <div class="continue-label">Svåra ord</div>
-          <div class="continue-title">🧠 ${wrongTheme.name}</div>
-          <div class="continue-meta">${wrongTheme.words.length} ord att repetera extra.</div>
-        </div>
-        <div class="continue-footer">
-          <div class="continue-mini">Extra träning</div>
-          <button class="btn-dark continue-action-btn" onclick="openWrongWordsTheme()">Öppna</button>
-        </div>
+      <div class="continue-card">
+        <div class="continue-label">Svåra ord</div>
+        <div class="continue-title">🧠 ${wrongTheme.name}</div>
+        <div class="continue-meta">${wrongTheme.words.length} ord att repetera extra</div>
+        <button class="btn-dark" onclick="openWrongWordsTheme()">Öppna</button>
       </div>
     `);
   }
@@ -4694,10 +4387,9 @@ function renderContinueSection() {
     return;
   }
 
-  grid.innerHTML = cards.slice(0, 4).join("");
+  grid.innerHTML = cards.join("");
   section.classList.remove("hidden");
 }
-
 
 function handleThemeSearch() {
   const input = document.getElementById("themeSearch");
@@ -4770,53 +4462,40 @@ function renderHome() {
     const percent = medalProgress.percent;
     const unlockedMedals = renderMedals(theme);
     const nextStageLabel = getNextStageLabel(theme.words);
-    const isWrongWords = theme.id === "wrong-words";
+
     const card = document.createElement("div");
     card.className = "theme-card";
     card.style.background = theme.gradient || "linear-gradient(145deg, #94a3b8, #64748b, #475569)";
-    card.style.setProperty("--stagger", `${Math.min(index, 10) * 55}ms`);
-
-    const goalText = theme.goal || "Öppna temat och fortsätt samla poäng, medaljer och streak.";
-    const levelLabel = theme.level || (isWrongWords ? "Special" : "Tema");
-    const categoryLabel = theme.category || "Okategoriserad";
+    card.style.setProperty("--card-delay", `${Math.min(index * 45, 280)}ms`);
 
     card.innerHTML = `
       <div class="theme-card-inner">
         <div class="theme-card-top">
           <div class="theme-icon-wrap">
             <div class="theme-icon">${theme.icon || "📘"}</div>
-            <div style="min-width:0;">
-              <h3 class="theme-title">${theme.name}</h3>
-              <div class="theme-meta">${categoryLabel} · ${levelLabel}</div>
-            </div>
           </div>
-          <div class="theme-memory-badge ${medalProgress.goldCount >= theme.words.length && theme.words.length ? 'is-master' : medalProgress.bronzeCount ? 'is-earned' : 'is-empty'}">${getThemeMemoryBadge(theme)}</div>
+          <div class="theme-meta" style="margin-bottom:0; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.22); white-space:nowrap;">${theme.level || "Tema"}</div>
         </div>
-
-        <div class="theme-goal">${goalText}</div>
+        <h3 class="theme-title">${theme.name}</h3>
+        <div class="theme-meta">${theme.category || "Okategoriserad"}</div>
+        <div class="theme-goal">${theme.goal || ""}</div>
+        <div class="theme-meta">Poäng: ${theme.points}</div>
 
         <div class="medal-row">
           ${unlockedMedals}
         </div>
 
-        <div class="theme-card-status">
-          <div class="theme-card-status-line">
-            <span>${nextStageLabel}</span>
-            <span>${percent}%</span>
-          </div>
-          <div class="theme-progress-track">
-            <div class="theme-progress-fill" style="width:${percent}%;"></div>
-          </div>
-          <div class="theme-card-status-line" style="margin-top:8px;">
-            <span>🥉 ${medalProgress.bronzeCount}/${theme.words.length}</span>
-            <span>🥈 ${medalProgress.silverCount}/${theme.words.length}</span>
-            <span>🥇 ${medalProgress.goldCount}/${theme.words.length}</span>
-          </div>
+        <div class="theme-meta">${nextStageLabel}</div>
+
+        <div class="progress-bar" style="background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.18); margin-top: 10px;">
+          <div class="progress-fill" style="width:${percent}%; background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.65));"></div>
         </div>
 
-        <div class="theme-meta" style="margin-top:10px;">Poäng: ${theme.points}</div>
+        <div class="progress-percent" style="color: rgba(255,255,255,0.95); margin-top: 8px;">
+          Repetitioner: ${percent}% · 🥉 ${medalProgress.bronzeCount}/${theme.words.length} · 🥈 ${medalProgress.silverCount}/${theme.words.length} · 🥇 ${medalProgress.goldCount}/${theme.words.length}
+        </div>
 
-        <div class="theme-actions" style="margin-top:14px;">
+        <div class="theme-actions">
           <button class="btn-primary" onclick="openTheme('${theme.id}')">Öppna tema</button>
           ${theme.grammarLesson ? `<button class="btn-secondary" onclick="openGrammarLesson('${theme.id}')">📘 Grammatik</button>` : ""}
           ${theme.id !== "wrong-words" ? `<button class="btn-secondary" onclick="copyThemeLink('${theme.id}')">🔗 Kopiera länk</button>` : ""}
@@ -4829,7 +4508,6 @@ function renderHome() {
     grid.appendChild(card);
   });
 }
-
     /**********************
      * 11. FILTER / UI
      **********************/
