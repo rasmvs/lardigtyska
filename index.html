@@ -1688,6 +1688,7 @@
       <div class="pill" id="dailyStreakPill">🔥 Daglig streak: 0</div>
       <div class="pill" id="totalPointsPill">⭐ Totala poäng: 0</div>
       <div class="pill" id="wrongBankPill">🧠 Svåra ord: 0</div>
+      <div class="pill hidden" id="guestModePill">🌐 Delat läge utan inloggning</div>
     </div>
 
     <div id="journeyHero" class="journey-hero" onclick="startJourney()">
@@ -1731,7 +1732,7 @@
     <div id="themeGrid" class="theme-grid"></div>
 
     <div class="footer-actions">
-<button class="btn-secondary" onclick="logout()">🚪 Logga ut</button>
+<button id="logoutBtn" class="btn-secondary" onclick="logout()">🚪 Logga ut</button>
       <button class="btn-dark" onclick="openWrongWordsTheme()">🧠 Träna svåra ord</button>
       <button class="btn-secondary" onclick="resetAllProgress()">🗑 Nollställ all progress</button>
     </div>
@@ -1933,6 +1934,25 @@
   </div>
 </div>
 
+<div id="shareModal" class="theme-complete-overlay hidden" onclick="handleShareOverlayClick(event)">
+  <div class="theme-complete-panel">
+    <div class="theme-complete-title">🔗 Dela tema</div>
+    <div class="theme-complete-text">
+      Välj hur du vill dela temat med eleverna.
+    </div>
+
+    <div class="theme-complete-actions">
+      <button class="btn-primary" onclick="copyThemeLink('login')">🔐 Med inloggning</button>
+      <button class="btn-secondary" onclick="copyThemeLink('guest')">🌐 Utan inloggning</button>
+      <button class="btn-dark" onclick="closeShareModal()">Avbryt</button>
+    </div>
+
+    <div class="small-text" style="margin-top: 14px;">
+      Med inloggning sparas resultat på kontot. Utan inloggning sparas resultat bara i elevens webbläsare.
+    </div>
+  </div>
+</div>
+
   <div id="levelUpToast" class="levelup-toast"></div>
 
   <script>
@@ -1943,6 +1963,10 @@
     const META_KEY = "sprakspelMetaSpanishV5";
 const API_URL = "https://script.google.com/macros/s/AKfycbynp3AZRmolMruKVKEESXfxkugV8uxHRYuGFXvXN679TD3yeWGK1ldnwL_cPWjDcKZr/exec";
 const THEMES_URL = "https://script.google.com/macros/s/AKfycbzp7gdeKCNFZeR-SW66Fddhw7DpNhob0sl7TesKQ_iMt6uMIIFtGcc9hzAmIUusqflo/exec";
+const SHARE_MODE_LOGIN = "login";
+const SHARE_MODE_GUEST = "guest";
+const GUEST_THEME_STORAGE_PREFIX = "tyskaGuestThemeProgressV1";
+const GUEST_META_STORAGE_KEY = "tyskaGuestMetaV1";
 
 let currentUser = null;
 let currentPin = null;
@@ -2132,6 +2156,177 @@ async function logout() {
     function deepCopy(obj) {
       return JSON.parse(JSON.stringify(obj));
     }
+
+function getShareModeFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const shareMode = params.get("share");
+  return shareMode === SHARE_MODE_GUEST ? SHARE_MODE_GUEST : SHARE_MODE_LOGIN;
+}
+
+function isGuestMode() {
+  return getShareModeFromUrl() === SHARE_MODE_GUEST;
+}
+
+function getGuestThemeStorageKey(themeId) {
+  return `${GUEST_THEME_STORAGE_PREFIX}:${themeId}`;
+}
+
+function loadGuestSavedThemes() {
+  const savedThemes = [];
+
+  defaultThemes.forEach(theme => {
+    if (!theme || !theme.id || theme.id === "wrong-words") return;
+
+    const raw = localStorage.getItem(getGuestThemeStorageKey(theme.id));
+    if (!raw) return;
+
+    try {
+      const progress = JSON.parse(raw);
+      if (progress && typeof progress === "object") {
+        savedThemes.push({
+          id: theme.id,
+          progress
+        });
+      }
+    } catch (error) {
+      console.warn("Kunde inte läsa lokal gästdata för tema:", theme.id, error);
+    }
+  });
+
+  return savedThemes;
+}
+
+function loadGuestMeta() {
+  try {
+    const raw = localStorage.getItem(GUEST_META_STORAGE_KEY);
+    if (!raw) return getEmptyMeta();
+
+    const parsed = JSON.parse(raw);
+    return {
+      ...getEmptyMeta(),
+      ...(parsed || {})
+    };
+  } catch (error) {
+    console.warn("Kunde inte läsa lokal gäst-meta:", error);
+    return getEmptyMeta();
+  }
+}
+
+function saveGuestMeta() {
+  try {
+    localStorage.setItem(GUEST_META_STORAGE_KEY, JSON.stringify({ ...meta }));
+  } catch (error) {
+    console.error("Kunde inte spara lokal gäst-meta:", error);
+  }
+}
+
+function saveGuestThemeProgress(theme) {
+  if (!theme || !theme.id || theme.id === "wrong-words") return;
+
+  try {
+    const progressPayload = buildThemeProgressPayload(theme);
+    localStorage.setItem(getGuestThemeStorageKey(theme.id), JSON.stringify(progressPayload));
+  } catch (error) {
+    console.error("Kunde inte spara lokal gästdata för tema:", theme.id, error);
+  }
+}
+
+function saveGuestProgressNow() {
+  const realThemes = themes.filter(theme => theme.id !== "wrong-words");
+  realThemes.forEach(saveGuestThemeProgress);
+  saveGuestMeta();
+  hasUnsavedChanges = false;
+}
+
+function setCopyStatus(themeId, message) {
+  const statusEl = document.getElementById(`copyStatus-${themeId}`);
+  if (!statusEl) return;
+
+  statusEl.innerText = message;
+
+  if (setCopyStatus._timeoutMap?.[themeId]) {
+    clearTimeout(setCopyStatus._timeoutMap[themeId]);
+  }
+
+  setCopyStatus._timeoutMap = setCopyStatus._timeoutMap || {};
+  setCopyStatus._timeoutMap[themeId] = setTimeout(() => {
+    const currentEl = document.getElementById(`copyStatus-${themeId}`);
+    if (currentEl && currentEl.innerText === message) {
+      currentEl.innerText = "";
+    }
+  }, 2200);
+}
+
+function openShareModal(themeId) {
+  shareThemeId = themeId;
+  const modal = document.getElementById("shareModal");
+  if (modal) modal.classList.remove("hidden");
+}
+
+function closeShareModal() {
+  shareThemeId = null;
+  const modal = document.getElementById("shareModal");
+  if (modal) modal.classList.add("hidden");
+}
+
+function handleShareOverlayClick(event) {
+  if (event.target && event.target.id === "shareModal") {
+    closeShareModal();
+  }
+}
+
+function updateGuestModeUi() {
+  const loginScreen = document.getElementById("loginScreen");
+  const homeScreen = document.getElementById("homeScreen");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const guestPill = document.getElementById("guestModePill");
+
+  if (isGuestMode()) {
+    if (loginScreen) loginScreen.classList.add("hidden");
+    if (homeScreen) homeScreen.classList.remove("hidden");
+    if (logoutBtn) logoutBtn.classList.add("hidden");
+    if (guestPill) guestPill.classList.remove("hidden");
+  } else {
+    if (logoutBtn) logoutBtn.classList.remove("hidden");
+    if (guestPill) guestPill.classList.add("hidden");
+  }
+}
+
+async function initGuestSession() {
+  const sheetThemes = await loadThemesFromSheet();
+  const guestSavedThemes = loadGuestSavedThemes();
+
+  if (guestSavedThemes.length > 0) {
+    themes = mergeThemeData(sheetThemes, guestSavedThemes);
+  } else {
+    themes = deepCopy(sheetThemes);
+  }
+
+  meta = loadGuestMeta();
+  meta.sessionCorrect = 0;
+  meta.sessionWrong = 0;
+
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("homeScreen").classList.remove("hidden");
+  updateGuestModeUi();
+  renderHome();
+  openThemeFromUrl();
+}
+
+async function initApp() {
+  loadProgress();
+
+  document.getElementById("lessonScreen").classList.add("hidden");
+  document.getElementById("homeScreen").classList.add("hidden");
+
+  if (isGuestMode()) {
+    await initGuestSession();
+    return;
+  }
+
+  document.getElementById("loginScreen").classList.remove("hidden");
+  updateGuestModeUi();
+}
 
 function startAutoSave() {
   if (autoSaveInterval) return;
@@ -2351,6 +2546,7 @@ if (serverData && Array.isArray(serverData.themes)) {
 
     document.getElementById("loginScreen").classList.add("hidden");
     document.getElementById("homeScreen").classList.remove("hidden");
+    updateGuestModeUi();
 
     renderHome();
     openThemeFromUrl();
@@ -3827,6 +4023,7 @@ let homeCategory = "Alla";
     let shownMedalUnlocks = {};
     let comboStreak = 0;
 let lastShownWordId = null;
+let shareThemeId = null;
 
 let meta = getEmptyMeta();
 
@@ -4247,7 +4444,7 @@ function markProgressDirty() {
 }
 
 function scheduleSave(delay = 8000) {
-  if (!currentUser || !currentPin) return;
+  if (!isGuestMode() && (!currentUser || !currentPin)) return;
 
   hasUnsavedChanges = true;
 
@@ -4261,6 +4458,18 @@ function scheduleSave(delay = 8000) {
 }
 
 async function saveProgressNow(force = false) {
+  if (isGuestMode()) {
+    if (!force && !hasUnsavedChanges) return;
+
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+      saveTimeout = null;
+    }
+
+    saveGuestProgressNow();
+    return;
+  }
+
   if (!currentUser || !currentPin) return;
 
   if (isSaving) {
@@ -4355,24 +4564,32 @@ function loadProgress() {
     /**********************
      * 9. LÄNKAR / URL
      **********************/
-    function getThemeUrl(themeId) {
+    function getThemeUrl(themeId, shareMode = SHARE_MODE_LOGIN) {
       const url = new URL(window.location.href);
       url.searchParams.set("theme", themeId);
+      url.searchParams.set("share", shareMode === SHARE_MODE_GUEST ? SHARE_MODE_GUEST : SHARE_MODE_LOGIN);
       return url.toString();
     }
 
-    async function copyThemeLink(themeId) {
-      const link = getThemeUrl(themeId);
-      const statusEl = document.getElementById(`copyStatus-${themeId}`);
+    async function copyThemeLink(shareMode = SHARE_MODE_LOGIN) {
+      if (!shareThemeId) return;
+
+      const normalizedMode = shareMode === SHARE_MODE_GUEST ? SHARE_MODE_GUEST : SHARE_MODE_LOGIN;
+      const link = getThemeUrl(shareThemeId, normalizedMode);
+
       try {
         await navigator.clipboard.writeText(link);
-        if (statusEl) {
-          statusEl.innerText = "✅ Länken kopierad";
-          setTimeout(() => statusEl.innerText = "", 1800);
-        }
+        setCopyStatus(
+          shareThemeId,
+          normalizedMode === SHARE_MODE_GUEST
+            ? "✅ Länk kopierad utan inloggning"
+            : "✅ Länk kopierad med inloggning"
+        );
       } catch {
-        if (statusEl) statusEl.innerText = "❌ Kunde inte kopiera länken";
+        setCopyStatus(shareThemeId, "❌ Kunde inte kopiera länken");
       }
+
+      closeShareModal();
     }
 
     /**********************
@@ -4659,7 +4876,7 @@ function renderHome() {
         <div class="theme-actions">
           <button class="btn-primary" onclick="openTheme('${theme.id}')">Öppna tema</button>
           ${theme.grammarLesson ? `<button class="btn-secondary" onclick="openGrammarLesson('${theme.id}')">📘 Grammatik</button>` : ""}
-          ${theme.id !== "wrong-words" ? `<button class="btn-secondary" onclick="copyThemeLink('${theme.id}')">🔗 Kopiera länk</button>` : ""}
+          ${theme.id !== "wrong-words" ? `<button class="btn-secondary" onclick="openShareModal('${theme.id}')">🔗 Kopiera länk</button>` : ""}
         </div>
 
         <div class="copy-status" id="copyStatus-${theme.id}"></div>
@@ -5193,11 +5410,28 @@ closeThemeCompletePanel();
       if (themeExists) openTheme(themeFromUrl, false);
     }
 
+    window.addEventListener("beforeunload", () => {
+      if (!hasUnsavedChanges) return;
+
+      if (isGuestMode()) {
+        saveGuestProgressNow();
+      }
+    });
+
     /**********************
      * 13. NOLLSTÄLLNING
      **********************/
    async function resetAllProgress() {
   clearNextWordTimeout();
+
+  if (isGuestMode()) {
+    defaultThemes.forEach(theme => {
+      if (theme && theme.id && theme.id !== "wrong-words") {
+        localStorage.removeItem(getGuestThemeStorageKey(theme.id));
+      }
+    });
+    localStorage.removeItem(GUEST_META_STORAGE_KEY);
+  }
 
   themes = deepCopy(defaultThemes);
 meta = getEmptyMeta();
@@ -5976,10 +6210,7 @@ showInfoBanner(`Repetitionspoäng: ${current.repetitionScore || 0} · Medaljniv�
     /**********************
      * 21. STARTA APPEN
      **********************/
-loadProgress();
-document.getElementById("loginScreen").classList.remove("hidden");
-document.getElementById("homeScreen").classList.add("hidden");
-document.getElementById("lessonScreen").classList.add("hidden");
+initApp();
   </script>
 </body>
 </html>
