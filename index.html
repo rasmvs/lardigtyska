@@ -2190,10 +2190,11 @@ function getGuestThemeStorageKey(themeId) {
   return `${GUEST_THEME_STORAGE_PREFIX}:${themeId}`;
 }
 
-function loadGuestSavedThemes() {
+function loadGuestSavedThemes(themeList = []) {
   const savedThemes = [];
+  const listToRead = Array.isArray(themeList) && themeList.length > 0 ? themeList : defaultThemes;
 
-  defaultThemes.forEach(theme => {
+  listToRead.forEach(theme => {
     if (!theme || !theme.id || theme.id === "wrong-words") return;
 
     const raw = localStorage.getItem(getGuestThemeStorageKey(theme.id));
@@ -2313,7 +2314,7 @@ function updateGuestModeUi() {
 
 async function initGuestSession() {
   const sheetThemes = await loadThemesFromSheet();
-  const guestSavedThemes = loadGuestSavedThemes();
+  const guestSavedThemes = loadGuestSavedThemes(sheetThemes);
 
   if (guestSavedThemes.length > 0) {
     themes = mergeThemeData(sheetThemes, guestSavedThemes);
@@ -4476,9 +4477,11 @@ function scheduleSave(delay = 8000) {
     clearTimeout(saveTimeout);
   }
 
+  const actualDelay = isGuestMode() ? 250 : delay;
+
   saveTimeout = setTimeout(() => {
     saveProgressNow();
-  }, delay);
+  }, actualDelay);
 }
 
 async function saveProgressNow(force = false) {
