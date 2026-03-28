@@ -2159,8 +2159,27 @@ async function logout() {
 
 function getShareModeFromUrl() {
   const params = new URLSearchParams(window.location.search);
-  const shareMode = params.get("share");
-  return shareMode === SHARE_MODE_GUEST ? SHARE_MODE_GUEST : SHARE_MODE_LOGIN;
+
+  const normalizeMode = value => String(value || "").trim().toLowerCase();
+  const directMode = normalizeMode(params.get("share"));
+  const altMode = normalizeMode(params.get("mode"));
+  const accessMode = normalizeMode(params.get("access"));
+  const guestFlag = normalizeMode(params.get("guest"));
+  const publicFlag = normalizeMode(params.get("public"));
+
+  const guestValues = new Set(["guest", "public", "open", "nologin", "no-login", "1", "true", "yes"]);
+
+  if (
+    guestValues.has(directMode) ||
+    guestValues.has(altMode) ||
+    guestValues.has(accessMode) ||
+    guestValues.has(guestFlag) ||
+    guestValues.has(publicFlag)
+  ) {
+    return SHARE_MODE_GUEST;
+  }
+
+  return SHARE_MODE_LOGIN;
 }
 
 function isGuestMode() {
@@ -2316,15 +2335,20 @@ async function initGuestSession() {
 async function initApp() {
   loadProgress();
 
-  document.getElementById("lessonScreen").classList.add("hidden");
-  document.getElementById("homeScreen").classList.add("hidden");
+  const loginScreen = document.getElementById("loginScreen");
+  const lessonScreen = document.getElementById("lessonScreen");
+  const homeScreen = document.getElementById("homeScreen");
+
+  if (lessonScreen) lessonScreen.classList.add("hidden");
+  if (homeScreen) homeScreen.classList.add("hidden");
+  if (loginScreen) loginScreen.classList.add("hidden");
 
   if (isGuestMode()) {
     await initGuestSession();
     return;
   }
 
-  document.getElementById("loginScreen").classList.remove("hidden");
+  if (loginScreen) loginScreen.classList.remove("hidden");
   updateGuestModeUi();
 }
 
@@ -4566,8 +4590,19 @@ function loadProgress() {
      **********************/
     function getThemeUrl(themeId, shareMode = SHARE_MODE_LOGIN) {
       const url = new URL(window.location.href);
+      const isGuestShare = shareMode === SHARE_MODE_GUEST;
+
       url.searchParams.set("theme", themeId);
-      url.searchParams.set("share", shareMode === SHARE_MODE_GUEST ? SHARE_MODE_GUEST : SHARE_MODE_LOGIN);
+      url.searchParams.set("share", isGuestShare ? SHARE_MODE_GUEST : SHARE_MODE_LOGIN);
+
+      if (isGuestShare) {
+        url.searchParams.set("guest", "1");
+        url.searchParams.set("public", "1");
+      } else {
+        url.searchParams.delete("guest");
+        url.searchParams.delete("public");
+      }
+
       return url.toString();
     }
 
